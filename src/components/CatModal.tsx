@@ -1,8 +1,11 @@
 import { useState } from "react";
+import styles from "./CatModal.module.css";
 
 type Props = {
   onClose: () => void;
   onCreate: (cat: any) => void;
+  onUpdate?: (cat: any) => void;
+  catToEdit?: any;
 };
 
 export function CatModal({ onClose, onCreate }: Props) {
@@ -15,6 +18,7 @@ export function CatModal({ onClose, onCreate }: Props) {
     status: "DISPONIVEL",
     foto: "",
   });
+  
 
   const handleChange = (field: string, value: any) => {
     setForm({ ...form, [field]: value });
@@ -26,123 +30,134 @@ export function CatModal({ onClose, onCreate }: Props) {
   };
 
   return (
-    <div style={overlay}>
-      <div style={modal}>
-        <h2>Novo Gatinho 🐱</h2>
+    <div className={styles.overlay}>
+      <div className={styles.modal}>
+        <h2 className={styles.title}>Novo Gatinho</h2>
 
-        <input
+        {/* NOME */}
+        <div className={styles.field}>
+          <label>Nome</label>
+          <input
             value={form.nome}
             onChange={(e) => handleChange("nome", e.target.value)}
-            placeholder="Nome"
-        />
+            placeholder="Digite o nome"
+          />
+        </div>
 
-       <input
+        {/* IDADE */}
+        <div className={styles.field}>
+          <label>Idade</label>
+          <input
             type="number"
             value={form.idade}
             onChange={(e) => handleChange("idade", Number(e.target.value))}
-            placeholder="Idade"
-        />
+            placeholder="Digite a idade"
+          />
+        </div>
 
         {/* GENERO */}
-        <label>
-        <input
-            type="radio"
-            name="genero"
-            checked={form.genero === "MACHO"}
-            onChange={() => handleChange("genero", "MACHO")}
-        />
-        MACHO
-        </label>
+        <div className={styles.field}>
+          <label>Gênero</label>
+          <div className={styles.optionsRow}>
+            <button
+              className={`${styles.optionBtn} ${
+                form.genero === "MACHO" ? styles.active : ""
+              }`}
+              onClick={() => handleChange("genero", "MACHO")}
+            >
+              Macho
+            </button>
 
-        <label>
-        <input
-            type="radio"
-            name="genero"
-            checked={form.genero === "FEMEA"}
-            onChange={() => handleChange("genero", "FEMEA")}
-        />
-        FEMEA
-        </label>
+            <button
+              className={`${styles.optionBtn} ${
+                form.genero === "FEMEA" ? styles.active : ""
+              }`}
+              onClick={() => handleChange("genero", "FEMEA")}
+            >
+              Fêmea
+            </button>
+          </div>
+        </div>
 
-        {/* TIPO ADOÇÃO*/}
+        {/* TIPO ADOÇÃO */}
+        <div className={styles.field}>
+          <label>Tipo de Adoção</label>
+          <div className={styles.optionsRow}>
+            <button
+              className={`${styles.optionBtn} ${
+                form.tipoAdocao === "SIMPLES" ? styles.active : ""
+              }`}
+              onClick={() => handleChange("tipoAdocao", "SIMPLES")}
+            >
+              Simples
+            </button>
 
-        <label>
-        <input
-            type="radio"
-            name="tipo"
-            checked={form.tipoAdocao === "SIMPLES"}
-            onChange={() => handleChange("tipoAdocao", "SIMPLES")}
-        />
-        SIMPLES
-        </label>
-
-        <label>
-        <input
-            type="radio"
-            name="tipo"
-            checked={form.tipoAdocao === "CONJUNTA"}
-            onChange={() => handleChange("tipoAdocao", "CONJUNTA")}
-        />
-        CONJUNTA
-        </label>        
+            <button
+              className={`${styles.optionBtn} ${
+                form.tipoAdocao === "CONJUNTA" ? styles.active : ""
+              }`}
+              onClick={() => handleChange("tipoAdocao", "CONJUNTA")}
+            >
+              Conjunta
+            </button>
+          </div>
+        </div>
 
         {/* STATUS */}
-        <label>
-        <input
-            type="radio"
-            name="status"
-            checked={form.status === "DISPONIVEL"}
-            onChange={() => handleChange("status", "DISPONIVEL")}
-        />
-        DISPONIVEL
-        </label>
+        <div className={styles.field}>
+          <label>Status do Gatinho</label>
+          <div className={styles.optionsRow}>
+            <button
+              className={`${styles.optionBtn} ${
+                form.status === "DISPONIVEL" ? styles.active : ""
+              }`}
+              onClick={() => handleChange("status", "DISPONIVEL")}
+            >
+              Disponível
+            </button>
 
-        <label>
-        <input
-            type="radio"
-            name="status"
-            checked={form.status === "ADOTADO"}
-            onChange={() => handleChange("status", "ADOTADO")}
-        />
-        ADOTADO
-        </label>
+            <button
+              className={`${styles.optionBtn} ${
+                form.status === "ADOTADO" ? styles.active : ""
+              }`}
+              onClick={() => handleChange("status", "ADOTADO")}
+            >
+              Adotado
+            </button>
+          </div>
+        </div>
 
-        <textarea
-        value={form.descricao}
-        onChange={(e) => handleChange("descricao", e.target.value)}
-        />
+        {/* DESCRIÇÃO */}
+        <div className={styles.field}>
+          <label>Descrição</label>
+          <textarea
+            value={form.descricao}
+            onChange={(e) => handleChange("descricao", e.target.value)}
+            placeholder="Descreva o gatinho..."
+          />
+        </div>
 
-        <input type="file"
-          onChange={(e: any) =>
-            handleChange("foto", e.target.files[0]?.name)
-          }
-        />
+        {/* FOTO */}
+        <div className={styles.field}>
+          <label>Foto</label>
+          <input
+            type="file"
+            onChange={(e: any) =>
+              handleChange("foto", e.target.files[0]?.name)
+            }
+          />
+        </div>
 
-        <button onClick={handleSubmit}>Salvar</button>
-        <button onClick={onClose}>Cancelar</button>
+        {/* BOTÕES */}
+        <div className={styles.actions}>
+          <button className={styles.saveBtn} onClick={handleSubmit}>
+            Salvar
+          </button>
+          <button className={styles.cancelBtn} onClick={onClose}>
+            Cancelar
+          </button>
+        </div>
       </div>
     </div>
   );
 }
-
-const overlay = {
-  position: "fixed" as const,
-  top: 0,
-  left: 0,
-  width: "100%",
-  height: "100%",
-  background: "rgba(0,0,0,0.5)",
-  display: "flex",
-  alignItems: "center",
-  justifyContent: "center",
-};
-
-const modal = {
-  background: "white",
-  padding: "20px",
-  borderRadius: "10px",
-  width: "400px",
-  display: "flex",
-  flexDirection: "column" as const,
-  gap: "10px",
-};

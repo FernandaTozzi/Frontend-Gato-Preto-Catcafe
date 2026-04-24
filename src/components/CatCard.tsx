@@ -6,23 +6,19 @@ export function CatCard({ cat, onDelete, onEdit }: any) {
       justifyContent: "space-between",
       marginBottom: "20px"
     }}>
-      {/* ESQUERDA */}
       <div style={{ display: "flex", gap: "15px" }}>
         <img
-          src="https://placekitten.com/80/80"
+          src="assets/cat.png"
           style={{ borderRadius: "8px" }}
         />
 
         <div>
-          {/* NOME + GENERO */}
           <h3 style={{ color: "#f4a261", margin: 0 }}>
             {cat.nome} {cat.genero === "MACHO" ? "♂" : "♀"}
           </h3>
 
-          {/* IDADE */}
           <strong>{cat.idade} Anos</strong>
 
-          {/* TIPO ADOÇÃO */}
           <div style={{
             background: "#e57373",
             color: "white",
@@ -34,7 +30,6 @@ export function CatCard({ cat, onDelete, onEdit }: any) {
             {cat.tipoAdocao}
           </div>
 
-          {/* DESCRIÇÃO */}
           <p style={{ fontSize: "12px", color: "#555" }}>
             {cat.descricao}
           </p>

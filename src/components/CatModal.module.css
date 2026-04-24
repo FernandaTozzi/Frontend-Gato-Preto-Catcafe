@@ -1,0 +1,105 @@
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal {
+  background: #fff;
+  width: 420px;
+  padding: 20px;
+  border-radius: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.title {
+  font-size: 20px;
+  font-weight: bold;
+  color: #877fb8;
+  text-align: center;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.field label {
+  font-size: 12px;
+  font-weight: 600;
+  color: #333;
+}
+
+.field input,
+.field textarea {
+  height: 30px;
+  border-radius: 12px;
+  border: 1px solid #ddd;
+  padding: 6px 10px;
+  outline: none;
+}
+
+.field textarea {
+  height: 70px;
+  resize: none;
+}
+
+.optionsRow {
+  display: flex;
+  gap: 10px;
+}
+
+.optionBtn {
+  flex: 1;
+  height: 32px;
+  border-radius: 20px;
+  border: 1px solid #877fb8;
+  background: transparent;
+  color: #877fb8;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.optionBtn:hover {
+  background: #f3f1ff;
+}
+
+.active {
+  background: #877fb8;
+  color: white;
+}
+
+.actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.saveBtn {
+  flex: 1;
+  height: 36px;
+  border-radius: 20px;
+  border: none;
+  background: #877fb8;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.cancelBtn {
+  flex: 1;
+  height: 36px;
+  border-radius: 20px;
+  border: none;
+  background: #8d8d8d;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+}
