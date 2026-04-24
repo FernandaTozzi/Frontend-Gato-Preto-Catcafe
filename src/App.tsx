@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react";
-import { getCats, createCat, deleteCat, updateCat  } from "./services/catService";
+import { getCats, createCat, deleteCat, updateCat } from "./services/catService";
 import { CatCard } from "./components/CatCard";
+import { CatModal } from "./components/CatModal";
 
 function App() {
   const [cats, setCats] = useState<any[]>([]);
-  const [nome, setNome] = useState("");
   const [editingCat, setEditingCat] = useState<any | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const loadCats = () => {
     getCats().then(setCats);
@@ -15,27 +16,16 @@ function App() {
     loadCats();
   }, []);
 
-  const handleCreate = async () => {
-    await createCat({
-      nome,
-      idade: 1,
-      genero: "MACHO",
-      tipoAdocao: "SIMPLES",
-      descricao: "Novo gato",
-      status: "DISPONIVEL",
-      foto: "foto.png",
-    });
-
-    setNome("");
-    loadCats(); 
+  const handleCreate = async (cat: any) => {
+    await createCat(cat);
+    loadCats();
   };
-// delete
+
   const handleDelete = async (id: number) => {
     await deleteCat(id);
     loadCats();
   };
 
-  //Salva edição
   const handleUpdate = async () => {
     if (!editingCat) return;
 
@@ -44,18 +34,20 @@ function App() {
     loadCats();
   };
 
-  
-
   return (
     <div className="container">
       <div className="header">
         <h1 className="title">Gerenciar Gatinhos</h1>
 
-        <button className="add-button">
+        <button
+          className="add-button"
+          onClick={() => setIsModalOpen(true)}
+        >
           + Adicionar novo Gatinho
         </button>
       </div>
 
+      {/* LISTA */}
       <div className="list-box">
         {cats.map((cat) => (
           <CatCard
@@ -66,6 +58,29 @@ function App() {
           />
         ))}
       </div>
+
+      {/* MODAL */}
+      {isModalOpen && (
+        <CatModal
+          onClose={() => setIsModalOpen(false)}
+          onCreate={handleCreate}
+        />
+      )}
+
+      {editingCat && (
+        <div style={{ marginTop: "20px" }}>
+          <h3>Editando: {editingCat.nome}</h3>
+
+          <input
+            value={editingCat.nome}
+            onChange={(e) =>
+              setEditingCat({ ...editingCat, nome: e.target.value })
+            }
+          />
+
+          <button onClick={handleUpdate}>Salvar</button>
+        </div>
+      )}
     </div>
   );
 }

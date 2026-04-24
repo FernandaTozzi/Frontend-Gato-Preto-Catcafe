@@ -14,12 +14,15 @@ export function CatCard({ cat, onDelete, onEdit }: any) {
         />
 
         <div>
+          {/* NOME + GENERO */}
           <h3 style={{ color: "#f4a261", margin: 0 }}>
-            {cat.nome} ♂
+            {cat.nome} {cat.genero === "MACHO" ? "♂" : "♀"}
           </h3>
 
-          <strong>2 Anos</strong>
+          {/* IDADE */}
+          <strong>{cat.idade} Anos</strong>
 
+          {/* TIPO ADOÇÃO */}
           <div style={{
             background: "#e57373",
             color: "white",
@@ -28,9 +31,10 @@ export function CatCard({ cat, onDelete, onEdit }: any) {
             padding: "2px 10px",
             marginTop: "5px"
           }}>
-            Adoção
+            {cat.tipoAdocao}
           </div>
 
+          {/* DESCRIÇÃO */}
           <p style={{ fontSize: "12px", color: "#555" }}>
             {cat.descricao}
           </p>
