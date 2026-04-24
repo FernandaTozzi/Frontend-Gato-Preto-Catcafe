@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { getCats, createCat, deleteCat, updateCat  } from "./services/catService";
+import { CatCard } from "./components/CatCard";
 
 function App() {
   const [cats, setCats] = useState<any[]>([]);
@@ -28,13 +29,13 @@ function App() {
     setNome("");
     loadCats(); 
   };
-// Delete
+// delete
   const handleDelete = async (id: number) => {
     await deleteCat(id);
     loadCats();
   };
 
-  //Salva 
+  //Salva edição
   const handleUpdate = async () => {
     if (!editingCat) return;
 
@@ -44,51 +45,27 @@ function App() {
   };
 
   
+
   return (
-    <div>
-      <h1>Cat Café 🐱</h1>
+    <div className="container">
+      <div className="header">
+        <h1 className="title">Gerenciar Gatinhos</h1>
 
-      <input
-        value={nome}
-        onChange={(e) => setNome(e.target.value)}
-        placeholder="Nome do gato"
-      />
+        <button className="add-button">
+          + Adicionar novo Gatinho
+        </button>
+      </div>
 
-      <button onClick={handleCreate}>
-        Adicionar gato
-      </button>
-
-      {editingCat && (
-        <div>
-          <h2>Editando: {editingCat.nome}</h2>
-
-          <input
-            value={editingCat.nome}
-            onChange={(e) =>
-              setEditingCat({ ...editingCat, nome: e.target.value })
-            }
+      <div className="list-box">
+        {cats.map((cat) => (
+          <CatCard
+            key={cat.id}
+            cat={cat}
+            onDelete={handleDelete}
+            onEdit={setEditingCat}
           />
-
-          <button onClick={handleUpdate}>
-            Salvar
-          </button>
-        </div>
-      )}
-
-      {cats.map((cat) => (
-        <div key={cat.id}>
-          <h2>{cat.nome}</h2>
-          <p>{cat.descricao}</p>
-
-          <button onClick={() => setEditingCat(cat)}>
-            Editar
-          </button>
-
-          <button onClick={() => handleDelete(cat.id)}>
-            Deletar
-          </button>
-        </div>
-      ))}
+        ))}
+      </div>
     </div>
   );
 }
