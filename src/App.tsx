@@ -1,88 +1,51 @@
-import { useEffect, useState } from "react";
-import { getCats, createCat, deleteCat, updateCat } from "./services/catService";
-import { CatCard } from "./components/CatCard";
-import { CatModal } from "./components/CatModal";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { Sidebar } from "./components/Sidebar";
+import CatsPage from "./pages/CatsPage";
+import bgImage from "./assets/background.png";
 
 function App() {
-  const [cats, setCats] = useState<any[]>([]);
-  const [editingCat, setEditingCat] = useState<any | null>(null);
-  const [isModalOpen, setIsModalOpen] = useState(false);
-
-  const loadCats = () => {
-    getCats().then(setCats);
-  };
-
-  useEffect(() => {
-    loadCats();
-  }, []);
-
-  const handleCreate = async (cat: any) => {
-    await createCat(cat);
-    loadCats();
-  };
-
-  const handleDelete = async (id: number) => {
-    await deleteCat(id);
-    loadCats();
-  };
-
-  const handleUpdate = async () => {
-    if (!editingCat) return;
-
-    await updateCat(editingCat.id, editingCat);
-    setEditingCat(null);
-    loadCats();
-  };
-
   return (
-    <div className="container">
-      <div className="header">
-        <h1 className="title">Gerenciar Gatinhos</h1>
+    <BrowserRouter>
+      <div style={background}>
+        <div style={container}>
+          
+          {/* SIDEBAR */}
+          <Sidebar />
 
-        <button
-          className="add-button"
-          onClick={() => setIsModalOpen(true)}
-        >
-          + Adicionar novo Gatinho
-        </button>
-      </div>
+          {/* CONTEÚDO */}
+          <div style={content}>
+            <Routes>
+              <Route path="/" element={<CatsPage />} />
+              <Route path="/cats" element={<CatsPage />} />
+            </Routes>
+          </div>
 
-      {/* LISTA */}
-      <div className="list-box">
-        {cats.map((cat) => (
-          <CatCard
-            key={cat.id}
-            cat={cat}
-            onDelete={handleDelete}
-            onEdit={setEditingCat}
-          />
-        ))}
-      </div>
-
-      {/* MODAL */}
-      {isModalOpen && (
-        <CatModal
-          onClose={() => setIsModalOpen(false)}
-          onCreate={handleCreate}
-        />
-      )}
-
-      {editingCat && (
-        <div style={{ marginTop: "20px" }}>
-          <h3>Editando: {editingCat.nome}</h3>
-
-          <input
-            value={editingCat.nome}
-            onChange={(e) =>
-              setEditingCat({ ...editingCat, nome: e.target.value })
-            }
-          />
-
-          <button onClick={handleUpdate}>Salvar</button>
         </div>
-      )}
-    </div>
+      </div>
+    </BrowserRouter>
   );
 }
 
+const background = {
+  minHeight: "100vh",
+  backgroundImage: `url(${bgImage})`,
+  display: "flex",
+  justifyContent: "center",
+  alignItems: "flex-start",
+  padding: "40px 0px", 
+};
+
+const container = {
+  width: "1000px",
+  background: "#f2f2f2",
+  borderRadius: "25px",
+  border: "10px solid #b9a8d4",
+  display: "flex",
+  overflow: "hidden",
+};
+
+const content = {
+  flex: 1,
+  padding: "30px",
+};
 export default App;

@@ -1,30 +1,38 @@
+import defaultCat from "../assets/cat.png";
+
 export function CatCard({ cat, onDelete, onEdit }: any) {
   return (
     <div style={{
       display: "flex",
-      alignItems: "center",
       justifyContent: "space-between",
+      alignItems: "center",
       marginBottom: "20px"
     }}>
+      {/* ESQUERDA */}
       <div style={{ display: "flex", gap: "15px" }}>
         <img
-          src="assets/cat.png"
-          style={{ borderRadius: "8px" }}
+          src={cat.foto || defaultCat}
+          style={{
+            borderRadius: "8px",
+            width: "80px",
+            height: "80px",
+            objectFit: "cover"
+          }}
         />
 
         <div>
-          <h3 style={{ color: "#f4a261", margin: 0 }}>
+          <h3 style={{ color: "#7c75a3", margin: 0 }}>
             {cat.nome} {cat.genero === "MACHO" ? "♂" : "♀"}
           </h3>
 
-          <strong>{cat.idade} Anos</strong>
+          <strong>{cat.idade} anos</strong>
 
           <div style={{
             background: "#e57373",
             color: "white",
-            borderRadius: "10px",
-            display: "inline-block",
+            borderRadius: "40px",
             padding: "2px 10px",
+            display: "inline-block",
             marginTop: "5px"
           }}>
             {cat.tipoAdocao}
@@ -45,7 +53,8 @@ export function CatCard({ cat, onDelete, onEdit }: any) {
             color: "white",
             border: "none",
             padding: "10px 15px",
-            borderRadius: "20px"
+            borderRadius: "20px",
+            cursor: "pointer"
           }}
         >
           Editar ✏️
@@ -59,7 +68,8 @@ export function CatCard({ cat, onDelete, onEdit }: any) {
             border: "none",
             borderRadius: "50%",
             width: "35px",
-            height: "35px"
+            height: "35px",
+            cursor: "pointer"
           }}
         >
           ✖

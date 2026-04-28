@@ -1,38 +1,50 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import styles from "./CatModal.module.css";
 
 type Props = {
   onClose: () => void;
   onCreate: (cat: any) => void;
   onUpdate?: (cat: any) => void;
-  catToEdit?: any;
+  catToEdit?: any | null;
 };
 
-export function CatModal({ onClose, onCreate }: Props) {
+export function CatModal({ onClose, onCreate, onUpdate, catToEdit }: Props) {
   const [form, setForm] = useState({
     nome: "",
     idade: 0,
-    genero: "MACHO",
-    tipoAdocao: "SIMPLES",
+    genero: "",
+    tipoAdocao: "",
     descricao: "",
-    status: "DISPONIVEL",
+    status: "",
     foto: "",
   });
-  
+
+  useEffect(() => {
+    if (catToEdit) {
+      setForm(catToEdit);
+    }
+  }, [catToEdit]);
 
   const handleChange = (field: string, value: any) => {
     setForm({ ...form, [field]: value });
   };
 
   const handleSubmit = () => {
-    onCreate(form);
+    if (catToEdit && onUpdate) {
+      onUpdate({ ...catToEdit, ...form });
+    } else {
+      onCreate(form);
+    }
+
     onClose();
   };
 
   return (
     <div className={styles.overlay}>
       <div className={styles.modal}>
-        <h2 className={styles.title}>Novo Gatinho</h2>
+        <h2 className={styles.title}>
+          {catToEdit ? "Editar Gatinho" : "Novo Gatinho"}
+        </h2>
 
         {/* NOME */}
         <div className={styles.field}>
@@ -40,7 +52,6 @@ export function CatModal({ onClose, onCreate }: Props) {
           <input
             value={form.nome}
             onChange={(e) => handleChange("nome", e.target.value)}
-            placeholder="Digite o nome"
           />
         </div>
 
@@ -51,7 +62,6 @@ export function CatModal({ onClose, onCreate }: Props) {
             type="number"
             value={form.idade}
             onChange={(e) => handleChange("idade", Number(e.target.value))}
-            placeholder="Digite a idade"
           />
         </div>
 
@@ -105,7 +115,7 @@ export function CatModal({ onClose, onCreate }: Props) {
 
         {/* STATUS */}
         <div className={styles.field}>
-          <label>Status do Gatinho</label>
+          <label>Status</label>
           <div className={styles.optionsRow}>
             <button
               className={`${styles.optionBtn} ${
@@ -133,7 +143,6 @@ export function CatModal({ onClose, onCreate }: Props) {
           <textarea
             value={form.descricao}
             onChange={(e) => handleChange("descricao", e.target.value)}
-            placeholder="Descreva o gatinho..."
           />
         </div>
 
@@ -142,9 +151,15 @@ export function CatModal({ onClose, onCreate }: Props) {
           <label>Foto</label>
           <input
             type="file"
-            onChange={(e: any) =>
-              handleChange("foto", e.target.files[0]?.name)
-            }
+            accept="image/*"
+            onChange={(e: any) => {
+              const file = e.target.files?.[0];
+              if (!file) return;
+
+              const imageUrl = URL.createObjectURL(file);
+
+              handleChange("foto", imageUrl);
+            }}
           />
         </div>
 
@@ -153,6 +168,7 @@ export function CatModal({ onClose, onCreate }: Props) {
           <button className={styles.saveBtn} onClick={handleSubmit}>
             Salvar
           </button>
+
           <button className={styles.cancelBtn} onClick={onClose}>
             Cancelar
           </button>
