@@ -1,73 +1,116 @@
-# React + TypeScript + Vite
+# 🐈‍⬛ Gato Preto Cat Café — Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+<div align="center">
 
-Currently, two official plugins are available:
+<img src="https://img.shields.io/badge/Status-Em%20Desenvolvimento-111111?style=for-the-badge&logo=github&logoColor=white" />
+<img src="https://img.shields.io/badge/Projeto%20Acadêmico-UNIFIL-6b21a8?style=for-the-badge" />
+<img src="https://img.shields.io/badge/Frontend-React%20%2B%20Vite-000000?style=for-the-badge&logo=next.js" />
+<img src="https://img.shields.io/badge/UI%2FUX-Figma-e879f9?style=for-the-badge&logo=figma&logoColor=white" />
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+</div>
 
-## React Compiler
+---
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## ☕ Sobre o Projeto
 
-## Expanding the ESLint configuration
+O **Gato Preto Cat Café** é um sistema web desenvolvido como **Projeto Final de Estágio da Faculdade UNIFIL**, com foco na criação de uma plataforma moderna e intuitiva para um Cat Café.
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+O projeto busca unir:
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+* 🐱 Adoção responsável de gatos
+* ☕ Experiência aconchegante de um café temático
+* 💻 Tecnologia moderna e responsiva
+* 🎨 Interface amigável e visual elegante
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+O sistema foi pensado para proporcionar uma experiência agradável tanto para administradores quanto para usuários comuns.
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+---
+
+# ✨ Funcionalidades
+
+## 👤 Área do Usuário
+
+* Visualização dos gatos disponíveis para adoção
+* Atividades Especiais oferecidas pelo Café
+* Cardápio Digital
+* Galeria de Fotos da Cafeteria
+* Interface moderna e intuitiva
+* Visualização de eventos e atividades oferecidas pelo Café
+* Seção de Doações e FAQ
+
+## 🛠️ Área Administrativa
+
+A área administrativa permite que os responsáveis pelo Cat Café mantenham as principais informações da plataforma sempre atualizadas, incluindo:
+
+* 🐱 Gatos disponíveis para adoção e suas informações
+* 🎉 Atividades especiais e eventos
+* 🍰 Cardápio do Cat Café
+* 💝 Conta para doações
+* ✏️ Cadastro, edição e remoção de conteúdos do sistema
+
+---
+
+# 🎨 Design e Experiência
+
+O frontend foi desenvolvido com foco em:
+
+* UX/UI moderna
+* Responsividade
+* Identidade visual aconchegante
+* Temática inspirada em cafés e gatos
+
+Protótipos e interfaces desenvolvidos no:
+* ✨ [Figma](https://www.figma.com/design/dyvoD8MJfzkIU6cTmdPkFJ/Layout-Projeto-Est%C3%A1gio?node-id=61-2&t=1qFjzajVlFR65jUd-1)
+
+---
+
+# 🚀 Tecnologias Utilizadas
+
+## 💻 Frontend
+
+* ⚛️ React
+* ▲ Vite
+* 🟦 TypeScript
+* 🌐 HTML5
+* 🎨 CSS3
+
+## 🛠️ Ferramentas
+
+* 🎨 Figma
+* 🐙 Git
+* 🐱 GitHub
+* 💡 IntelliJ IDEA
+* 🖥️ VS Code
+
+---
+
+# 📂 Estrutura do Projeto
+
+```bash
+src/
+ ├── app/
+ ├── components/
+ ├── styles/
+ ├── services/
+ ├── types/
+ └── assets/
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+---
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+# 📸 Objetivo do Sistema
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+O principal objetivo do sistema é criar uma plataforma que facilite:
+
+* A divulgação de gatos disponíveis para adoção
+* A organização administrativa do Cat Café
+* A interação entre clientes e estabelecimento
+* A modernização do gerenciamento do negócio
+
+---
+
+# 🔗 Backend do Projeto
+
+➡️ Repositório do backend:
+
+[https://github.com/FernandaTozzi/Backend-Gato-Preto-Catcafe](https://github.com/FernandaTozzi/Backend-Gato-Preto-Catcafe)
