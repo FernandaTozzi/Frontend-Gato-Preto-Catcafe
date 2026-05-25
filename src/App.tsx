@@ -9,10 +9,8 @@ function App() {
       <div style={background}>
         <div style={container}>
           
-          {/* SIDEBAR */}
           <Sidebar />
 
-          {/* CONTEÚDO */}
           <div style={content}>
             <Routes>
               <Route path="/" element={<CatsPage />} />
@@ -28,14 +26,20 @@ function App() {
 
 const background = {
   minHeight: "100vh",
+  width: "100%",
   backgroundImage: `url(${bgImage})`,
+  backgroundSize: "cover",
+  backgroundPosition: "center",
+  backgroundRepeat: "no-repeat",
+  backgroundAttachment: "fixed",
   display: "flex",
   justifyContent: "center",
   alignItems: "flex-start",
-  padding: "40px 0px", 
+  padding: "40px 0px",
 };
 
 const container = {
+  flexWrap: "wrap" as const,
   width: "1000px",
   background: "#f2f2f2",
   borderRadius: "25px",

@@ -153,7 +153,7 @@ export function CatModal({ onClose, onCreate, onUpdate, catToEdit }: Props) {
             type="file"
             accept="image/*"
             onChange={(e: any) => {
-              const file = e.target.files?.[0];
+              const file = e.target.files[0];
               if (!file) return;
 
               const imageUrl = URL.createObjectURL(file);

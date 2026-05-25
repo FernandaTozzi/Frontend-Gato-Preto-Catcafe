@@ -17,12 +17,14 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  gap: 16px;
 }
 
 .title {
   color: #7c75a3;
   font-size: 28px;
   font-weight: bold;
+  margin: 0;
 }
 
 .add-button {
@@ -38,4 +40,45 @@ body {
   margin-top: 20px;
   border: 1px solid #ccc;
   padding: 20px;
+}
+
+/* TABLET */
+@media (max-width: 900px) {
+  .container {
+    margin: 20px;
+    padding: 24px;
+  }
+}
+
+/* MOBILE */
+@media (max-width: 768px) {
+  .container {
+    margin: 10px;
+    padding: 18px;
+    border-radius: 18px;
+  }
+
+  .header {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .title {
+    width: 100%;
+    text-align: center;
+    font-size: 24px;
+  }
+
+  .add-button {
+    width: 100%;
+    max-width: 320px;
+  }
+
+  .list-box {
+    padding: 14px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
 }
