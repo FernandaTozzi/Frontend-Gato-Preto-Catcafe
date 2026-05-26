@@ -9,19 +9,27 @@ type Props = {
 };
 
 export function CatModal({ onClose, onCreate, onUpdate, catToEdit }: Props) {
-  const [form, setForm] = useState({
+  const [form, setForm] = useState<any>({
     nome: "",
     idade: 0,
     genero: "",
     tipoAdocao: "",
     descricao: "",
     status: "",
-    foto: "",
+    foto: null,
   });
 
   useEffect(() => {
     if (catToEdit) {
-      setForm(catToEdit);
+      setForm({
+        nome: catToEdit.nome || "",
+        idade: catToEdit.idade || 0,
+        genero: catToEdit.genero || "",
+        tipoAdocao: catToEdit.tipoAdocao || "",
+        descricao: catToEdit.descricao || "",
+        status: catToEdit.status || "",
+        foto: null,
+      });
     }
   }, [catToEdit]);
 
@@ -46,7 +54,6 @@ export function CatModal({ onClose, onCreate, onUpdate, catToEdit }: Props) {
           {catToEdit ? "Editar Gatinho" : "Novo Gatinho"}
         </h2>
 
-        {/* NOME */}
         <div className={styles.field}>
           <label>Nome</label>
           <input
@@ -55,9 +62,8 @@ export function CatModal({ onClose, onCreate, onUpdate, catToEdit }: Props) {
           />
         </div>
 
-        {/* IDADE */}
         <div className={styles.field}>
-          <label>Idade</label>
+          <label>Quantos meses de idade</label>
           <input
             type="number"
             value={form.idade}
@@ -65,11 +71,11 @@ export function CatModal({ onClose, onCreate, onUpdate, catToEdit }: Props) {
           />
         </div>
 
-        {/* GENERO */}
         <div className={styles.field}>
           <label>Gênero</label>
           <div className={styles.optionsRow}>
             <button
+              type="button"
               className={`${styles.optionBtn} ${
                 form.genero === "MACHO" ? styles.active : ""
               }`}
@@ -79,6 +85,7 @@ export function CatModal({ onClose, onCreate, onUpdate, catToEdit }: Props) {
             </button>
 
             <button
+              type="button"
               className={`${styles.optionBtn} ${
                 form.genero === "FEMEA" ? styles.active : ""
               }`}
@@ -89,11 +96,11 @@ export function CatModal({ onClose, onCreate, onUpdate, catToEdit }: Props) {
           </div>
         </div>
 
-        {/* TIPO ADOÇÃO */}
         <div className={styles.field}>
           <label>Tipo de Adoção</label>
           <div className={styles.optionsRow}>
             <button
+              type="button"
               className={`${styles.optionBtn} ${
                 form.tipoAdocao === "SIMPLES" ? styles.active : ""
               }`}
@@ -103,6 +110,7 @@ export function CatModal({ onClose, onCreate, onUpdate, catToEdit }: Props) {
             </button>
 
             <button
+              type="button"
               className={`${styles.optionBtn} ${
                 form.tipoAdocao === "CONJUNTA" ? styles.active : ""
               }`}
@@ -113,11 +121,11 @@ export function CatModal({ onClose, onCreate, onUpdate, catToEdit }: Props) {
           </div>
         </div>
 
-        {/* STATUS */}
         <div className={styles.field}>
           <label>Status</label>
           <div className={styles.optionsRow}>
             <button
+              type="button"
               className={`${styles.optionBtn} ${
                 form.status === "DISPONIVEL" ? styles.active : ""
               }`}
@@ -127,6 +135,7 @@ export function CatModal({ onClose, onCreate, onUpdate, catToEdit }: Props) {
             </button>
 
             <button
+              type="button"
               className={`${styles.optionBtn} ${
                 form.status === "ADOTADO" ? styles.active : ""
               }`}
@@ -137,7 +146,6 @@ export function CatModal({ onClose, onCreate, onUpdate, catToEdit }: Props) {
           </div>
         </div>
 
-        {/* DESCRIÇÃO */}
         <div className={styles.field}>
           <label>Descrição</label>
           <textarea
@@ -146,24 +154,21 @@ export function CatModal({ onClose, onCreate, onUpdate, catToEdit }: Props) {
           />
         </div>
 
-        {/* FOTO */}
         <div className={styles.field}>
           <label>Foto</label>
           <input
             type="file"
             accept="image/*"
-            onChange={(e: any) => {
-              const file = e.target.files[0];
+            onChange={(e) => {
+              const file = e.target.files?.[0];
+
               if (!file) return;
 
-              const imageUrl = URL.createObjectURL(file);
-
-              handleChange("foto", imageUrl);
+              handleChange("foto", file);
             }}
           />
         </div>
 
-        {/* BOTÕES */}
         <div className={styles.actions}>
           <button className={styles.saveBtn} onClick={handleSubmit}>
             Salvar

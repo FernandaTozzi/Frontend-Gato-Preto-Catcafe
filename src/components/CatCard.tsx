@@ -34,7 +34,7 @@ export function CatCard({ cat, onDelete, onEdit }: any) {
             {cat.nome} {cat.genero === "MACHO" ? "♂" : "♀"}
           </h3>
 
-          <strong>{cat.idade} anos</strong>
+          <strong>{cat.idade} meses</strong>
 
           <div style={tag}>{cat.tipoAdocao}</div>
 
