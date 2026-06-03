@@ -61,10 +61,17 @@ export function Sidebar() {
               Gatinhos
             </Link>
 
-            <div style={item}>
+            <Link
+              to="/atividades"
+              style={{
+                ...item,
+                ...(isActive("/atividades") ? activeItem : {}),
+              }}
+              onClick={() => setIsOpen(false)}
+            >
               <img src={atividadeIcon} style={icon} />
               Atividades Especiais
-            </div>
+            </Link>
 
             <div style={item}>
               <img src={cardapioIcon} style={icon} />
@@ -106,16 +113,18 @@ export function Sidebar() {
         {isOpen && <span>Gatinhos</span>}
       </Link>
 
-      <div
+      <Link
+        to="/atividades"
         style={{
           ...item,
+          ...(isActive("/atividades") ? activeItem : {}),
           justifyContent: isOpen ? "flex-start" : "center",
         }}
       >
         <img src={atividadeIcon} style={icon} />
 
         {isOpen && <span>Atividades Especiais</span>}
-      </div>
+      </Link>
 
       <div
         style={{
