@@ -19,6 +19,8 @@ export function CatModal({ onClose, onCreate, onUpdate, catToEdit }: Props) {
     foto: null,
   });
 
+  const [errors, setErrors] = useState<any>({});
+
   useEffect(() => {
     if (catToEdit) {
       setForm({
@@ -35,9 +37,60 @@ export function CatModal({ onClose, onCreate, onUpdate, catToEdit }: Props) {
 
   const handleChange = (field: string, value: any) => {
     setForm({ ...form, [field]: value });
+
+    if (errors[field]) {
+      const updatedErrors = { ...errors };
+      delete updatedErrors[field];
+      setErrors(updatedErrors);
+    }
+  };
+
+  const validateForm = () => {
+    const newErrors: any = {};
+
+    if (!form.nome.trim()) {
+      newErrors.nome = "Informe o nome do gatinho.";
+    } else if (form.nome.trim().length < 2) {
+      newErrors.nome = "O nome deve ter pelo menos 2 caracteres.";
+    }
+
+    if (form.idade === "" || form.idade === null || form.idade < 0) {
+      newErrors.idade = "Informe uma idade válida.";
+    } else if (form.idade > 300) {
+      newErrors.idade = "A idade deve ser menor que 300 meses.";
+    }
+
+    if (!form.genero) {
+      newErrors.genero = "Selecione o gênero.";
+    }
+
+    if (!form.tipoAdocao) {
+      newErrors.tipoAdocao = "Selecione o tipo de adoção.";
+    }
+
+    if (!form.status) {
+      newErrors.status = "Selecione o status.";
+    }
+
+    if (!form.descricao.trim()) {
+      newErrors.descricao = "Informe uma descrição.";
+    } else if (form.descricao.trim().length < 10) {
+      newErrors.descricao = "A descrição deve ter pelo menos 10 caracteres.";
+    } else if (form.descricao.trim().length > 200) {
+      newErrors.descricao = "A descrição deve ter no máximo 200 caracteres.";
+    }
+
+    if (!catToEdit && !form.foto) {
+      newErrors.foto = "Selecione uma foto do gatinho.";
+    }
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
   };
 
   const handleSubmit = () => {
+    if (!validateForm()) return;
+
     if (catToEdit && onUpdate) {
       onUpdate({ ...catToEdit, ...form });
     } else {
@@ -47,6 +100,25 @@ export function CatModal({ onClose, onCreate, onUpdate, catToEdit }: Props) {
     onClose();
   };
 
+  const ValidationLabel = ({
+    text,
+    error,
+  }: {
+    text: string;
+    error?: string;
+  }) => (
+    <div style={labelRow}>
+      <label style={error ? labelError : labelDefault}>{text}</label>
+
+      {error && (
+        <div style={tooltipWrapper}>
+          <span style={warningIcon}>⚠️</span>
+          <span style={tooltipText}>{error}</span>
+        </div>
+      )}
+    </div>
+  );
+
   return (
     <div className={styles.overlay}>
       <div className={styles.modal}>
@@ -55,7 +127,8 @@ export function CatModal({ onClose, onCreate, onUpdate, catToEdit }: Props) {
         </h2>
 
         <div className={styles.field}>
-          <label>Nome</label>
+          <ValidationLabel text="Nome:" error={errors.nome} />
+
           <input
             value={form.nome}
             onChange={(e) => handleChange("nome", e.target.value)}
@@ -63,7 +136,11 @@ export function CatModal({ onClose, onCreate, onUpdate, catToEdit }: Props) {
         </div>
 
         <div className={styles.field}>
-          <label>Quantos meses de idade</label>
+          <ValidationLabel
+            text="Quantos meses de idade:"
+            error={errors.idade}
+          />
+
           <input
             type="number"
             value={form.idade}
@@ -72,7 +149,8 @@ export function CatModal({ onClose, onCreate, onUpdate, catToEdit }: Props) {
         </div>
 
         <div className={styles.field}>
-          <label>Gênero</label>
+          <ValidationLabel text="Gênero:" error={errors.genero} />
+
           <div className={styles.optionsRow}>
             <button
               type="button"
@@ -97,7 +175,11 @@ export function CatModal({ onClose, onCreate, onUpdate, catToEdit }: Props) {
         </div>
 
         <div className={styles.field}>
-          <label>Tipo de Adoção</label>
+          <ValidationLabel
+            text="Tipo de Adoção:"
+            error={errors.tipoAdocao}
+          />
+
           <div className={styles.optionsRow}>
             <button
               type="button"
@@ -122,7 +204,8 @@ export function CatModal({ onClose, onCreate, onUpdate, catToEdit }: Props) {
         </div>
 
         <div className={styles.field}>
-          <label>Status</label>
+          <ValidationLabel text="Status:" error={errors.status} />
+
           <div className={styles.optionsRow}>
             <button
               type="button"
@@ -147,23 +230,26 @@ export function CatModal({ onClose, onCreate, onUpdate, catToEdit }: Props) {
         </div>
 
         <div className={styles.field}>
-          <label>Descrição</label>
+          <ValidationLabel text="Descrição:" error={errors.descricao} />
+
           <textarea
+            maxLength={200}
             value={form.descricao}
             onChange={(e) => handleChange("descricao", e.target.value)}
           />
+
+          <div style={counterText}>{form.descricao.length}/200</div>
         </div>
 
         <div className={styles.field}>
-          <label>Foto</label>
+          <ValidationLabel text="Foto:" error={errors.foto} />
+
           <input
             type="file"
             accept="image/*"
             onChange={(e) => {
               const file = e.target.files?.[0];
-
               if (!file) return;
-
               handleChange("foto", file);
             }}
           />
@@ -182,3 +268,52 @@ export function CatModal({ onClose, onCreate, onUpdate, catToEdit }: Props) {
     </div>
   );
 }
+
+const labelRow = {
+  display: "flex",
+  alignItems: "center",
+  gap: "6px",
+  marginBottom: "6px",
+};
+
+const labelDefault = {
+  color: "#555",
+};
+
+const labelError = {
+  color: "#d9534f",
+  fontWeight: "600",
+};
+
+const tooltipWrapper = {
+  position: "relative" as const,
+  display: "inline-flex",
+  alignItems: "center",
+};
+
+const warningIcon = {
+  cursor: "help",
+  fontSize: "14px",
+};
+
+const tooltipText = {
+  display: "none",
+  position: "absolute" as const,
+  left: "22px",
+  top: "-4px",
+  background: "#fff0f0",
+  border: "1px solid #d9534f",
+  color: "#d9534f",
+  borderRadius: "6px",
+  padding: "5px 8px",
+  fontSize: "12px",
+  whiteSpace: "nowrap" as const,
+  zIndex: 9999,
+};
+
+const counterText = {
+  textAlign: "right" as const,
+  fontSize: "12px",
+  color: "#666",
+  marginTop: "4px",
+};

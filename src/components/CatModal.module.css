@@ -101,3 +101,7 @@
   font-weight: bold;
   cursor: pointer;
 }
+
+span:hover + span {
+  display: inline-block !important;
+}
