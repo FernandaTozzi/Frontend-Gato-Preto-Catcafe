@@ -120,139 +120,148 @@ export function CatModal({ onClose, onCreate, onUpdate, catToEdit }: Props) {
   );
 
   return (
-    <div className={styles.overlay}>
-      <div className={styles.modal}>
+    <div   className={styles.overlay}>
+      <div className={styles.modal}
+      style={{
+        width: "600px",
+      }}>
         <h2 className={styles.title}>
           {catToEdit ? "Editar Gatinho" : "Novo Gatinho"}
         </h2>
 
-        <div className={styles.field}>
-          <ValidationLabel text="Nome:" error={errors.nome} />
+        <div style={modalColumns}>
+          <div style={leftColumn}>
+            <div className={styles.field}>
+              <ValidationLabel text="Nome:" error={errors.nome} />
 
-          <input
-            value={form.nome}
-            onChange={(e) => handleChange("nome", e.target.value)}
-          />
-        </div>
+              <input
+                value={form.nome}
+                onChange={(e) => handleChange("nome", e.target.value)}
+              />
+            </div>
 
-        <div className={styles.field}>
-          <ValidationLabel
-            text="Quantos meses de idade:"
-            error={errors.idade}
-          />
+            <div className={styles.field}>
+              <ValidationLabel
+                text="Quantos meses de idade:"
+                error={errors.idade}
+              />
 
-          <input
-            type="number"
-            value={form.idade}
-            onChange={(e) => handleChange("idade", Number(e.target.value))}
-          />
-        </div>
+              <input
+                type="number"
+                value={form.idade}
+                onChange={(e) => handleChange("idade", Number(e.target.value))}
+              />
+            </div>
 
-        <div className={styles.field}>
-          <ValidationLabel text="Gênero:" error={errors.genero} />
+            <div className={styles.field}>
+              <ValidationLabel text="Gênero:" error={errors.genero} />
 
-          <div className={styles.optionsRow}>
-            <button
-              type="button"
-              className={`${styles.optionBtn} ${
-                form.genero === "MACHO" ? styles.active : ""
-              }`}
-              onClick={() => handleChange("genero", "MACHO")}
-            >
-              Macho
-            </button>
+              <div className={styles.optionsRow}>
+                <button
+                  type="button"
+                  className={`${styles.optionBtn} ${
+                    form.genero === "MACHO" ? styles.active : ""
+                  }`}
+                  onClick={() => handleChange("genero", "MACHO")}
+                >
+                  Macho
+                </button>
 
-            <button
-              type="button"
-              className={`${styles.optionBtn} ${
-                form.genero === "FEMEA" ? styles.active : ""
-              }`}
-              onClick={() => handleChange("genero", "FEMEA")}
-            >
-              Fêmea
-            </button>
+                <button
+                  type="button"
+                  className={`${styles.optionBtn} ${
+                    form.genero === "FEMEA" ? styles.active : ""
+                  }`}
+                  onClick={() => handleChange("genero", "FEMEA")}
+                >
+                  Fêmea
+                </button>
+              </div>
+            </div>
+
+            <div className={styles.field}>
+              <ValidationLabel
+                text="Tipo de Adoção:"
+                error={errors.tipoAdocao}
+              />
+
+              <div className={styles.optionsRow}>
+                <button
+                  type="button"
+                  className={`${styles.optionBtn} ${
+                    form.tipoAdocao === "SIMPLES" ? styles.active : ""
+                  }`}
+                  onClick={() => handleChange("tipoAdocao", "SIMPLES")}
+                >
+                  Simples
+                </button>
+
+                <button
+                  type="button"
+                  className={`${styles.optionBtn} ${
+                    form.tipoAdocao === "CONJUNTA" ? styles.active : ""
+                  }`}
+                  onClick={() => handleChange("tipoAdocao", "CONJUNTA")}
+                >
+                  Conjunta
+                </button>
+              </div>
+            </div>
+
+            <div className={styles.field}>
+              <ValidationLabel text="Status:" error={errors.status} />
+
+              <div className={styles.optionsRow}>
+                <button
+                  type="button"
+                  className={`${styles.optionBtn} ${
+                    form.status === "DISPONIVEL" ? styles.active : ""
+                  }`}
+                  onClick={() => handleChange("status", "DISPONIVEL")}
+                >
+                  Disponível
+                </button>
+
+                <button
+                  type="button"
+                  className={`${styles.optionBtn} ${
+                    form.status === "ADOTADO" ? styles.active : ""
+                  }`}
+                  onClick={() => handleChange("status", "ADOTADO")}
+                >
+                  Adotado
+                </button>
+              </div>
+            </div>
           </div>
-        </div>
 
-        <div className={styles.field}>
-          <ValidationLabel
-            text="Tipo de Adoção:"
-            error={errors.tipoAdocao}
-          />
+          <div style={rightColumn}>
+            <div className={styles.field}>
+              <ValidationLabel text="Descrição:" error={errors.descricao} />
 
-          <div className={styles.optionsRow}>
-            <button
-              type="button"
-              className={`${styles.optionBtn} ${
-                form.tipoAdocao === "SIMPLES" ? styles.active : ""
-              }`}
-              onClick={() => handleChange("tipoAdocao", "SIMPLES")}
-            >
-              Simples
-            </button>
+              <textarea
+                maxLength={200}
+                value={form.descricao}
+                onChange={(e) => handleChange("descricao", e.target.value)}
+              />
 
-            <button
-              type="button"
-              className={`${styles.optionBtn} ${
-                form.tipoAdocao === "CONJUNTA" ? styles.active : ""
-              }`}
-              onClick={() => handleChange("tipoAdocao", "CONJUNTA")}
-            >
-              Conjunta
-            </button>
+              <div style={counterText}>{form.descricao.length}/200</div>
+            </div>
+
+            <div className={styles.field}>
+              <ValidationLabel text="Foto:" error={errors.foto} />
+
+              <input
+                type="file"
+                accept="image/*"
+                onChange={(e) => {
+                  const file = e.target.files?.[0];
+                  if (!file) return;
+                  handleChange("foto", file);
+                }}
+              />
+            </div>
           </div>
-        </div>
-
-        <div className={styles.field}>
-          <ValidationLabel text="Status:" error={errors.status} />
-
-          <div className={styles.optionsRow}>
-            <button
-              type="button"
-              className={`${styles.optionBtn} ${
-                form.status === "DISPONIVEL" ? styles.active : ""
-              }`}
-              onClick={() => handleChange("status", "DISPONIVEL")}
-            >
-              Disponível
-            </button>
-
-            <button
-              type="button"
-              className={`${styles.optionBtn} ${
-                form.status === "ADOTADO" ? styles.active : ""
-              }`}
-              onClick={() => handleChange("status", "ADOTADO")}
-            >
-              Adotado
-            </button>
-          </div>
-        </div>
-
-        <div className={styles.field}>
-          <ValidationLabel text="Descrição:" error={errors.descricao} />
-
-          <textarea
-            maxLength={200}
-            value={form.descricao}
-            onChange={(e) => handleChange("descricao", e.target.value)}
-          />
-
-          <div style={counterText}>{form.descricao.length}/200</div>
-        </div>
-
-        <div className={styles.field}>
-          <ValidationLabel text="Foto:" error={errors.foto} />
-
-          <input
-            type="file"
-            accept="image/*"
-            onChange={(e) => {
-              const file = e.target.files?.[0];
-              if (!file) return;
-              handleChange("foto", file);
-            }}
-          />
         </div>
 
         <div className={styles.actions}>
@@ -268,6 +277,24 @@ export function CatModal({ onClose, onCreate, onUpdate, catToEdit }: Props) {
     </div>
   );
 }
+
+const modalColumns = {
+  display: "grid",
+  gridTemplateColumns: "1fr 1fr",
+  gap: "30px",
+};
+
+const leftColumn = {
+  gap: "12px",
+  display: "flex",
+  flexDirection: "column" as const,
+};
+
+const rightColumn = {
+  gap: "12px",
+  display: "flex",
+  flexDirection: "column" as const,
+};
 
 const labelRow = {
   display: "flex",
