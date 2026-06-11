@@ -8,12 +8,14 @@ import {
 
 import { CatCard } from "../components/CatCard";
 import { CatModal } from "../components/CatModal";
+import { ConfirmDeleteModal } from "../components/ConfirmDeleteModal";
 
 function App() {
   const [cats, setCats] = useState<any[]>([]);
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedCat, setSelectedCat] = useState<any | null>(null);
+  const [catToDelete, setCatToDelete] = useState<any | null>(null);
 
   // carregar gatos
   const loadCats = async () => {
@@ -30,8 +32,11 @@ function App() {
     await loadCats();
   };
 
-  const handleDelete = async (id: number) => {
-    await deleteCat(id);
+  const handleDelete = async () => {
+    if (!catToDelete) return;
+
+    await deleteCat(catToDelete.id);
+    setCatToDelete(null);
     await loadCats();
   };
 
@@ -44,6 +49,7 @@ function App() {
     await updateCat(cat.id, cat);
     await loadCats();
   };
+  
 
   return (
     <div>
@@ -68,7 +74,7 @@ function App() {
           <CatCard
             key={cat.id}
             cat={cat}
-            onDelete={handleDelete}
+            onDelete={() => setCatToDelete(cat)}
             onEdit={handleEdit}
           />
         ))}
@@ -84,6 +90,12 @@ function App() {
           }}
           onCreate={handleCreate}
           onUpdate={handleUpdate}
+        />
+      )}
+      {catToDelete && (
+        <ConfirmDeleteModal
+          onCancel={() => setCatToDelete(null)}
+          onConfirm={handleDelete}
         />
       )}
     </div>

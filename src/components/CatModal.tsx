@@ -54,9 +54,9 @@ export function CatModal({ onClose, onCreate, onUpdate, catToEdit }: Props) {
       newErrors.nome = "O nome deve ter pelo menos 2 caracteres.";
     }
 
-    if (form.idade === "" || form.idade === null || form.idade < 0) {
+    if (form.idade === "" || form.idade === null || form.idade < 1) {
       newErrors.idade = "Informe uma idade válida.";
-    } else if (form.idade > 300) {
+    } else if (form.idade > 240) {
       newErrors.idade = "A idade deve ser menor que 300 meses.";
     }
 
