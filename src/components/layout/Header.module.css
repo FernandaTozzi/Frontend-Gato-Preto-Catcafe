@@ -1,14 +1,12 @@
 .header {
   width: 100%;
   height: 75px;
-
   background-color: #9282c4;
 
   display: flex;
   align-items: center;
 
   padding: 0 24px;
-
   box-sizing: border-box;
 }
 
@@ -20,26 +18,22 @@
 
 .nav {
   flex: 1;
-
   display: flex;
   justify-content: center;
   align-items: center;
-
   gap: 8px;
 }
 
 .link {
   color: white;
   text-decoration: none;
-
   font-size: 16px;
   font-weight: 700;
 
   padding: 10px 18px;
-
   border-radius: 999px;
 
-  transition: all 0.2s ease;
+  transition: 0.2s;
 }
 
 .link:hover {
@@ -50,11 +44,130 @@
   background-color: #6d5eb4;
 }
 
+.profileLink {
+  display: flex;
+  align-items: center;
+}
+
 .profile {
   width: 48px;
   height: 48px;
-
   object-fit: contain;
+}
+
+.menuButton {
+  display: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.menuButton span {
+  display: block;
+  width: 42px;
+  height: 5px;
+  background-color: white;
+  border-radius: 999px;
+  margin: 6px 0;
+}
+
+.mobileMenu {
+  position: fixed;
+  top: 0;
+  right: 0;
+
+  width: 100%;
+  height: 100vh;
+
+  background-color: #9282c4;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  padding-top: 36px;
+  box-sizing: border-box;
+
+  transform: translateX(100%);
+  transition: transform 0.35s ease;
+
+  z-index: 999;
+}
+
+.mobileMenu.open {
+  transform: translateX(0);
+}
+
+.closeButton {
+  position: absolute;
+  top: 20px;
+  right: 30px;
+
+  background: none;
+  border: none;
+
+  color: white;
+  font-size: 60px;
+  line-height: 1;
 
   cursor: pointer;
+}
+
+.menuLogo {
+  width: 95px;
+  height: 95px;
+  object-fit: contain;
+  margin-bottom: 40px;
+}
+
+.mobileNav {
+  width: 70%;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  gap: 6px;
+}
+
+.mobileLink {
+  width: 100%;
+  text-align: center;
+
+  color: white;
+  text-decoration: none;
+
+  font-size: 16px;
+  font-weight: 700;
+
+  padding: 10px 0;
+  border-radius: 999px;
+}
+
+.mobileActive {
+  background-color: #6d5eb4;
+}
+
+.menuProfile {
+  width: 48px;
+  height: 48px;
+  object-fit: contain;
+
+  margin-top: 45px;
+}
+
+@media (max-width: 900px) {
+  .nav,
+  .profileLink {
+    display: none;
+  }
+
+  .header {
+    justify-content: space-between;
+    height: 70px;
+  }
+
+  .menuButton {
+    display: block;
+  }
 }
