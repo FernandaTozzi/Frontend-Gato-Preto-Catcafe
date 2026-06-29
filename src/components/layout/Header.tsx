@@ -1,4 +1,5 @@
 import { useState } from "react";
+
 import { NavLink } from "react-router-dom";
 import styles from "./Header.module.css";
 
@@ -40,8 +41,8 @@ function Header() {
           ))}
         </nav>
 
-        <NavLink to="/perfil" className={styles.profileLink}>
-          <img src={profile} alt="Perfil" className={styles.profile} />
+        <NavLink to="/gerenciar" className={styles.profileLink}>          
+        <img src={profile} alt="Perfil" className={styles.profile} />
         </NavLink>
 
         <button
@@ -84,7 +85,7 @@ function Header() {
           ))}
         </nav>
 
-        <NavLink to="/perfil" onClick={() => setMenuOpen(false)}>
+        <NavLink to="/gerenciar" onClick={() => setMenuOpen(false)}>
           <img src={profile} alt="Perfil" className={styles.menuProfile} />
         </NavLink>
       </div>

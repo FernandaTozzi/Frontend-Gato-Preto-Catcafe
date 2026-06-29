@@ -49,11 +49,9 @@ export function Sidebar() {
 
         {isOpen && (
           <div style={mobileMenu}>
-            <Link
-              to="/cats"
-              style={{
+            <Link to="/gerenciar/gatos" style={{
                 ...item,
-                ...(isActive("/cats") ? activeItem : {}),
+                ...(isActive("/gerenciar/gatos") ? activeItem : {}),
               }}
               onClick={() => setIsOpen(false)}
             >
@@ -62,10 +60,10 @@ export function Sidebar() {
             </Link>
 
             <Link
-              to="/atividades"
+              to="/gerenciar/atividades"
               style={{
                 ...item,
-                ...(isActive("/atividades") ? activeItem : {}),
+                ...(isActive("/gerenciar/atividades") ? activeItem : {}),
               }}
               onClick={() => setIsOpen(false)}
             >
@@ -101,10 +99,10 @@ export function Sidebar() {
       </div>
 
       <Link
-        to="/cats"
+        to="/gerenciar/gatos"
         style={{
           ...item,
-          ...(isActive("/cats") ? activeItem : {}),
+          ...(isActive("/gerenciar/gatos") ? activeItem : {}),
           justifyContent: isOpen ? "flex-start" : "center",
         }}
       >
@@ -114,10 +112,10 @@ export function Sidebar() {
       </Link>
 
       <Link
-        to="/atividades"
+        to="/gerenciar/atividades"
         style={{
           ...item,
-          ...(isActive("/atividades") ? activeItem : {}),
+          ...(isActive("/gerenciar/atividades") ? activeItem : {}),
           justifyContent: isOpen ? "flex-start" : "center",
         }}
       >
