@@ -19,21 +19,31 @@ export function CatModal({ onClose, onCreate, onUpdate, catToEdit }: Props) {
     foto: null,
   });
 
+  const [preview, setPreview] = useState<string | null>(null);
+
   const [errors, setErrors] = useState<any>({});
 
   useEffect(() => {
-    if (catToEdit) {
-      setForm({
-        nome: catToEdit.nome || "",
-        idade: catToEdit.idade || 0,
-        genero: catToEdit.genero || "",
-        tipoAdocao: catToEdit.tipoAdocao || "",
-        descricao: catToEdit.descricao || "",
-        status: catToEdit.status || "",
-        foto: null,
-      });
-    }
-  }, [catToEdit]);
+  if (catToEdit) {
+    setForm({
+      nome: catToEdit.nome || "",
+      idade: catToEdit.idade || 0,
+      genero: catToEdit.genero || "",
+      tipoAdocao: catToEdit.tipoAdocao || "",
+      descricao: catToEdit.descricao || "",
+      status: catToEdit.status || "",
+      foto: null,
+    });
+
+    setPreview(
+      catToEdit.foto
+        ? `http://localhost:8080/uploads/${catToEdit.foto}`
+        : null
+    );
+  } else {
+    setPreview(null);
+  }
+}, [catToEdit]);
 
   const handleChange = (field: string, value: any) => {
     setForm({ ...form, [field]: value });
@@ -108,7 +118,10 @@ export function CatModal({ onClose, onCreate, onUpdate, catToEdit }: Props) {
     error?: string;
   }) => (
     <div style={labelRow}>
-      <label style={error ? labelError : labelDefault}>{text}</label>
+      <label style={error ? labelError : labelDefault}>
+        {text}
+        <span style={{ color: "#d9534f", marginLeft: "3px" }}>*</span>
+      </label>
 
       {error && (
         <div style={tooltipWrapper}>
@@ -257,9 +270,22 @@ export function CatModal({ onClose, onCreate, onUpdate, catToEdit }: Props) {
                 onChange={(e) => {
                   const file = e.target.files?.[0];
                   if (!file) return;
+
                   handleChange("foto", file);
+
+                  const imageUrl = URL.createObjectURL(file);
+                  setPreview(imageUrl);
                 }}
               />
+              {preview && (
+              <div style={previewContainer}>
+                <img
+                  src={preview}
+                  alt="Prévia da foto"
+                  style={previewImage}
+                />
+              </div>
+            )}
             </div>
           </div>
         </div>
@@ -277,7 +303,6 @@ export function CatModal({ onClose, onCreate, onUpdate, catToEdit }: Props) {
     </div>
   );
 }
-
 const modalColumns = {
   display: "grid",
   gridTemplateColumns: "1fr 1fr",
@@ -343,4 +368,18 @@ const counterText = {
   fontSize: "12px",
   color: "#666",
   marginTop: "4px",
+};
+
+const previewContainer = {
+  marginTop: "15px",
+  display: "flex",
+  justifyContent: "center",
+};
+
+const previewImage = {
+  width: "100px",
+  height: "100px",
+  objectFit: "cover" as const,
+  borderRadius: "10px",
+  border: "2px solid #ddd",
 };
