@@ -10,8 +10,9 @@ export const createAtividade = async (atividade: any) => {
 
   formData.append("titulo", atividade.titulo);
   formData.append("descricao", atividade.descricao);
-  formData.append("inicioEvento", atividade.inicioEvento);
-  formData.append("fimEvento", atividade.fimEvento);
+  formData.append("data", atividade.data);
+  formData.append("horarioInicio", atividade.horarioInicio);
+  formData.append("horarioFim", atividade.horarioFim);
 
   if (atividade.imagem instanceof File) {
     formData.append("imagem", atividade.imagem);
@@ -30,8 +31,9 @@ export const updateAtividade = async (id: number, atividade: any) => {
 
   formData.append("titulo", atividade.titulo);
   formData.append("descricao", atividade.descricao);
-  formData.append("inicioEvento", atividade.inicioEvento);
-  formData.append("fimEvento", atividade.fimEvento);
+  formData.append("data", atividade.data);
+  formData.append("horarioInicio", atividade.horarioInicio);
+  formData.append("horarioFim", atividade.horarioFim);
 
   if (atividade.imagem instanceof File) {
     formData.append("imagem", atividade.imagem);

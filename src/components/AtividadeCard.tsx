@@ -44,19 +44,16 @@ export function AtividadeCard({
             </p>
           )}
 
-          {atividade.inicioEvento && atividade.fimEvento && (
+         {atividade.data && (
             <div style={dateBox}>
-              <strong>Início:</strong>{" "}
-              {new Date(
-                atividade.inicioEvento
-              ).toLocaleString("pt-BR")}
+              <strong>Data:</strong>{" "}
+              {new Date(atividade.data).toLocaleDateString("pt-BR")}
 
               <br />
 
-              <strong>Fim:</strong>{" "}
-              {new Date(
-                atividade.fimEvento
-              ).toLocaleString("pt-BR")}
+              <strong>Horário:</strong>{" "}
+              {atividade.horarioInicio?.slice(0, 5)} às{" "}
+              {atividade.horarioFim?.slice(0, 5)}
             </div>
           )}
         </div>

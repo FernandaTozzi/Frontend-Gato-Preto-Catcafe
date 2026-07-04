@@ -27,7 +27,8 @@
 .field {
   display: flex;
   flex-direction: column;
-  gap: 5px;
+  width: 100%;
+  min-width: 0;
 }
 
 .field label {

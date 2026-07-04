@@ -172,7 +172,7 @@ export function CatModal({ onClose, onCreate, onUpdate, catToEdit }: Props) {
               />
             </div>
 
-            <div className={styles.field}>
+            <div className={styles.field}>  
               <ValidationLabel text="Gênero:" error={errors.genero} />
 
               <div className={styles.optionsRow}>
