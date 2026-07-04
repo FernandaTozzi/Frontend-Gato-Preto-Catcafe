@@ -36,7 +36,23 @@ export function CatCard({ cat, onDelete, onEdit }: any) {
 
           <strong>{cat.idade} meses</strong>
 
-          <div style={tag}>{cat.tipoAdocao}</div>
+          <div style={{ display: "flex", gap: "8px", marginTop: "5px", flexWrap: "wrap" }}>
+          <div style={tag}>
+            {cat.tipoAdocao.charAt(0) + cat.tipoAdocao.slice(1).toLowerCase()}
+          </div>
+
+          <div
+            style={{
+              ...tag,
+              background:
+                cat.status === "DISPONIVEL"
+                  ? "#31b869"
+                  : "#e57373"
+            }}
+          >
+            {cat.status === "DISPONIVEL" ? "Disponível" : "Adotado"}
+          </div>
+        </div>
 
           {!isMobile && <p style={description}>{cat.descricao}</p>}
         </div>
@@ -99,7 +115,7 @@ const name = {
 };
 
 const tag = {
-  background: "#e57373",
+  background: "#a57bea",
   color: "white",
   borderRadius: "40px",
   padding: "2px 10px",
