@@ -9,7 +9,7 @@ export const createCat = async (cat: any) => {
   const formData = new FormData();
 
   formData.append("nome", cat.nome);
-  formData.append("idade", String(cat.idade));
+  formData.append("idade", cat.idade);  
   formData.append("genero", cat.genero);
   formData.append("tipoAdocao", cat.tipoAdocao);
   formData.append("descricao", cat.descricao);
@@ -31,7 +31,7 @@ export const updateCat = async (id: number, cat: any) => {
   const formData = new FormData();
 
   formData.append("nome", cat.nome);
-  formData.append("idade", String(cat.idade));
+  formData.append("idade", cat.idade);
   formData.append("genero", cat.genero);
   formData.append("tipoAdocao", cat.tipoAdocao);
   formData.append("descricao", cat.descricao);

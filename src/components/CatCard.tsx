@@ -15,6 +15,37 @@ export function CatCard({ cat, onDelete, onEdit }: any) {
     return () => window.removeEventListener("resize", checkScreen);
   }, []);
 
+const calcularIdade = (dataNascimento: string) => {
+  const nascimento = new Date(dataNascimento);
+  const hoje = new Date();
+
+  let anos = hoje.getFullYear() - nascimento.getFullYear();
+  let meses = hoje.getMonth() - nascimento.getMonth();
+
+  if (meses < 0) {
+    anos--;
+    meses += 12;
+  }
+
+  if (hoje.getDate() < nascimento.getDate()) {
+      meses--;
+      if (meses < 0) {
+        anos--;
+        meses += 12;
+      }
+    }
+
+    if (anos <= 0) {
+      return `${meses} ${meses === 1 ? "mês" : "meses"}`;
+    }
+
+    if (meses === 0) {
+      return `${anos} ${anos === 1 ? "ano" : "anos"}`;
+    }
+
+    return `${anos} ${anos === 1 ? "ano" : "anos"} e ${meses} ${meses === 1 ? "mês" : "meses"}`;
+  };
+
   return (
     <div style={card}>
       {/* ESQUERDA */}
@@ -34,7 +65,7 @@ export function CatCard({ cat, onDelete, onEdit }: any) {
             {cat.nome} {cat.genero === "MACHO" ? "♂" : "♀"}
           </h3>
 
-          <strong>{cat.idade} meses</strong>
+          <strong>{calcularIdade(cat.idade)}</strong>
 
           <div style={{ display: "flex", gap: "8px", marginTop: "5px", flexWrap: "wrap" }}>
           <div style={tag}>

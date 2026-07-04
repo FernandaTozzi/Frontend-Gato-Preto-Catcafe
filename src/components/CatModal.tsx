@@ -11,7 +11,7 @@ type Props = {
 export function CatModal({ onClose, onCreate, onUpdate, catToEdit }: Props) {
   const [form, setForm] = useState<any>({
     nome: "",
-    idade: 0,
+    idade: "",    
     genero: "",
     tipoAdocao: "",
     descricao: "",
@@ -27,7 +27,7 @@ export function CatModal({ onClose, onCreate, onUpdate, catToEdit }: Props) {
   if (catToEdit) {
     setForm({
       nome: catToEdit.nome || "",
-      idade: catToEdit.idade || 0,
+      idade: catToEdit.idade || "",
       genero: catToEdit.genero || "",
       tipoAdocao: catToEdit.tipoAdocao || "",
       descricao: catToEdit.descricao || "",
@@ -64,11 +64,16 @@ export function CatModal({ onClose, onCreate, onUpdate, catToEdit }: Props) {
       newErrors.nome = "O nome deve ter pelo menos 2 caracteres.";
     }
 
-    if (form.idade === "" || form.idade === null || form.idade < 1) {
-      newErrors.idade = "Informe uma idade válida.";
-    } else if (form.idade > 240) {
-      newErrors.idade = "A idade deve ser menor que 300 meses.";
-    }
+    if (!form.idade) {
+      newErrors.idade = "Informe a data de nascimento estimada.";
+    } else {
+      const hoje = new Date();
+      const data = new Date(form.idade);
+
+  if (data > hoje) {
+    newErrors.idade = "A data não pode ser no futuro.";
+  }
+}
 
     if (!form.genero) {
       newErrors.genero = "Selecione o gênero.";
@@ -155,14 +160,15 @@ export function CatModal({ onClose, onCreate, onUpdate, catToEdit }: Props) {
 
             <div className={styles.field}>
               <ValidationLabel
-                text="Quantos meses de idade:"
+                text="Data de nascimento estimada"
                 error={errors.idade}
               />
 
               <input
-                type="number"
+                type="date"
                 value={form.idade}
-                onChange={(e) => handleChange("idade", Number(e.target.value))}
+                max={new Date().toISOString().split("T")[0]}
+                onChange={(e) => handleChange("idade", e.target.value)}
               />
             </div>
 
