@@ -59,9 +59,7 @@ export function Sidebar() {
               Gatinhos
             </Link>
 
-            <Link
-              to="/gerenciar/atividades"
-              style={{
+            <Link to="/gerenciar/atividades" style={{
                 ...item,
                 ...(isActive("/gerenciar/atividades") ? activeItem : {}),
               }}
@@ -71,10 +69,16 @@ export function Sidebar() {
               Atividades Especiais
             </Link>
 
-            <div style={item}>
+            <Link to="/gerenciar/cardapio" style={{
+                ...item,
+                ...(isActive("/gerenciar/cardapio") ? activeItem : {}),
+                justifyContent: isOpen ? "flex-start" : "center",
+              }}
+            >
               <img src={cardapioIcon} style={icon} />
-              Cardápio
-            </div>
+
+              {isOpen && <span>Cardápio</span>}
+            </Link>
           </div>
         )}
       </div>
@@ -124,16 +128,18 @@ export function Sidebar() {
         {isOpen && <span>Atividades Especiais</span>}
       </Link>
 
-      <div
+      <Link
+        to="/gerenciar/cardapio"
         style={{
           ...item,
+          ...(isActive("/gerenciar/cardapio") ? activeItem : {}),
           justifyContent: isOpen ? "flex-start" : "center",
         }}
       >
         <img src={cardapioIcon} style={icon} />
 
         {isOpen && <span>Cardápio</span>}
-      </div>
+      </Link>
     </div>
   );
 }

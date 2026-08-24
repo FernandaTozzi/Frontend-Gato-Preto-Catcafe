@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
-import defaultImage from "../assets/atividade-especial.png";
 
-export function AtividadeCard({
-  atividade,
+import defaultImage from "../assets/cardapio.png";
+
+export function ItemCardapioCard({
+  item,
   onDelete,
   onEdit,
 }: any) {
@@ -14,6 +15,7 @@ export function AtividadeCard({
     };
 
     checkScreen();
+
     window.addEventListener("resize", checkScreen);
 
     return () =>
@@ -25,46 +27,38 @@ export function AtividadeCard({
       <div style={leftContent}>
         <img
           src={
-            atividade.imagem
-              ? `http://localhost:8080/uploads/${atividade.imagem}`
+            item.imagem
+              ? `http://localhost:8080/uploads/${item.imagem}`
               : defaultImage
           }
-          alt={atividade.titulo}
+          alt={item.nome}
           style={image}
         />
 
         <div style={info}>
           <h3 style={title}>
-            {atividade.titulo}
+            {item.nome}
           </h3>
+
+          <span style={tagCategory}>
+            {item.categoria}
+          </span>
 
           {!isMobile && (
             <p style={description}>
-              {atividade.descricao}
+              {item.descricao}
             </p>
           )}
 
-        {atividade.data && (
-          <div style={{ display: "flex", flexDirection: "column", gap: "6px", marginTop: "8px" }}>
-
-            {/* DATA TAG ROXA */}
-            <span style={tagDate}>
-              📅 {new Date(atividade.data).toLocaleDateString("pt-BR")}
-            </span>
-
-            {/* HORÁRIO TAG ROSA */}
-            <span style={tagTime}>
-            Das {atividade.horarioInicio?.slice(0, 5)} às {atividade.horarioFim?.slice(0, 5)}
-            </span>
-
-          </div>
-        )}
+          <strong style={price}>
+            R$ {Number(item.preco).toFixed(2).replace(".", ",")}
+          </strong>
         </div>
       </div>
 
       <div style={actions}>
         <button
-          onClick={() => onEdit(atividade)}
+          onClick={() => onEdit(item)}
           style={
             isMobile
               ? editButtonMobile
@@ -75,7 +69,7 @@ export function AtividadeCard({
         </button>
 
         <button
-          onClick={() => onDelete(atividade.id)}
+          onClick={() => onDelete(item.id)}
           style={deleteButton}
         >
           ✖
@@ -122,12 +116,12 @@ const title = {
 const description = {
   fontSize: "12px",
   color: "#555",
+  margin: "8px 0 6px 0",
 };
 
-const dateBox = {
-  marginTop: "8px",
+const price = {
   fontSize: "12px",
-  color: "#666",
+  color: "#555",
 };
 
 const actions = {
@@ -182,22 +176,13 @@ const deleteButton = {
   justifyContent: "center",
 };
 
-const tagDate = {
+const tagCategory = {
   display: "inline-block",
-  background: "#7c75a3", 
+  background: "#7c75a3",
   color: "white",
   padding: "4px 10px",
   borderRadius: "20px",
   fontSize: "12px",
   width: "fit-content",
-};
-
-const tagTime = {
-  display: "inline-block",
-  background: "#e573c3", 
-  color: "white",
-  padding: "4px 10px",
-  borderRadius: "20px",
-  fontSize: "12px",
-  width: "fit-content",
+  marginTop: "8px",
 };

@@ -29,6 +29,8 @@ function HomePage() {
             width: "100%",
             margin: "0",
           }}
+
+          
         />
         <section style={intro}>
           <p style={paragraph}>

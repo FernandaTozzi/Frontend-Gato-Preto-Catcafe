@@ -146,7 +146,7 @@ const name = {
 };
 
 const tag = {
-  background: "#a57bea",
+  background: "#7c75a3",
   color: "white",
   borderRadius: "40px",
   padding: "2px 10px",
