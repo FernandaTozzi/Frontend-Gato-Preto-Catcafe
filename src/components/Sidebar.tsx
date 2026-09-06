@@ -4,6 +4,7 @@ import { Link, useLocation } from "react-router-dom";
 import pawIcon from "../assets/Patinha-Gato.png";
 import cardapioIcon from "../assets/cardapio.png";
 import atividadeIcon from "../assets/atividade-especial.png";
+import contaDoacaoIcon from "../assets/conta-doacao.png";
 
 export function Sidebar() {
   const location = useLocation();
@@ -79,6 +80,16 @@ export function Sidebar() {
 
               {isOpen && <span>Cardápio</span>}
             </Link>
+            <Link to="/gerenciar/conta-doacoes" style={{
+                ...item,
+                ...(isActive("/gerenciar/conta-doacoes") ? activeItem : {}),
+                justifyContent: isOpen ? "flex-start" : "center",
+              }}
+            >
+              <img src={contaDoacaoIcon} style={icon} />
+
+              {isOpen && <span>Conta para Doações</span>}
+            </Link>
           </div>
         )}
       </div>
@@ -107,7 +118,6 @@ export function Sidebar() {
         style={{
           ...item,
           ...(isActive("/gerenciar/gatos") ? activeItem : {}),
-          justifyContent: isOpen ? "flex-start" : "center",
         }}
       >
         <img src={pawIcon} style={icon} />
@@ -120,7 +130,6 @@ export function Sidebar() {
         style={{
           ...item,
           ...(isActive("/gerenciar/atividades") ? activeItem : {}),
-          justifyContent: isOpen ? "flex-start" : "center",
         }}
       >
         <img src={atividadeIcon} style={icon} />
@@ -133,12 +142,21 @@ export function Sidebar() {
         style={{
           ...item,
           ...(isActive("/gerenciar/cardapio") ? activeItem : {}),
-          justifyContent: isOpen ? "flex-start" : "center",
         }}
       >
         <img src={cardapioIcon} style={icon} />
 
         {isOpen && <span>Cardápio</span>}
+      </Link>
+      <Link
+        to="/gerenciar/conta-doacoes"
+        style={{
+          ...item,
+          ...(isActive("/gerenciar/conta-doacoes") ? activeItem : {}),
+        }}
+      >
+        <img src={contaDoacaoIcon} style={icon} />
+        {isOpen && <span>Conta para Doações</span>}
       </Link>
     </div>
   );

@@ -4,6 +4,7 @@ import CatsPage from "./pages/CatsPage";
 import AtividadesPage from "./pages/AtividadesPage";
 import CardapioPage from "./pages/CardapioPage";
 import ManagePage from "./pages/ManagePage";
+import ContaDoacaoPage from "./pages/ContaDoacaoPage";
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
           <Route path="gatos" element={<CatsPage />} />
           <Route path="atividades" element={<AtividadesPage />} />
           <Route path="cardapio" element={<CardapioPage />} />
+          <Route path="conta-doacoes" element={<ContaDoacaoPage />} />
         </Route>
        
       </Routes>
