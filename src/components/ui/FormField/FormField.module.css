@@ -1,0 +1,87 @@
+.field {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  min-width: 0;
+}
+
+.field label {
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.field input,
+.field textarea {
+  height: 30px;
+  border-radius: 12px;
+  border: 1px solid #ddd;
+  padding: 5px 10px;
+  outline: none;
+}
+
+.field textarea {
+  height: 120px;
+  resize: none;
+}
+
+.optionsRow {
+  display: flex;
+  gap: 10px;
+}
+
+.optionBtn {
+  flex: 1;
+  height: 32px;
+  border-radius: 20px;
+  border: 1px solid #877fb8;
+  background: transparent;
+  color: #877fb8;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.optionBtn:hover {
+  background: #f3f1ff;
+}
+
+.active {
+  background: #877fb8;
+  color: white;
+}
+
+.actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.saveBtn {
+  flex: 1;
+  height: 36px;
+  border-radius: 20px;
+  border: none;
+  background: #877fb8;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.cancelBtn {
+  flex: 1;
+  height: 36px;
+  border-radius: 20px;
+  border: none;
+  background: #8d8d8d;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+
+.labelRow { display:flex; align-items:center; gap:6px; margin-bottom:6px; }
+.label { color:#555; }
+.labelError { color:#d9534f; font-weight:600; }
+.required { color:#d9534f; margin-left:3px; }
+.error { color:#d9534f; font-size:12px; }
+.columns { display:grid; grid-template-columns:1fr 1fr; gap:30px; }
+@media(max-width:640px) { .columns { grid-template-columns:1fr; } }

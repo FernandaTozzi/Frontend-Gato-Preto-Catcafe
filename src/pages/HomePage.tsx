@@ -1,4 +1,4 @@
-import Header from "../components/layout/Header";
+import Header from "../components/layout/Header/Header";
 
 import banner from "../assets/banner.png";
 import logo from "../assets/logo.png";

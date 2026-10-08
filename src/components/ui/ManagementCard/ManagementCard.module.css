@@ -1,0 +1,157 @@
+.card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  gap: 12px;
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.leftContent {
+  display: flex;
+  align-items: center;
+
+  gap: 15px;
+  min-width: 0;
+}
+
+.image {
+  width: 80px;
+  height: 80px;
+
+  min-width: 80px;
+  min-height: 80px;
+
+  border-radius: 8px;
+  object-fit: cover;
+}
+
+.info {
+  min-width: 0;
+}
+
+.title {
+  margin: 0;
+
+  color: #7c75a3;
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.subtitle {
+  margin-top: 2px;
+
+  color: #555555;
+  font-size: 14px;
+}
+
+.badges {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.badge {
+  display: inline-block;
+
+  padding: 4px 10px;
+
+  border-radius: 20px;
+
+  font-size: 12px;
+  line-height: 1;
+}
+
+.description {
+  margin-top: 8px;
+
+  color: #555555;
+  font-size: 12px;
+}
+
+.extraContent {
+  margin-top: 6px;
+
+  color: #555555;
+  font-size: 12px;
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+
+  gap: 10px;
+  flex-shrink: 0;
+}
+
+.editButton {
+  border: none;
+  border-radius: 20px;
+
+  padding: 10px 15px;
+
+  background: #7c75a3;
+  color: #ffffff;
+
+  cursor: pointer;
+}
+
+.editButtonMobile {
+  width: 35px;
+  height: 35px;
+
+  min-width: 35px;
+  min-height: 35px;
+
+  padding: 0;
+
+  border-radius: 50%;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.deleteButton {
+  width: 35px;
+  height: 35px;
+
+  min-width: 35px;
+  min-height: 35px;
+
+  padding: 0;
+
+  border: none;
+  border-radius: 50%;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: #d9534f;
+  color: #ffffff;
+
+  cursor: pointer;
+}
+
+@media (max-width: 768px) {
+  .image {
+    width: 65px;
+    height: 65px;
+
+    min-width: 65px;
+    min-height: 65px;
+  }
+
+  .title {
+    font-size: 17px;
+  }
+
+  .subtitle {
+    font-size: 13px;
+  }
+}

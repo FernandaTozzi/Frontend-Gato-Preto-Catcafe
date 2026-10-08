@@ -1,0 +1,28 @@
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal {
+  background: white;
+  width: 420px;
+  padding: 40px;
+  border-radius: 30px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.title {
+  font-size: 20px;
+  font-weight: bold;
+  color: #877fb8;
+  text-align: center;
+}
+
+.overlay { z-index: 1000; padding: 24px; overflow-y: auto; }
+.modal { max-width: 100%; max-height: calc(100dvh - 48px); overflow-y: auto; box-sizing: border-box; }
