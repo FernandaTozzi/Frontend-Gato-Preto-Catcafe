@@ -1,3 +1,4 @@
+import { useAuth } from "../../../features/auth/useAuth";
 import { useState } from "react";
 
 import { NavLink } from "react-router-dom";
@@ -7,6 +8,7 @@ import logo from "../../../assets/logo.png";
 import profile from "../../../assets/profile.png";
 
 function Header() {
+  const { user } = useAuth();
   const [menuOpen, setMenuOpen] = useState(false);
 
   const links = [
@@ -19,6 +21,7 @@ function Header() {
     { path: "/doacao", label: "Doação" },
     { path: "/perguntas", label: "Perguntas" },
     { path: "/contato", label: "Contato" },
+    ...(user?.tipoUsuario === "ADM" ? [{ path: "/gerenciar", label: "Gerenciar" }] : []),
   ];
 
   return (
@@ -41,7 +44,7 @@ function Header() {
           ))}
         </nav>
 
-        <NavLink to="/gerenciar" className={styles.profileLink}>          
+        <NavLink to={user ? "/gerenciar/perfil" : "/login"} className={styles.profileLink}>          
         <img src={profile} alt="Perfil" className={styles.profile} />
         </NavLink>
 
@@ -85,7 +88,7 @@ function Header() {
           ))}
         </nav>
 
-        <NavLink to="/gerenciar" onClick={() => setMenuOpen(false)}>
+        <NavLink to={user ? "/gerenciar/perfil" : "/login"} onClick={() => setMenuOpen(false)}>
           <img src={profile} alt="Perfil" className={styles.menuProfile} />
         </NavLink>
       </div>

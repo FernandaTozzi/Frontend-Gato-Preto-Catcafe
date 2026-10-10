@@ -76,6 +76,7 @@ function DonationAccountPage() {
 
           <input
             name="banco"
+            maxLength={100}
             value={conta.banco}
             onChange={alterarCampo}
             disabled={!editando}
@@ -91,6 +92,7 @@ function DonationAccountPage() {
 
           <input
             name="agencia"
+            maxLength={20}
             value={conta.agencia}
             onChange={alterarCampo}
             disabled={!editando}
@@ -106,6 +108,7 @@ function DonationAccountPage() {
 
           <input
             name="conta"
+            maxLength={30}
             value={conta.conta}
             onChange={alterarCampo}
             disabled={!editando}
@@ -121,6 +124,7 @@ function DonationAccountPage() {
 
           <input
             name="chavePix"
+            maxLength={254}
             value={conta.chavePix}
             onChange={alterarCampo}
             disabled={!editando}
@@ -136,6 +140,7 @@ function DonationAccountPage() {
 
           <input
             name="titular"
+            maxLength={100}
             value={conta.titular}
             onChange={alterarCampo}
             disabled={!editando}

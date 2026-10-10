@@ -1,0 +1,280 @@
+.page {
+  --purple: #887db9;
+  min-height: 100dvh;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  background: #fff8e9;
+  font-family: "Trebuchet MS", Arial, sans-serif;
+}
+
+.panel {
+  background: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 56px 32px;
+  min-width: 0;
+}
+
+.content {
+  width: 100%;
+  max-width: 360px;
+}
+
+.content h1 {
+  text-align: center;
+  color: var(--purple);
+  font-size: 34px;
+  font-weight: 800;
+  line-height: 1.1;
+  letter-spacing: -1px;
+}
+
+.subtitle {
+  text-align: center;
+  color: #939393;
+  margin: 5px 0 44px;
+  font-size: 15px;
+}
+
+.art {
+  min-height: 100dvh;
+  background: url("../../../assets/auth-desktop.svg") center / cover;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  gap: 18px;
+  width: 86%;
+  text-decoration: none;
+}
+
+.titleImage {
+  width: 100%;
+  max-width: 440px;
+}
+
+.logo {
+  width: 200px;
+  max-width: 55%;
+  border: 6px solid var(--purple);
+  border-radius: 50%;
+  background: #fff;
+}
+
+.mobileBrand,
+.mobileFooter {
+  display: none;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+}
+
+.row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.street {
+  grid-template-columns: 2.5fr 1fr;
+}
+
+.submit {
+  align-self: center;
+  width: 80%;
+  height: 48px;
+  margin-top: 26px;
+  border: none;
+  border-radius: 999px;
+  color: white;
+  background: var(--purple);
+  font: inherit;
+  font-weight: 600;
+  font-size: 15px;
+  cursor: pointer;
+}
+
+.submit:hover {
+  background: #7469a7;
+}
+
+.submit:disabled {
+  opacity: 0.6;
+  cursor: wait;
+}
+
+.switch {
+  text-align: center;
+  color: #949494;
+  font-size: 14px;
+  margin-top: 14px;
+  line-height: 1.6;
+}
+
+.switch a,
+.linkButton {
+  color: var(--purple);
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.forgot {
+  align-self: flex-end;
+  border: 0;
+  background: none;
+  color: #999;
+  font: inherit;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.loginSubmit {
+  margin-top: 58px;
+}
+
+.notice {
+  font-size: 13px;
+  line-height: 1.5;
+  padding: 10px 14px;
+  background: #f5f2fd;
+  border-radius: 12px;
+  color: #625880;
+}
+
+.alert {
+  font-size: 13px;
+  line-height: 1.5;
+  color: #bb2525;
+  padding: 10px 14px;
+  border: 1px solid #edb2b2;
+  border-radius: 12px;
+  background: #fff7f7;
+}
+
+.back {
+  display: block;
+  text-align: center;
+  margin-top: 22px;
+  font-size: 12px;
+  color: #999;
+  text-decoration: none;
+}
+
+.profileActions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 20px;
+}
+
+.profileActions a,
+.profileActions button {
+  font: inherit;
+  font-size: 13px;
+  border: 0;
+  background: none;
+  color: #7469a7;
+  cursor: pointer;
+}
+
+.content button:focus-visible,
+.content a:focus-visible {
+  outline: 3px solid #54477d;
+  outline-offset: 4px;
+}
+
+@media (max-width: 1024px) {
+  .page {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: url("../../../assets/auth-mobile.svg") center / cover;
+    min-height: 100dvh;
+  }
+
+  .mobileBrand {
+    display: flex;
+    justify-content: center;
+    padding: 18px 0 14px;
+  }
+
+  .mobileBrand img {
+    width: 82px;
+    height: 82px;
+    border: 4px solid #887db9;
+    border-radius: 50%;
+    background: white;
+  }
+
+  .panel {
+    width: 100%;
+    border-radius: 22px;
+    box-shadow: 0 4px 10px #0003;
+    padding: 30px 24px 38px;
+    flex: 1;
+    align-items: center;
+  }
+
+  .content {
+    max-width: 460px;
+  }
+
+  .content h1 {
+    font-size: 30px;
+  }
+
+  .subtitle {
+    margin-bottom: 36px;
+    font-size: 14px;
+  }
+
+  .art {
+    display: none;
+  }
+
+  .mobileFooter {
+    display: block;
+    text-align: center;
+    padding: 24px 16px;
+    min-height: 80px;
+  }
+
+  .mobileFooter a {
+    font-size: 12px;
+    color: #222;
+    text-decoration: none;
+  }
+
+  .back {
+    display: none;
+  }
+
+  .row {
+    gap: 9px;
+  }
+}
+
+@media (max-width: 360px) {
+  .panel {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+
+  .content h1 {
+    font-size: 27px;
+  }
+
+  .switch {
+    font-size: 12px;
+  }
+}

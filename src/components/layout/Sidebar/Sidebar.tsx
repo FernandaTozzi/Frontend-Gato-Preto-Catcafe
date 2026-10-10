@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 
+import profileIcon from "../../../assets/profile-icon.png";
 import pawIcon from "../../../assets/Patinha-Gato.png";
 import cardapioIcon from "../../../assets/cardapio.png";
 import atividadeIcon from "../../../assets/atividade-especial.png";
@@ -19,12 +20,7 @@ export function Sidebar() {
       const mobile = window.innerWidth <= 768;
 
       setIsMobile(mobile);
-
-      if (mobile) {
-        setIsOpen(false);
-      } else {
-        setIsOpen(true);
-      }
+      setIsOpen(!mobile);
     };
 
     checkScreen();
@@ -50,45 +46,65 @@ export function Sidebar() {
 
         {isOpen && (
           <div style={mobileMenu}>
-            <Link to="/gerenciar/gatos" style={{
+            <Link
+              to="/gerenciar/perfil"
+              aria-label="Meu Perfil"
+              style={{
+                ...item,
+                ...(isActive("/gerenciar/perfil") ? activeItem : {}),
+              }}
+              onClick={() => setIsOpen(false)}
+            >
+              <img src={profileIcon} alt="" style={icon} />
+              <span>Meu Perfil</span>
+            </Link>
+
+            <Link
+              to="/gerenciar/gatos"
+              style={{
                 ...item,
                 ...(isActive("/gerenciar/gatos") ? activeItem : {}),
               }}
               onClick={() => setIsOpen(false)}
             >
-              <img src={pawIcon} style={icon} />
-              Gatinhos
+              <img src={pawIcon} alt="" style={icon} />
+              <span>Gatinhos</span>
             </Link>
 
-            <Link to="/gerenciar/atividades" style={{
+            <Link
+              to="/gerenciar/atividades"
+              style={{
                 ...item,
                 ...(isActive("/gerenciar/atividades") ? activeItem : {}),
               }}
               onClick={() => setIsOpen(false)}
             >
-              <img src={atividadeIcon} style={icon} />
-              Atividades Especiais
+              <img src={atividadeIcon} alt="" style={icon} />
+              <span>Atividades Especiais</span>
             </Link>
 
-            <Link to="/gerenciar/cardapio" style={{
+            <Link
+              to="/gerenciar/cardapio"
+              style={{
                 ...item,
                 ...(isActive("/gerenciar/cardapio") ? activeItem : {}),
-                justifyContent: isOpen ? "flex-start" : "center",
               }}
+              onClick={() => setIsOpen(false)}
             >
-              <img src={cardapioIcon} style={icon} />
-
-              {isOpen && <span>Cardápio</span>}
+              <img src={cardapioIcon} alt="" style={icon} />
+              <span>Cardápio</span>
             </Link>
-            <Link to="/gerenciar/conta-doacoes" style={{
+
+            <Link
+              to="/gerenciar/conta-doacoes"
+              style={{
                 ...item,
                 ...(isActive("/gerenciar/conta-doacoes") ? activeItem : {}),
-                justifyContent: isOpen ? "flex-start" : "center",
               }}
+              onClick={() => setIsOpen(false)}
             >
-              <img src={contaDoacaoIcon} style={icon} />
-
-              {isOpen && <span>Conta para Doações</span>}
+              <img src={contaDoacaoIcon} alt="" style={icon} />
+              <span>Conta para Doações</span>
             </Link>
           </div>
         )}
@@ -114,48 +130,62 @@ export function Sidebar() {
       </div>
 
       <Link
+        to="/gerenciar/perfil"
+        aria-label="Meu Perfil"
+        style={{
+          ...item,
+          ...(isActive("/gerenciar/perfil") ? activeItem : {}),
+        }}
+      >
+        <img src={profileIcon} alt="" style={icon} />
+        {isOpen && <span>Meu Perfil</span>}
+      </Link>
+
+      <Link
         to="/gerenciar/gatos"
+        aria-label="Gatinhos"
         style={{
           ...item,
           ...(isActive("/gerenciar/gatos") ? activeItem : {}),
         }}
       >
-        <img src={pawIcon} style={icon} />
-
+        <img src={pawIcon} alt="" style={icon} />
         {isOpen && <span>Gatinhos</span>}
       </Link>
 
       <Link
         to="/gerenciar/atividades"
+        aria-label="Atividades Especiais"
         style={{
           ...item,
           ...(isActive("/gerenciar/atividades") ? activeItem : {}),
         }}
       >
-        <img src={atividadeIcon} style={icon} />
-
+        <img src={atividadeIcon} alt="" style={icon} />
         {isOpen && <span>Atividades Especiais</span>}
       </Link>
 
       <Link
         to="/gerenciar/cardapio"
+        aria-label="Cardápio"
         style={{
           ...item,
           ...(isActive("/gerenciar/cardapio") ? activeItem : {}),
         }}
       >
-        <img src={cardapioIcon} style={icon} />
-
+        <img src={cardapioIcon} alt="" style={icon} />
         {isOpen && <span>Cardápio</span>}
       </Link>
+
       <Link
         to="/gerenciar/conta-doacoes"
+        aria-label="Conta para Doações"
         style={{
           ...item,
           ...(isActive("/gerenciar/conta-doacoes") ? activeItem : {}),
         }}
       >
-        <img src={contaDoacaoIcon} style={icon} />
+        <img src={contaDoacaoIcon} alt="" style={icon} />
         {isOpen && <span>Conta para Doações</span>}
       </Link>
     </div>
@@ -163,6 +193,7 @@ export function Sidebar() {
 }
 
 const mobileWrapper = {
+  position: "relative" as const,
   width: "100%",
   height: "54px",
   minHeight: "54px",
@@ -191,24 +222,19 @@ const mobileMenu = {
   position: "absolute" as const,
   top: "60px",
   left: "12px",
-
   width: "230px",
-
   background: "#ffffff",
   borderRadius: "18px",
   padding: "12px",
-
   boxShadow: "0 4px 14px rgba(0,0,0,0.12)",
-
   display: "flex",
   flexDirection: "column" as const,
-
   zIndex: 999,
 };
 
 const baseSidebar = {
-  minHeight: "100vh",
-  
+  minHeight: "420px",
+  flexShrink: 0,
   padding: "20px 12px",
   borderRight: "2px solid #e0e0e0",
   display: "flex",

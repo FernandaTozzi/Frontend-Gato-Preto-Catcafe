@@ -51,7 +51,8 @@ export function MenuItemFormModal({
           <input
             style={input}
             type="text"
-            value={nome}
+            maxLength={100}
+              value={nome}
             onChange={(e) => setNome(e.target.value)}
             required
           />
@@ -60,7 +61,8 @@ export function MenuItemFormModal({
 
           <textarea
             style={textarea}
-            value={descricao}
+            maxLength={1000}
+              value={descricao}
             onChange={(e) => setDescricao(e.target.value)}
             required
           />
@@ -72,8 +74,9 @@ export function MenuItemFormModal({
             type="number"
             step="0.01"
             min="0"
+            max="999999999.99"
             value={preco}
-            onChange={(e) => setPreco(e.target.value)}
+            onChange={(e) => { if (/^\d{0,9}(\.\d{0,2})?$/.test(e.target.value)) setPreco(e.target.value); }}
             required
           />
 

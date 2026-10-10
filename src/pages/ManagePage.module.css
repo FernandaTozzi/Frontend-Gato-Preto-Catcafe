@@ -1,0 +1,9 @@
+@media(max-width:768px){
+    .container{
+        flex-direction:column
+    }
+    
+    .content{
+        padding:20px!important
+    }
+}

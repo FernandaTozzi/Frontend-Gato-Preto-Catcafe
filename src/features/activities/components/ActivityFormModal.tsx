@@ -124,6 +124,7 @@ const validateForm = () => {
               error={errors.titulo}
             />
             <input
+              maxLength={100}
               value={form.titulo}
               onChange={(e) => handleChange("titulo", e.target.value)}
             />
@@ -136,6 +137,7 @@ const validateForm = () => {
             />
 
             <textarea
+              maxLength={1000}
               value={form.descricao}
               onChange={(e) => handleChange("descricao", e.target.value)}
             />

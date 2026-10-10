@@ -117,7 +117,8 @@ export function CatFormModal({ onClose, onCreate, onUpdate, catToEdit }: Props) 
               <ValidationLabel text="Nome:" error={errors.nome} />
 
               <input
-                value={form.nome}
+                maxLength={100}
+              value={form.nome}
                 onChange={(e) => handleChange("nome", e.target.value)}
               />
             </div>
