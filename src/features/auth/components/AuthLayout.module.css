@@ -39,19 +39,70 @@
 
 .art {
   min-height: 100dvh;
-  background: url("../../../assets/auth-desktop.svg") center / cover;
+  min-width: 0;
+  background: #fff8e9 url("../../../assets/banner-login.png") center / cover no-repeat;
   display: flex;
+  flex-direction: column;
   align-items: center;
-  justify-content: center;
+  padding: 40px 24px 26px;
 }
 
 .brand {
   display: flex;
+  flex: 1;
+  justify-content: center;
   align-items: center;
   flex-direction: column;
   gap: 18px;
   width: 86%;
   text-decoration: none;
+  padding: 24px 0;
+}
+
+.socials {
+  flex-shrink: 0;
+  text-align: center;
+  color: #222;
+}
+
+.socials p {
+  margin: 0 0 4px;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.socialLinks {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 2px;
+}
+
+.socialLinks a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  color: #222;
+  border-radius: 8px;
+}
+
+.socialLinks svg {
+  display: block;
+  width: 32px;
+  height: 32px;
+}
+
+.socialLinks a:hover {
+  color: #54477d;
+}
+
+.brand:focus-visible,
+.socialLinks a:focus-visible,
+.backLink:focus-visible {
+  outline: 3px solid #54477d;
+  outline-offset: 4px;
 }
 
 .titleImage {
@@ -247,9 +298,12 @@
     text-align: center;
     padding: 24px 16px;
     min-height: 80px;
+    width: 100%;
   }
 
-  .mobileFooter a {
+  .backLink {
+    display: inline-block;
+    margin-top: 12px;
     font-size: 12px;
     color: #222;
     text-decoration: none;

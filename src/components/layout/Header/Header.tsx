@@ -1,11 +1,12 @@
-import { useAuth } from "../../../features/auth/useAuth";
 import { useState } from "react";
-
 import { NavLink } from "react-router-dom";
-import styles from "./Header.module.css";
+
+import { useAuth } from "../../../features/auth/useAuth";
 
 import logo from "../../../assets/logo.png";
 import profile from "../../../assets/profile.png";
+
+import styles from "./Header.module.css";
 
 function Header() {
   const { user } = useAuth();
@@ -21,13 +22,16 @@ function Header() {
     { path: "/doacao", label: "Doação" },
     { path: "/perguntas", label: "Perguntas" },
     { path: "/contato", label: "Contato" },
-    ...(user?.tipoUsuario === "ADM" ? [{ path: "/gerenciar", label: "Gerenciar" }] : []),
   ];
 
   return (
     <>
       <header className={styles.header}>
-        <img src={logo} alt="Logo Gato Preto Cat Café" className={styles.logo} />
+        <img
+          src={logo}
+          alt="Logo Gato Preto Cat Café"
+          className={styles.logo}
+        />
 
         <nav className={styles.nav}>
           {links.map((item) => (
@@ -36,7 +40,9 @@ function Header() {
               to={item.path}
               end={item.path === "/"}
               className={({ isActive }) =>
-                isActive ? `${styles.link} ${styles.active}` : styles.link
+                isActive
+                  ? `${styles.link} ${styles.active}`
+                  : styles.link
               }
             >
               {item.label}
@@ -44,8 +50,15 @@ function Header() {
           ))}
         </nav>
 
-        <NavLink to={user ? "/gerenciar/perfil" : "/login"} className={styles.profileLink}>          
-        <img src={profile} alt="Perfil" className={styles.profile} />
+        <NavLink
+          to={user ? "/gerenciar/perfil" : "/login"}
+          className={styles.profileLink}
+        >
+          <img
+            src={profile}
+            alt="Perfil"
+            className={styles.profile}
+          />
         </NavLink>
 
         <button
@@ -59,7 +72,11 @@ function Header() {
         </button>
       </header>
 
-      <div className={`${styles.mobileMenu} ${menuOpen ? styles.open : ""}`}>
+      <div
+        className={`${styles.mobileMenu} ${
+          menuOpen ? styles.open : ""
+        }`}
+      >
         <button
           className={styles.closeButton}
           onClick={() => setMenuOpen(false)}
@@ -68,7 +85,11 @@ function Header() {
           ×
         </button>
 
-        <img src={logo} alt="Logo Gato Preto Cat Café" className={styles.menuLogo} />
+        <img
+          src={logo}
+          alt="Logo Gato Preto Cat Café"
+          className={styles.menuLogo}
+        />
 
         <nav className={styles.mobileNav}>
           {links.map((item) => (
@@ -88,8 +109,15 @@ function Header() {
           ))}
         </nav>
 
-        <NavLink to={user ? "/gerenciar/perfil" : "/login"} onClick={() => setMenuOpen(false)}>
-          <img src={profile} alt="Perfil" className={styles.menuProfile} />
+        <NavLink
+          to={user ? "/gerenciar/perfil" : "/login"}
+          onClick={() => setMenuOpen(false)}
+        >
+          <img
+            src={profile}
+            alt="Perfil"
+            className={styles.menuProfile}
+          />
         </NavLink>
       </div>
     </>
