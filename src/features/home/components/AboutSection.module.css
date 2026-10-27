@@ -1,5 +1,6 @@
 .section {
   --about-brown: #b99b96;
+
   position: relative;
   isolation: isolate;
   overflow: hidden;
@@ -11,15 +12,17 @@
 .mobileShape {
   position: absolute;
   z-index: 0;
-  color: var(--about-brown);
+  display: block;
+  max-width: none;
   pointer-events: none;
 }
 
 .desktopShape {
-  top: 8px;
-  left: 39%;
-  width: 74%;
-  height: calc(100% - 24px);
+  top: 0;
+  left: 25%;
+  width: 90%;
+  height: 100%;
+  object-fit: fill;
 }
 
 .mobileShape {
@@ -37,22 +40,26 @@
 .plantTop {
   top: 12px;
   right: -24px;
-  width: clamp(130px, 19vw, 240px);
+  width: clamp(115px, 17vw, 215px);
 }
 
 .plantBottom {
   bottom: 0;
   left: -24px;
-  width: clamp(180px, 24vw, 320px);
+
+  /* Planta 2 menor no desktop. */
+  width: clamp(135px, 17vw, 230px);
 }
 
 .content {
   position: relative;
   z-index: 2;
+
   display: grid;
   grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.25fr);
   align-items: center;
   gap: clamp(48px, 8vw, 100px);
+
   width: 100%;
   max-width: 1120px;
   margin: 0 auto;
@@ -61,17 +68,20 @@
 .photo {
   display: block;
   width: 100%;
-  max-width: 380px;
+
+  /* Foto maior e cantos menos arredondados no desktop. */
+  max-width: 320px;
+  border-radius: 24px;
+
   aspect-ratio: 1;
   object-fit: cover;
-  border-radius: 48px;
-  transform: translateX(clamp(16px, 3vw, 48px));
+  transform: translateX(clamp(32px, 5vw, 72px));
 }
 
 .text {
   min-width: 0;
-  color: #fff;
   padding: 32px 0;
+  color: #fff;
 }
 
 .text h2 {
@@ -99,6 +109,7 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
+
   width: 44px;
   height: 44px;
   color: #fff;
@@ -120,9 +131,13 @@
   outline-offset: 3px;
 }
 
+/* Tablet e celular. */
 @media (max-width: 1024px) {
   .section {
-    padding: 36px 28px 100px;
+    /* Foto um pouco maior no mobile. */
+    --photo-size: clamp(160px, 38vw, 255px);
+
+    padding: 36px 28px 72px;
   }
 
   .desktopShape {
@@ -131,24 +146,26 @@
 
   .mobileShape {
     display: block;
-    top: calc(20px + clamp(80px, 19vw, 130px));
-    bottom: 8px;
-    left: 0;
-    width: 100%;
-    height: calc(
-      100% - 28px - clamp(80px, 19vw, 130px)
-    );
+    top: calc(36px + var(--photo-size) * 0.45);
+
+    /* Mancha deslocada um pouco para a esquerda. */
+    left: -70%;
+    width: 220%;
+
+    height: calc(100% - 36px - var(--photo-size) * 0.45);
+    object-fit: cover;
+    object-position: center;
   }
 
   .content {
     grid-template-columns: minmax(0, 1fr);
     justify-items: center;
-    gap: 24px;
+    gap: 28px;
     max-width: 520px;
   }
 
   .photo {
-    width: clamp(160px, 38vw, 260px);
+    width: var(--photo-size);
     max-width: 100%;
     border-radius: 22px;
     transform: none;
@@ -156,8 +173,8 @@
 
   .text {
     width: 100%;
+    padding: 0 0 24px;
     text-align: center;
-    padding: 0 0 32px;
   }
 
   .text h2 {
@@ -166,6 +183,7 @@
 
   .text p {
     font-size: 14px;
+    line-height: 1.5;
   }
 
   .socialLinks {
@@ -174,15 +192,18 @@
   }
 
   .plantTop {
-    top: calc(36px + clamp(100px, 27vw, 180px));
+    top: calc(36px + var(--photo-size) * 0.65);
     right: -24px;
+
+    /* Planta 1 um pouco maior no mobile. */
     width: clamp(100px, 21vw, 160px);
   }
 
   .plantBottom {
-    bottom: 0;
+    /* Valor negativo move a planta mais para baixo. */
+    bottom: -32px;
     left: -28px;
-    width: clamp(160px, 36vw, 240px);
+    width: clamp(145px, 32vw, 215px);
   }
 }
 
@@ -199,6 +220,6 @@
 
   .text p {
     font-size: 13px;
-    line-height: 1.45;
+    line-height: 1.5;
   }
 }

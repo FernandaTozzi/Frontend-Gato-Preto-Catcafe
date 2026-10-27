@@ -10,6 +10,8 @@ import title from "../assets/title.png";
 import gatoPreto from "../assets/gatoPreto.png";
 import moon from "../assets/moon.png";
 
+import styles from "./HomePage.module.css";
+
 function HomePage() {
   const { hash } = useLocation();
 
@@ -36,134 +38,62 @@ function HomePage() {
   }, [hash]);
 
   return (
-    <>
-      <Header />
+    <div className={styles.background}>
+      <div className={styles.container}>
+        <Header />
 
-      <main style={page}>
-        <section style={hero}>
-          <img
-            src={banner}
-            alt="Banner"
-            style={bannerStyle}
-          />
-
-          <div style={heroContent}>
+        <main className={styles.page}>
+          <section className={styles.hero}>
             <img
-              src={logo}
-              alt="Logo Gato Preto"
-              style={logoStyle}
+              src={banner}
+              alt="Banner"
+              className={styles.banner}
             />
 
-            <img
-              src={title}
-              alt="Gato Preto Cat Café"
-              style={titleStyle}
-            />
+            <div className={styles.heroContent}>
+              <img
+                src={logo}
+                alt="Logo Gato Preto"
+                className={styles.logo}
+              />
+
+              <img
+                src={title}
+                alt="Gato Preto Cat Café"
+                className={styles.title}
+              />
+
+              <img
+                src={gatoPreto}
+                alt="Gato preto"
+                className={styles.cat}
+              />
+            </div>
+          </section>
+
+          <hr className={styles.divider} />
+
+          <section className={styles.intro}>
+            <p className={styles.paragraph}>
+              Bem-vindo ao{" "}
+              <strong>Gato Preto Cat Café</strong>, o lugar
+              perfeito pra quem ama café, conforto e gatinhos.
+              Venha nos conhecer, e talvez sair daqui com um
+              novo melhor amigo.
+            </p>
 
             <img
-              src={gatoPreto}
-              alt="Gato preto"
-              style={catStyle}
+              src={moon}
+              alt="Fases da lua"
+              className={styles.moon}
             />
-          </div>
-        </section>
+          </section>
 
-        <hr style={divider} />
-
-        <section style={intro}>
-          <p style={paragraph}>
-            Bem-vindo ao{" "}
-            <strong style={{ color: "#000000" }}>
-              Gato Preto Cat Café
-            </strong>
-            , o lugar perfeito pra quem ama café, conforto e
-            gatinhos. Venha nos conhecer, e talvez sair daqui
-            com um novo melhor amigo.
-          </p>
-
-          <img
-            src={moon}
-            alt="Fases da lua"
-            style={moonStyle}
-          />
-        </section>
-
-        <AboutSection />
-      </main>
-    </>
+          <AboutSection />
+        </main>
+      </div>
+    </div>
   );
 }
-
-const page = {
-  minHeight: "100vh",
-  backgroundColor: "#fbf4e8",
-};
-
-const hero = {
-  position: "relative" as const,
-  width: "100%",
-  height: "430px",
-  overflow: "visible" as const,
-};
-
-const bannerStyle = {
-  width: "100%",
-  height: "100%",
-  objectFit: "cover" as const,
-  display: "block",
-};
-
-const heroContent = {
-  position: "absolute" as const,
-  top: "20px",
-  left: "50%",
-  transform: "translateX(-50%)",
-  display: "flex",
-  flexDirection: "column" as const,
-  alignItems: "center",
-  width: "100%",
-};
-
-const logoStyle = {
-  width: "80px",
-  marginBottom: "10px",
-};
-
-const titleStyle = {
-  width: "420px",
-  maxWidth: "85%",
-};
-
-const catStyle = {
-  width: "230px",
-  marginTop: "-0.1px",
-};
-
-const divider = {
-  border: "none",
-  height: "10px",
-  backgroundColor: "#CEAE94",
-  width: "100%",
-  margin: "0",
-};
-
-const intro = {
-  textAlign: "center" as const,
-  padding: "90px 20px 40px",
-};
-
-const paragraph = {
-  maxWidth: "560px",
-  margin: "0 auto",
-  color: "#a69be0",
-  fontSize: "22px",
-  fontWeight: 700,
-  lineHeight: 1.35,
-};
-
-const moonStyle = {
-  width: "130px",
-  marginTop: "25px",
-};
 
 export default HomePage;

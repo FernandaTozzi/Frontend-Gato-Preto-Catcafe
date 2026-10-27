@@ -1,0 +1,119 @@
+.background {
+  /* Largura mínima de cada faixa lateral no desktop. */
+  --lateral: 20px;
+
+  /* Largura máxima do conteúdo da página. */
+  --largura-maxima: 2400px;
+
+  min-height: 100dvh;
+  padding-inline: var(--lateral);
+  box-sizing: border-box;
+  background-color: #CCC4FF;
+}
+
+.container {
+  width: 100%;
+  max-width: var(--largura-maxima);
+  min-width: 0;
+  min-height: 100dvh;
+  margin-inline: auto;
+  background-color: #fbf4e8;
+}
+
+.page {
+  min-height: 100dvh;
+  background-color: #fbf4e8;
+}
+
+.hero {
+  position: relative;
+  width: 100%;
+  height: 430px;
+  overflow: visible;
+}
+
+.banner {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.heroContent {
+  position: absolute;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  width: 100%;
+}
+
+.logo {
+  width: 80px;
+  margin-bottom: 10px;
+}
+
+.title {
+  width: 420px;
+  max-width: 85%;
+}
+
+.cat {
+  width: 230px;
+  max-width: 85%;
+  margin-top: -0.1px;
+}
+
+.divider {
+  width: 100%;
+  height: 10px;
+  margin: 0;
+  border: none;
+  background-color: #ceae94;
+}
+
+.intro {
+  padding: 90px 20px 40px;
+  text-align: center;
+}
+
+.paragraph {
+  max-width: 560px;
+  margin: 0 auto;
+
+  color: #a69be0;
+  font-size: 22px;
+  font-weight: 700;
+  line-height: 1.35;
+}
+
+.paragraph strong {
+  color: #000;
+}
+
+.moon {
+  width: 130px;
+  margin-top: 25px;
+}
+
+/* Tablet */
+@media (max-width: 1024px) {
+  .background {
+    --lateral: 24px;
+  }
+}
+
+/* Celular */
+@media (max-width: 600px) {
+  .background {
+    --lateral: 12px;
+  }
+
+  .paragraph {
+    font-size: 19px;
+  }
+}

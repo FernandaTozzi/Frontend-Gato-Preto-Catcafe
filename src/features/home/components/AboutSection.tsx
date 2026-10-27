@@ -1,59 +1,30 @@
 import aboutImage from "../../../assets/Sobre-nos.png";
 import plantTop from "../../../assets/black-plant1.png";
 import plantBottom from "../../../assets/black-plant2.png";
+import brownShape from "../../../assets/brown.svg";
 
 import styles from "./AboutSection.module.css";
 
-export function AboutSection() {  
+export function AboutSection() {
   return (
     <section
       id="sobre-nos"
       className={styles.section}
       aria-labelledby="about-title"
     >
-      <svg
+      <img
+        src={brownShape}
+        alt=""
+        aria-hidden="true"
         className={styles.desktopShape}
-        viewBox="0 0 1000 500"
-        preserveAspectRatio="none"
-        aria-hidden="true"
-        focusable="false"
-      >
-        <path
-          d="
-            M0 190
-            C85 80 150 0 270 24
-            C440 58 520 150 710 100
-            C850 64 930 25 1000 0
-            V500
-            C910 444 875 410 790 430
-            C555 482 350 505 180 478
-            C70 460 15 402 0 355
-            Z
-          "
-          fill="currentColor"
-        />
-      </svg>
+      />
 
-      <svg
-        className={styles.mobileShape}
-        viewBox="0 0 400 700"
-        preserveAspectRatio="none"
+      <img
+        src={brownShape}
+        alt=""
         aria-hidden="true"
-        focusable="false"
-      >
-        <path
-          d="
-            M0 10
-            C80 0 140 75 240 75
-            C310 75 355 55 400 30
-            V665
-            C310 615 270 595 200 620
-            C105 651 50 685 0 685
-            Z
-          "
-          fill="currentColor"
-        />
-      </svg>
+        className={styles.mobileShape}
+      />
 
       <img
         src={plantTop}
