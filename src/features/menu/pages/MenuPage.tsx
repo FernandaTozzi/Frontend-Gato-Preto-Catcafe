@@ -1,3 +1,4 @@
+import { ManagementSearch, matchesSearch } from "../../../components/ui/ManagementSearch/ManagementSearch";
 import { ManagementPageHeader } from "../../../components/ui/ManagementPageHeader/ManagementPageHeader";
 import type { MenuItem, MenuItemForm } from "../menu.types";
 import { useEffect, useState } from "react";
@@ -13,6 +14,7 @@ import { MenuItemCard } from "../components/MenuItemCard";
 import { MenuItemFormModal } from "../components/MenuItemFormModal";
 
 function MenuPage() {
+  const [search, setSearch] = useState("");
   const [itens, setItens] = useState<MenuItem[]>([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedItem, setSelectedItem] = useState<MenuItem | null>(null);
@@ -56,8 +58,14 @@ function MenuPage() {
       {loadError && <p role="alert">{loadError}</p>}
       <ManagementPageHeader title="Gerenciar Cardápio" addLabel="Adicionar novo Item" onAdd={() => { setSelectedItem(null); setIsModalOpen(true); }} />
 
+      <ManagementSearch value={search} onChange={setSearch} label="Pesquisar itens do cardápio" />
+
+      {search.trim() && !itens.some((item) => matchesSearch(search, [item.nome, item.descricao, item.categoria, item.preco, String(item.preco).replace(".", ",")])) && !loadError && (
+        <p role="status">Nenhum resultado encontrado para esta pesquisa.</p>
+      )}
+
       <div className="list-box">
-        {itens.map((item) => (
+        {itens.filter((item) => matchesSearch(search, [item.nome, item.descricao, item.categoria, item.preco, String(item.preco).replace(".", ",")])).map((item) => (
           <MenuItemCard
             key={item.id}
             item={item}

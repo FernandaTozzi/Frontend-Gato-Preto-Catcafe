@@ -1,0 +1,53 @@
+.wrapper {
+  position: relative;
+  width: 100%;
+
+  /* Espaço acima e abaixo da barra de pesquisa. */
+  margin: 24px 0 18px;
+}
+
+.input {
+  display: block;
+  width: 100%;
+  height: 42px;
+  box-sizing: border-box;
+  padding: 0 18px 0 48px;
+  border: 1.5px solid #d5a98d;
+  border-radius: 999px;
+  background: #fff;
+  color: #413a3a;
+  font: inherit;
+  font-size: 14px;
+}
+
+.input::placeholder {
+  color: #c89d82;
+}
+
+.input:focus-visible {
+  outline: 2px solid #7c75a3;
+  outline-offset: 2px;
+}
+
+.icon {
+  position: absolute;
+  top: 50%;
+  left: 16px;
+  width: 21px;
+  height: 21px;
+  color: #c89d82;
+  transform: translateY(-50%);
+  pointer-events: none;
+}
+
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}

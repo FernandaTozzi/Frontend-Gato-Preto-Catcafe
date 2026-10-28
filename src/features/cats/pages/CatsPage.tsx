@@ -1,3 +1,4 @@
+import { ManagementSearch, matchesSearch } from "../../../components/ui/ManagementSearch/ManagementSearch";
 import { ManagementPageHeader } from "../../../components/ui/ManagementPageHeader/ManagementPageHeader";
 import type { Cat, CatForm } from "../cat.types";
 import { useEffect, useState } from "react";
@@ -13,6 +14,7 @@ import { CatFormModal } from "../components/CatFormModal";
 import { ConfirmModal } from "../../../components/ui/ConfirmModal/ConfirmModal";
 
 function CatsPage() {
+  const [search, setSearch] = useState("");
   const [cats, setCats] = useState<Cat[]>([]);
 
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -65,8 +67,14 @@ function CatsPage() {
       <ManagementPageHeader title="Gerenciar Gatinhos" addLabel="Adicionar novo Gatinho" onAdd={() => { setSelectedCat(null); setIsModalOpen(true); }} />
 
       {/* LISTA */}
+      <ManagementSearch value={search} onChange={setSearch} label="Pesquisar gatinhos" />
+
+      {search.trim() && !cats.some((cat) => matchesSearch(search, [cat.nome, cat.genero, cat.tipoAdocao, cat.descricao, cat.status, cat.idade])) && !loadError && (
+        <p role="status">Nenhum resultado encontrado para esta pesquisa.</p>
+      )}
+
       <div className="list-box">
-        {cats.map((cat) => (
+        {cats.filter((cat) => matchesSearch(search, [cat.nome, cat.genero, cat.tipoAdocao, cat.descricao, cat.status, cat.idade])).map((cat) => (
           <CatCard
             key={cat.id}
             cat={cat}

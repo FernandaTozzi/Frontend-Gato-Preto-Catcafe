@@ -8,6 +8,7 @@ import HomePage from "./pages/HomePage";
 import CatsPage from "./features/cats/pages/CatsPage";
 import ActivitiesPage from "./features/activities/pages/ActivitiesPage";
 import MenuPage from "./features/menu/pages/MenuPage";
+import PublicMenuPage from "./features/menu/pages/PublicMenuPage";
 import ManagePage from "./pages/ManagePage";
 import DonationAccountPage from "./features/donations/pages/DonationAccountPage";
 
@@ -16,6 +17,7 @@ function App() {
     <BrowserRouter><AuthProvider>
       <Routes>
         <Route path="/" element={<HomePage />} />
+        <Route path="/cardapio" element={<PublicMenuPage />} />
 
         <Route path="/login" element={<LoginPage />} />
         <Route path="/cadastro" element={<RegisterPage />} />
