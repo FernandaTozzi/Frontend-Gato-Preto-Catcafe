@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useLocation } from "react-router-dom";
 
 import { useAuth } from "../../../features/auth/useAuth";
 
@@ -10,12 +10,13 @@ import styles from "./Header.module.css";
 
 function Header() {
   const { user } = useAuth();
+  const { pathname, hash } = useLocation();
   const [menuOpen, setMenuOpen] = useState(false);
 
   const links = [
     { path: "/", label: "Início" },
-    { path: "/sobre", label: "Sobre Nós" },
-    { path: "/local", label: "Local" },
+    { path: "/#sobre-nos", label: "Sobre Nós" },
+    { path: "/#local", label: "Local" },
     { path: "/cardapio", label: "Cardápio" },
     { path: "/atividades", label: "Atividades" },
     { path: "/adocao", label: "Quero Adotar" },
@@ -23,6 +24,13 @@ function Header() {
     { path: "/perguntas", label: "Perguntas" },
     { path: "/contato", label: "Contato" },
   ];
+
+  function isCurrentLink(path: string) {
+    const [targetPath, targetHash] = path.split("#");
+    if (targetHash) return pathname === targetPath && hash === `#${targetHash}`;
+    if (path === "/") return pathname === "/" && !hash;
+    return pathname === path;
+  }
 
   return (
     <>
@@ -39,8 +47,8 @@ function Header() {
               key={item.path}
               to={item.path}
               end={item.path === "/"}
-              className={({ isActive }) =>
-                isActive
+              className={() =>
+                isCurrentLink(item.path)
                   ? `${styles.link} ${styles.active}`
                   : styles.link
               }
@@ -98,8 +106,8 @@ function Header() {
               to={item.path}
               end={item.path === "/"}
               onClick={() => setMenuOpen(false)}
-              className={({ isActive }) =>
-                isActive
+              className={() =>
+                isCurrentLink(item.path)
                   ? `${styles.mobileLink} ${styles.mobileActive}`
                   : styles.mobileLink
               }

@@ -3,6 +3,7 @@ import { useLocation } from "react-router-dom";
 
 import Header from "../components/layout/Header/Header";
 import { AboutSection } from "../features/home/components/AboutSection";
+import { LocationSection } from "../features/home/components/LocationSection";
 
 import banner from "../assets/banner.png";
 import logo from "../assets/logo.png";
@@ -21,8 +22,8 @@ function HomePage() {
         "(prefers-reduced-motion: reduce)"
       ).matches;
 
-      if (hash === "#sobre-nos") {
-        document.getElementById("sobre-nos")?.scrollIntoView({
+      if (hash === "#sobre-nos" || hash === "#local") {
+        document.getElementById(hash.slice(1))?.scrollIntoView({
           behavior: reducedMotion ? "auto" : "smooth",
           block: "start",
         });
@@ -90,6 +91,7 @@ function HomePage() {
           </section>
 
           <AboutSection />
+          <LocationSection />
         </main>
       </div>
     </div>
