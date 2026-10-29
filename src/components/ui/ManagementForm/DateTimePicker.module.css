@@ -1,0 +1,121 @@
+.picker {
+  width: 100%;
+  min-width: 0;
+}
+
+.trigger {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 44px;
+  padding: 10px 14px;
+  box-sizing: border-box;
+  border: 1px solid #d9d3e1;
+  border-radius: 16px;
+  background: #fff;
+  color: #302a36;
+  font-size: 14px;
+  cursor: pointer;
+  list-style: none;
+}
+
+.trigger::-webkit-details-marker {
+  display: none;
+}
+
+.trigger:focus-visible {
+  outline: 2px solid #887db9;
+  outline-offset: 3px;
+}
+
+.invalid {
+  border-color: #c83232;
+}
+
+.popup {
+  margin-top: 8px;
+  padding: 12px;
+  border: 1.5px solid #887db9;
+  border-radius: 18px;
+  background: #fff;
+  box-shadow: 0 4px 14px rgb(85 66 115 / 10%);
+}
+
+.monthNav {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 12px;
+}
+
+.monthNav select {
+  min-width: 0;
+  flex: 1;
+  padding: 6px 2px;
+  border: 0;
+  background: #f6f3fb;
+  color: #514567;
+  font: inherit;
+  font-size: 12px;
+}
+
+.navButton {
+  flex-shrink: 0;
+  width: 28px;
+  height: 32px;
+  border: 0;
+  border-radius: 8px;
+  background: #eee8f8;
+  color: #675591;
+  font-size: 22px;
+  cursor: pointer;
+}
+
+.days {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: 3px;
+}
+
+.weekday {
+  padding: 5px 0;
+  color: #7c7090;
+  text-align: center;
+  font-size: 11px;
+}
+
+.day,
+.time {
+  min-height: 34px;
+  padding: 4px;
+  border: 0;
+  border-radius: 9px;
+  background: #f8f6fc;
+  color: #514567;
+  font: inherit;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.day:disabled {
+  opacity: 0.35;
+  cursor: default;
+}
+
+.selected {
+  background: #887db9;
+  color: #fff;
+}
+
+.times {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 6px;
+  max-height: 190px;
+  overflow-y: auto;
+}
+
+.popup button:focus-visible {
+  outline: 2px solid #887db9;
+  outline-offset: 1px;
+}

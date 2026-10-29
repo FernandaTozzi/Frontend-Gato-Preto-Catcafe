@@ -1,266 +1,87 @@
-import type { Activity, ActivityForm } from "../activity.types";
-import { API_BASE_URL } from "../../../services/api";
-import { useEffect, useState } from "react";
-import styles from "../../../components/ui/FormField/FormField.module.css";
+import { useState } from "react";
+import type { FormEvent } from "react";
 import { Modal } from "../../../components/ui/Modal/Modal";
-import { ValidationLabel } from "../../../components/ui/FormField/ValidationLabel";
+import { Field, FormActions } from "../../../components/ui/ManagementForm/FormControls";
+import { PhotoPicker } from "../../../components/ui/ManagementForm/PhotoPicker";
+import { usePhotos } from "../../../components/ui/ManagementForm/usePhotos";
+import { photoSaveError } from "../../../components/ui/ManagementForm/photoValidation";
+import styles from "../../../components/ui/ManagementForm/ManagementForm.module.css";
+import type { Activity, ActivityForm } from "../activity.types";
+import { DatePicker, TimePicker } from "../../../components/ui/ManagementForm/DateTimePicker";
+import { timeMinutes } from "../../../components/ui/ManagementForm/dateTime.utils";
 
 type Props = {
   onClose: () => void | Promise<void>;
-  onCreate: (atividade: ActivityForm) => void | Promise<void>;
-  onUpdate?: (atividade: ActivityForm) => void | Promise<void>;
+  onCreate: (activity: ActivityForm) => void | Promise<void>;
+  onUpdate?: (activity: ActivityForm) => void | Promise<void>;
   atividadeToEdit?: Activity | null;
 };
 
-export function ActivityFormModal({
-  onClose,
-  onCreate,
-  onUpdate,
-  atividadeToEdit,
-}: Props) {
-  const [form, setForm] = useState<ActivityForm>(() => ({
+export function ActivityFormModal({ onClose, onCreate, onUpdate, atividadeToEdit }: Props) {
+  const [form, setForm] = useState(() => ({
     titulo: atividadeToEdit?.titulo || "",
     descricao: atividadeToEdit?.descricao || "",
     data: atividadeToEdit?.data || "",
-    horarioInicio: atividadeToEdit?.horarioInicio?.slice(0, 5) || "",
-    horarioFim: atividadeToEdit?.horarioFim?.slice(0, 5) || "",
-    imagem: null,
+    horarioInicio: atividadeToEdit?.horarioInicio?.slice(0, 5) || "10:00",
+    horarioFim: atividadeToEdit?.horarioFim?.slice(0, 5) || "19:00",
   }));
-  const [preview, setPreview] = useState<string | null>(() =>
-    atividadeToEdit?.imagem ? `${API_BASE_URL}/uploads/${atividadeToEdit.imagem}` : null
-  );
-  useEffect(() => {
-    if (!preview?.startsWith("blob:")) return;
-    return () => URL.revokeObjectURL(preview);
-  }, [preview]);
-  const [errors, setErrors] = useState<Partial<Record<keyof ActivityForm, string>>>({});
-
- const handleChange = <K extends keyof ActivityForm>(field: K, value: ActivityForm[K]) => {
-  setForm((prev) => ({
-    ...prev,
-    [field]: value,
-  }));
-
-  if (errors[field]) {
-    const updatedErrors = { ...errors };
-    delete updatedErrors[field];
-    setErrors(updatedErrors);
-  }
-};
-
-const validateForm = () => {
-  const newErrors: Partial<Record<keyof ActivityForm, string>> = {};
-
-  if (!form.titulo.trim()) {
-    newErrors.titulo = "Informe o título da atividade.";
-  } else if (form.titulo.trim().length < 3) {
-    newErrors.titulo = "O título deve ter pelo menos 3 caracteres.";
-  }
-
-  if (!form.descricao.trim()) {
-    newErrors.descricao = "Informe uma descrição.";
-  } else if (form.descricao.trim().length < 10) {
-    newErrors.descricao = "A descrição deve ter pelo menos 10 caracteres.";
-  } else if (form.descricao.trim().length > 500) {
-    newErrors.descricao = "A descrição deve ter no máximo 500 caracteres.";
-  }
-
-  if (!form.data) {
-    newErrors.data = "Informe a data.";
-  }
-
-  if (!form.horarioInicio) {
-    newErrors.horarioInicio = "Informe o horário de início.";
-  }
-
-  if (!form.horarioFim) {
-    newErrors.horarioFim = "Informe o horário de término.";
-  }
-
-  if (
-    form.horarioInicio &&
-    form.horarioFim &&
-    form.horarioFim <= form.horarioInicio
-  ) {
-    newErrors.horarioFim =
-      "O horário de término deve ser após o início.";
-  }
-
-  if (!atividadeToEdit && !form.imagem) {
-    newErrors.imagem = "Selecione uma imagem.";
-  }
-
-  setErrors(newErrors);
-
-  return Object.keys(newErrors).length === 0;
-};
-
+  const photos = usePhotos(atividadeToEdit?.imagem);
+  const [errors, setErrors] = useState<Record<string, string>>({});
   const [saving, setSaving] = useState(false);
   const [submitError, setSubmitError] = useState("");
 
-  const handleSubmit = async () => {
-    if (saving) return;
-    if (!validateForm()) return;
+  function change(field: keyof typeof form, value: string) {
+    setForm(previous => ({ ...previous, [field]: value }));
+    setErrors(previous => ({ ...previous, [field]: "" }));
+  }
 
+  async function submit(event: FormEvent) {
+    event.preventDefault();
+    if (saving) return;
+    const next: Record<string, string> = {};
+    if (form.titulo.trim().length < 3) next.titulo = "O título deve ter pelo menos 3 caracteres.";
+    if (form.descricao.trim().length < 10 || form.descricao.length > 500) next.descricao = "Use de 10 a 500 caracteres.";
+    if (!form.data) next.data = "Informe a data.";
+    if (!form.horarioInicio) next.horarioInicio = "Informe o horário de início.";
+    if (!form.horarioFim) next.horarioFim = "Informe o horário de término.";
+    if (timeMinutes(form.horarioFim) <= timeMinutes(form.horarioInicio)) next.horarioFim = "O término deve ser após o início. 00:00 representa o encerramento do dia.";
+    const photoError = photoSaveError(photos.photos);
+    if (photoError) next.fotos = photoError;
+    setErrors(next);
+    if (Object.keys(next).length) return;
     setSaving(true);
     setSubmitError("");
+    const payload: ActivityForm = { ...form, id: atividadeToEdit?.id, imagem: photos.photos[0]?.file || null };
     try {
-      if (atividadeToEdit && onUpdate) await onUpdate({ ...atividadeToEdit, ...form });
-      else await onCreate(form);
-      onClose();
-    } catch {
-      setSubmitError("Não foi possível salvar. Tente novamente.");
-    } finally { setSaving(false); }
-  };
-      
+      if (atividadeToEdit && onUpdate) await onUpdate(payload);
+      else await onCreate(payload);
+      await onClose();
+    } catch { setSubmitError("Não foi possível salvar. Tente novamente."); }
+    finally { setSaving(false); }
+  }
+
   return (
-    <Modal title={atividadeToEdit ? "Editar Atividade" : "Nova Atividade"} onClose={() => { if (!saving) onClose(); }} style={{ width: "720px" }}>
-
-       <div className={styles.columns}>
-        <div style={leftColumn}>
-          <div className={styles.field}>
-            <ValidationLabel
-              text="Título:"
-              error={errors.titulo}
-            />
-            <input
-              maxLength={100}
-              value={form.titulo}
-              onChange={(e) => handleChange("titulo", e.target.value)}
-            />
+    <Modal title={atividadeToEdit ? "Editar atividade especial" : "Nova atividade especial"} subtitle="Organize os detalhes, os horários e as fotos da atividade." onClose={() => { if (!saving) void onClose(); }} closeDisabled={saving}>
+      <form className={styles.form} onSubmit={submit} noValidate>
+        <fieldset disabled={saving} style={{ border: 0, padding: 0, margin: 0, minWidth: 0 }}>
+          <div className={styles.columns}>
+            <div className={styles.column}>
+              <h3 className={styles.sectionTitle}>Informações da atividade</h3>
+              <Field label="Título" error={errors.titulo}>{id => <input id={id} className={styles.input} maxLength={100} value={form.titulo} aria-invalid={!!errors.titulo} onChange={event => change("titulo", event.target.value)} />}</Field>
+              <Field label="Data" error={errors.data}>{id => <DatePicker id={id} value={form.data} invalid={!!errors.data} onChange={value => change("data", value)} />}</Field>
+              <Field label="Horário de início" error={errors.horarioInicio}>{id => <TimePicker id={id} value={form.horarioInicio} invalid={!!errors.horarioInicio} onChange={value => change("horarioInicio", value)} />}</Field>
+              <Field label="Horário de término" error={errors.horarioFim}>{id => <TimePicker id={id} value={form.horarioFim} invalid={!!errors.horarioFim} onChange={value => change("horarioFim", value)} />}</Field>
+              <p className={styles.note}>Horários de meia em meia hora. 00:00 corresponde ao fim do dia selecionado.</p>
+            </div>
+            <div className={styles.column}>
+              <Field label="Descrição" error={errors.descricao}>{id => <><textarea id={id} className={styles.textarea} maxLength={500} value={form.descricao} aria-invalid={!!errors.descricao} onChange={event => change("descricao", event.target.value)} /><span className={styles.counter}>{form.descricao.length}/500</span></>}</Field>
+              <PhotoPicker value={photos} max={4} disabled={saving} error={errors.fotos} />
+            </div>
           </div>
-
-          <div className={styles.field}>
-            <ValidationLabel
-              text="Descrição:"
-              error={errors.descricao}
-            />
-
-            <textarea
-              maxLength={1000}
-              value={form.descricao}
-              onChange={(e) => handleChange("descricao", e.target.value)}
-            />
-          </div>
-
-          <div className={styles.field}>
-            <ValidationLabel
-              text="Data:"
-              error={errors.data}
-            />
-
-            <input
-              type="date"
-              value={form.data}
-              onChange={(e) => handleChange("data", e.target.value)}
-            />
-          </div>
-        </div>
-        <div style={rightColumn}>
-          <div className={styles.field}>
-        <ValidationLabel
-          text="Horário de início:"
-          error={errors.horarioInicio}
-        />
-
-  <input
-    type="time"
-    value={form.horarioInicio}
-    onChange={(e) => handleChange("horarioInicio", e.target.value)}
-  />
-</div>
-
-<div className={styles.field}>
-  <ValidationLabel
-    text="Horário de término:"
-    error={errors.horarioFim}
-  />
-
-  <input
-    type="time"
-    value={form.horarioFim}
-    onChange={(e) => handleChange("horarioFim", e.target.value)}
-  />
-</div>
-
-<div className={styles.field}>
- <ValidationLabel
-  text="Imagem:"
-  error={errors.imagem}
-/>
-
-  <input
-    type="file"
-    accept="image/*"
-    onChange={(e) => {
-      const file = e.target.files?.[0];
-      if (!file) return;
-
-      handleChange("imagem", file);
-
-      setPreview(URL.createObjectURL(file));
-    }}
-  />
-
-  {preview && (
-    <div style={previewContainer}>
-      <img
-        src={preview}
-        alt="Prévia"
-        style={previewImage}
-      />
-    </div>
-  )}
-</div>
-        </div>
-      </div>
-       
-
-        {submitError && <p role="alert">{submitError}</p>}
-        <div className={styles.actions}>
-          <button className={styles.saveBtn} onClick={handleSubmit} disabled={saving}>
-            Salvar
-          </button>
-
-          <button className={styles.cancelBtn} onClick={onClose} disabled={saving}>
-            Cancelar
-          </button>
-        </div>
+        </fieldset>
+        {submitError && <p className={styles.error} role="alert">{submitError}</p>}
+        <FormActions saving={saving} onClose={() => { void onClose(); }} />
+      </form>
     </Modal>
   );
 }
-
-
-const leftColumn = {
-  display: "flex",
-  flexDirection: "column" as const,
-  gap: "12px",
-  minWidth: 0,
-};
-
-const rightColumn = {
-  display: "flex",
-  flexDirection: "column" as const,
-  gap: "12px",
-  minWidth: 0,
-};
-
-const previewContainer = {
-  marginTop: "15px",
-  display: "flex",
-  justifyContent: "center",
-};
-
-const previewImage = {
-  width: "100px",
-  height: "100px",
-  objectFit: "cover" as const,
-  borderRadius: "12px",
-  border: "2px solid #ddd",
-};
-
-
-
-
-
-

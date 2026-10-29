@@ -1,9 +1,14 @@
-import type { Cat, CatForm } from "../cat.types";
-import { API_BASE_URL } from "../../../services/api";
-import { useEffect, useState } from "react";
-import styles from "../../../components/ui/FormField/FormField.module.css";
+import { useState } from "react";
+import type { FormEvent } from "react";
 import { Modal } from "../../../components/ui/Modal/Modal";
-import { ValidationLabel } from "../../../components/ui/FormField/ValidationLabel";
+import { Field, Options, FormActions } from "../../../components/ui/ManagementForm/FormControls";
+import { PhotoPicker } from "../../../components/ui/ManagementForm/PhotoPicker";
+import { usePhotos } from "../../../components/ui/ManagementForm/usePhotos";
+import { photoSaveError } from "../../../components/ui/ManagementForm/photoValidation";
+import styles from "../../../components/ui/ManagementForm/ManagementForm.module.css";
+import type { Cat, CatForm } from "../cat.types";
+import { DatePicker } from "../../../components/ui/ManagementForm/DateTimePicker";
+import { todayIso } from "../../../components/ui/ManagementForm/dateTime.utils";
 
 type Props = {
   onClose: () => void | Promise<void>;
@@ -13,303 +18,72 @@ type Props = {
 };
 
 export function CatFormModal({ onClose, onCreate, onUpdate, catToEdit }: Props) {
-  const [form, setForm] = useState<CatForm>(() => ({
+  const [form, setForm] = useState(() => ({
     nome: catToEdit?.nome || "",
     idade: catToEdit?.idade || "",
     genero: catToEdit?.genero || "",
     tipoAdocao: catToEdit?.tipoAdocao || "",
-    descricao: catToEdit?.descricao || "",
     status: catToEdit?.status || "",
-    foto: null,
+    descricao: catToEdit?.descricao || "",
   }));
-  const [preview, setPreview] = useState<string | null>(() =>
-    catToEdit?.foto ? `${API_BASE_URL}/uploads/${catToEdit.foto}` : null
-  );
-  useEffect(() => {
-    if (!preview?.startsWith("blob:")) return;
-    return () => URL.revokeObjectURL(preview);
-  }, [preview]);
-  const [errors, setErrors] = useState<Partial<Record<keyof CatForm, string>>>({});
-
-  const handleChange = <K extends keyof CatForm>(field: K, value: CatForm[K]) => {
-    setForm({ ...form, [field]: value });
-
-    if (errors[field]) {
-      const updatedErrors = { ...errors };
-      delete updatedErrors[field];
-      setErrors(updatedErrors);
-    }
-  };
-
-  const validateForm = () => {
-    const newErrors: Partial<Record<keyof CatForm, string>> = {};
-
-    if (!form.nome.trim()) {
-      newErrors.nome = "Informe o nome do gatinho.";
-    } else if (form.nome.trim().length < 2) {
-      newErrors.nome = "O nome deve ter pelo menos 2 caracteres.";
-    }
-
-    if (!form.idade) {
-      newErrors.idade = "Informe a data de nascimento estimada.";
-    } else {
-      const hoje = new Date();
-      const data = new Date(form.idade);
-
-  if (data > hoje) {
-    newErrors.idade = "A data não pode ser no futuro.";
-  }
-}
-
-    if (!form.genero) {
-      newErrors.genero = "Selecione o gênero.";
-    }
-
-    if (!form.tipoAdocao) {
-      newErrors.tipoAdocao = "Selecione o tipo de adoção.";
-    }
-
-    if (!form.status) {
-      newErrors.status = "Selecione o status.";
-    }
-
-    if (!form.descricao.trim()) {
-      newErrors.descricao = "Informe uma descrição.";
-    } else if (form.descricao.trim().length < 10) {
-      newErrors.descricao = "A descrição deve ter pelo menos 10 caracteres.";
-    } else if (form.descricao.trim().length > 200) {
-      newErrors.descricao = "A descrição deve ter no máximo 200 caracteres.";
-    }
-
-    if (!catToEdit && !form.foto) {
-      newErrors.foto = "Selecione uma foto do gatinho.";
-    }
-
-    setErrors(newErrors);
-    return Object.keys(newErrors).length === 0;
-  };
-
+  const photos = usePhotos(catToEdit?.foto);
+  const [errors, setErrors] = useState<Record<string, string>>({});
   const [saving, setSaving] = useState(false);
   const [submitError, setSubmitError] = useState("");
 
-  const handleSubmit = async () => {
-    if (saving) return;
-    if (!validateForm()) return;
+  function change(field: keyof typeof form, value: string) {
+    setForm(previous => ({ ...previous, [field]: value }));
+    setErrors(previous => ({ ...previous, [field]: "" }));
+  }
 
+  async function submit(event: FormEvent) {
+    event.preventDefault();
+    if (saving) return;
+    const next: Record<string, string> = {};
+    if (form.nome.trim().length < 2) next.nome = "O nome deve ter pelo menos 2 caracteres.";
+    if (!form.idade) next.idade = "Informe a data de nascimento estimada.";
+    else if (form.idade > todayIso()) next.idade = "A data não pode ser no futuro.";
+    if (!form.genero) next.genero = "Selecione o gênero.";
+    if (!form.tipoAdocao) next.tipoAdocao = "Selecione o tipo de adoção.";
+    if (!form.status) next.status = "Selecione o status.";
+    if (form.descricao.trim().length < 10 || form.descricao.length > 200) next.descricao = "Use de 10 a 200 caracteres.";
+    const photoError = photoSaveError(photos.photos);
+    if (photoError) next.fotos = photoError;
+    setErrors(next);
+    if (Object.keys(next).length) return;
     setSaving(true);
     setSubmitError("");
+    const payload: CatForm = { ...form, id: catToEdit?.id, foto: photos.photos[0]?.file || null };
     try {
-      if (catToEdit && onUpdate) await onUpdate({ ...catToEdit, ...form });
-      else await onCreate(form);
-      onClose();
-    } catch {
-      setSubmitError("Não foi possível salvar. Tente novamente.");
-    } finally { setSaving(false); }
-  };
+      if (catToEdit && onUpdate) await onUpdate(payload);
+      else await onCreate(payload);
+      await onClose();
+    } catch { setSubmitError("Não foi possível salvar. Tente novamente."); }
+    finally { setSaving(false); }
+  }
 
   return (
-    <Modal title={catToEdit ? "Editar Gatinho" : "Novo Gatinho"} onClose={() => { if (!saving) onClose(); }} style={{ width: "600px" }}>
-
-
-        <div className={styles.columns}>
-          <div style={leftColumn}>
-            <div className={styles.field}>
-              <ValidationLabel text="Nome:" error={errors.nome} />
-
-              <input
-                maxLength={100}
-              value={form.nome}
-                onChange={(e) => handleChange("nome", e.target.value)}
-              />
+    <Modal title={catToEdit ? "Editar gatinho" : "Novo gatinho"} subtitle="Preencha as informações e selecione as fotos do gatinho." onClose={() => { if (!saving) void onClose(); }} closeDisabled={saving}>
+      <form className={styles.form} onSubmit={submit} noValidate>
+        <fieldset disabled={saving} style={{ border: 0, padding: 0, margin: 0, minWidth: 0 }}>
+          <div className={styles.columns}>
+            <div className={styles.column}>
+              <h3 className={styles.sectionTitle}>Informações do gatinho</h3>
+              <Field label="Nome" error={errors.nome}>{id => <input id={id} className={styles.input} maxLength={100} value={form.nome} aria-invalid={!!errors.nome} onChange={event => change("nome", event.target.value)} />}</Field>
+              <Field label="Data de nascimento estimada" error={errors.idade}>{id => <DatePicker id={id} value={form.idade} max={todayIso()} invalid={!!errors.idade} onChange={value => change("idade", value)} />}</Field>
+              <Options label="Gênero" value={form.genero} options={[["MACHO", "Macho"], ["FEMEA", "Fêmea"]]} onChange={value => change("genero", value)} error={errors.genero} />
+              <Options label="Tipo de adoção" value={form.tipoAdocao} options={[["SIMPLES", "Simples"], ["CONJUNTA", "Conjunta"]]} onChange={value => change("tipoAdocao", value)} error={errors.tipoAdocao} />
+              <Options label="Status" value={form.status} options={[["DISPONIVEL", "Disponível"], ["ADOTADO", "Adotado"]]} onChange={value => change("status", value)} error={errors.status} />
             </div>
-
-            <div className={styles.field}>
-              <ValidationLabel
-                text="Data de nascimento estimada"
-                error={errors.idade}
-              />
-
-              <input
-                type="date"
-                value={form.idade}
-                max={new Date().toISOString().split("T")[0]}
-                onChange={(e) => handleChange("idade", e.target.value)}
-              />
-            </div>
-
-            <div className={styles.field}>  
-              <ValidationLabel text="Gênero:" error={errors.genero} />
-
-              <div className={styles.optionsRow}>
-                <button
-                  type="button"
-                  className={`${styles.optionBtn} ${
-                    form.genero === "MACHO" ? styles.active : ""
-                  }`}
-                  onClick={() => handleChange("genero", "MACHO")}
-                >
-                  Macho
-                </button>
-
-                <button
-                  type="button"
-                  className={`${styles.optionBtn} ${
-                    form.genero === "FEMEA" ? styles.active : ""
-                  }`}
-                  onClick={() => handleChange("genero", "FEMEA")}
-                >
-                  Fêmea
-                </button>
-              </div>
-            </div>
-
-            <div className={styles.field}>
-              <ValidationLabel
-                text="Tipo de Adoção:"
-                error={errors.tipoAdocao}
-              />
-
-              <div className={styles.optionsRow}>
-                <button
-                  type="button"
-                  className={`${styles.optionBtn} ${
-                    form.tipoAdocao === "SIMPLES" ? styles.active : ""
-                  }`}
-                  onClick={() => handleChange("tipoAdocao", "SIMPLES")}
-                >
-                  Simples
-                </button>
-
-                <button
-                  type="button"
-                  className={`${styles.optionBtn} ${
-                    form.tipoAdocao === "CONJUNTA" ? styles.active : ""
-                  }`}
-                  onClick={() => handleChange("tipoAdocao", "CONJUNTA")}
-                >
-                  Conjunta
-                </button>
-              </div>
-            </div>
-
-            <div className={styles.field}>
-              <ValidationLabel text="Status:" error={errors.status} />
-
-              <div className={styles.optionsRow}>
-                <button
-                  type="button"
-                  className={`${styles.optionBtn} ${
-                    form.status === "DISPONIVEL" ? styles.active : ""
-                  }`}
-                  onClick={() => handleChange("status", "DISPONIVEL")}
-                >
-                  Disponível
-                </button>
-
-                <button
-                  type="button"
-                  className={`${styles.optionBtn} ${
-                    form.status === "ADOTADO" ? styles.active : ""
-                  }`}
-                  onClick={() => handleChange("status", "ADOTADO")}
-                >
-                  Adotado
-                </button>
-              </div>
+            <div className={styles.column}>
+              <Field label="Descrição" error={errors.descricao}>{id => <><textarea id={id} className={styles.textarea} maxLength={200} value={form.descricao} aria-invalid={!!errors.descricao} onChange={event => change("descricao", event.target.value)} /><span className={styles.counter}>{form.descricao.length}/200</span></>}</Field>
+              <PhotoPicker value={photos} max={4} disabled={saving} error={errors.fotos} />
             </div>
           </div>
-
-          <div style={rightColumn}>
-            <div className={styles.field}>
-              <ValidationLabel text="Descrição:" error={errors.descricao} />
-
-              <textarea
-                maxLength={200}
-                value={form.descricao}
-                onChange={(e) => handleChange("descricao", e.target.value)}
-              />
-
-              <div style={counterText}>{form.descricao.length}/200</div>
-            </div>
-
-            <div className={styles.field}>
-              <ValidationLabel text="Foto:" error={errors.foto} />
-
-              <input
-                type="file"
-                accept="image/*"
-                onChange={(e) => {
-                  const file = e.target.files?.[0];
-                  if (!file) return;
-
-                  handleChange("foto", file);
-
-                  const imageUrl = URL.createObjectURL(file);
-                  setPreview(imageUrl);
-                }}
-              />
-              {preview && (
-              <div style={previewContainer}>
-                <img
-                  src={preview}
-                  alt="Prévia da foto"
-                  style={previewImage}
-                />
-              </div>
-            )}
-            </div>
-          </div>
-        </div>
-
-        {submitError && <p role="alert">{submitError}</p>}
-        <div className={styles.actions}>
-          <button className={styles.saveBtn} onClick={handleSubmit} disabled={saving}>
-            Salvar
-          </button>
-
-          <button className={styles.cancelBtn} onClick={onClose} disabled={saving}>
-            Cancelar
-          </button>
-        </div>
+        </fieldset>
+        {submitError && <p className={styles.error} role="alert">{submitError}</p>}
+        <FormActions saving={saving} onClose={() => { void onClose(); }} />
+      </form>
     </Modal>
   );
 }
-
-const leftColumn = {
-  gap: "12px",
-  display: "flex",
-  flexDirection: "column" as const,
-};
-
-const rightColumn = {
-  gap: "12px",
-  display: "flex",
-  flexDirection: "column" as const,
-};
-
-
-
-
-
-
-
-const counterText = {
-  textAlign: "right" as const,
-  fontSize: "12px",
-  color: "#666",
-  marginTop: "4px",
-};
-
-const previewContainer = {
-  marginTop: "15px",
-  display: "flex",
-  justifyContent: "center",
-};
-
-const previewImage = {
-  width: "100px",
-  height: "100px",
-  objectFit: "cover" as const,
-  borderRadius: "10px",
-  border: "2px solid #ddd",
-};

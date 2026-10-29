@@ -1,10 +1,11 @@
 import { useEffect, useId, useRef } from "react";
 import type { ReactNode, CSSProperties } from "react";
+import { createPortal } from "react-dom";
 import styles from "./Modal.module.css";
 
-type Props = { children: ReactNode; title: string; onClose: () => void; style?: CSSProperties; titleStyle?: CSSProperties };
+type Props = { children: ReactNode; title: string; onClose: () => void; style?: CSSProperties; titleStyle?: CSSProperties; subtitle?: string; closeDisabled?: boolean };
 
-export function Modal({ children, title, onClose, style, titleStyle }: Props) {
+export function Modal({ children, title, onClose, style, titleStyle, subtitle, closeDisabled = false }: Props) {
   const titleId = useId();
   const dialog = useRef<HTMLDivElement>(null);
   useEffect(() => {
@@ -14,7 +15,7 @@ export function Modal({ children, title, onClose, style, titleStyle }: Props) {
     dialog.current?.focus();
     return () => { document.body.style.overflow = overflow; previous?.focus(); };
   }, []);
-  return (
+  return createPortal(
     <div className={styles.overlay}>
       <div ref={dialog} tabIndex={-1} className={styles.modal} style={style}
         role="dialog" aria-modal="true" aria-labelledby={titleId}
@@ -32,9 +33,12 @@ export function Modal({ children, title, onClose, style, titleStyle }: Props) {
             event.preventDefault(); first.focus();
           }
         }}>
+        <button type="button" className={styles.close} onClick={onClose} disabled={closeDisabled} aria-label="Fechar janela">×</button>
         <h2 id={titleId} className={styles.title} style={titleStyle}>{title}</h2>
+        {subtitle && <p className={styles.subtitle}>{subtitle}</p>}
         {children}
       </div>
-    </div>
+    </div>,
+    document.body
   );
 }

@@ -1,219 +1,76 @@
-import { Modal } from "../../../components/ui/Modal/Modal";
-import type { MenuItem, MenuItemForm } from "../menu.types";
 import { useState } from "react";
+import type { FormEvent } from "react";
+import { Modal } from "../../../components/ui/Modal/Modal";
+import { Field, Options, FormActions } from "../../../components/ui/ManagementForm/FormControls";
+import { PhotoPicker } from "../../../components/ui/ManagementForm/PhotoPicker";
+import { usePhotos } from "../../../components/ui/ManagementForm/usePhotos";
+import styles from "../../../components/ui/ManagementForm/ManagementForm.module.css";
+import type { MenuItem, MenuItemForm } from "../menu.types";
 
-export function MenuItemFormModal({
-  itemToEdit,
-  onClose,
-  onCreate,
-  onUpdate,
-}: { itemToEdit?: MenuItem | null; onClose: () => void; onCreate: (item: MenuItemForm) => void | Promise<void>; onUpdate: (item: MenuItemForm) => void | Promise<void> }) {
-  const [nome, setNome] = useState(itemToEdit?.nome || "");
-  const [descricao, setDescricao] = useState(itemToEdit?.descricao || "");
-  const [preco, setPreco] = useState(itemToEdit?.preco?.toString() || "");
-  const [categoria, setCategoria] = useState(itemToEdit?.categoria || "");
-  const [imagem, setImagem] = useState<File | null>(null);
+const categories = ["Bebidas Geladas", "Bebidas Quentes", "Salgados", "Doces", "Prato Feito"];
 
+type Props = {
+  itemToEdit?: MenuItem | null;
+  onClose: () => void;
+  onCreate: (item: MenuItemForm) => void | Promise<void>;
+  onUpdate: (item: MenuItemForm) => void | Promise<void>;
+};
 
+export function MenuItemFormModal({ itemToEdit, onClose, onCreate, onUpdate }: Props) {
+  const [form, setForm] = useState(() => ({ nome: itemToEdit?.nome || "", descricao: itemToEdit?.descricao || "", preco: itemToEdit?.preco?.toString() || "", categoria: itemToEdit?.categoria || "" }));
+  const photos = usePhotos(itemToEdit?.imagem);
+  const [errors, setErrors] = useState<Record<string, string>>({});
   const [saving, setSaving] = useState(false);
   const [submitError, setSubmitError] = useState("");
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  function change(field: keyof typeof form, value: string) {
+    setForm(previous => ({ ...previous, [field]: value }));
+    setErrors(previous => ({ ...previous, [field]: "" }));
+  }
+
+  async function submit(event: FormEvent) {
+    event.preventDefault();
     if (saving) return;
-
-    const item = {
-      id: itemToEdit?.id,
-      nome,
-      descricao,
-      preco,
-      categoria,
-      imagem,
-    };
-
+    const next: Record<string, string> = {};
+    if (!form.nome.trim()) next.nome = "Informe o nome do item.";
+    if (!form.descricao.trim()) next.descricao = "Informe a descrição.";
+    if (!form.preco || !Number.isFinite(Number(form.preco)) || Number(form.preco) < 0) next.preco = "Informe um preço válido.";
+    if (!categories.includes(form.categoria)) next.categoria = "Selecione uma categoria.";
+    // O cardápio mantém a foto opcional, como no formulário anterior.
+    if (itemToEdit?.imagem && photos.photos.length === 0) next.imagem = "Adicione uma foto substituta para salvar a alteração.";
+    setErrors(next);
+    if (Object.keys(next).length) return;
     setSaving(true);
     setSubmitError("");
+    const payload: MenuItemForm = { ...form, id: itemToEdit?.id, imagem: photos.photos[0]?.file || null };
     try {
-      if (itemToEdit) await onUpdate(item);
-      else await onCreate(item);
+      if (itemToEdit) await onUpdate(payload);
+      else await onCreate(payload);
       onClose();
     } catch { setSubmitError("Não foi possível salvar. Tente novamente."); }
     finally { setSaving(false); }
-  };
+  }
 
   return (
-    <Modal title={itemToEdit ? "Editar Item do Cardápio" : "Adicionar Item ao Cardápio"} onClose={() => { if (!saving) onClose(); }} style={modal} titleStyle={title}>
-
-
-        <form onSubmit={handleSubmit}>
-          <label style={label}>Nome</label>
-
-          <input
-            style={input}
-            type="text"
-            maxLength={100}
-              value={nome}
-            onChange={(e) => setNome(e.target.value)}
-            required
-          />
-
-          <label style={label}>Descrição</label>
-
-          <textarea
-            style={textarea}
-            maxLength={1000}
-              value={descricao}
-            onChange={(e) => setDescricao(e.target.value)}
-            required
-          />
-
-          <label style={label}>Preço</label>
-
-          <input
-            style={input}
-            type="number"
-            step="0.01"
-            min="0"
-            max="999999999.99"
-            value={preco}
-            onChange={(e) => { if (/^\d{0,9}(\.\d{0,2})?$/.test(e.target.value)) setPreco(e.target.value); }}
-            required
-          />
-
-          <label style={label}>Categoria</label>
-
-          <div style={categoryContainer}>
-        {[
-            "Bebidas Geladas",
-            "Bebidas Quentes",
-            "Salgados",
-            "Doces",
-            "Prato Feito",
-        ].map((opcao) => (
-            <button
-            key={opcao}
-            type="button"
-            onClick={() => setCategoria(opcao)}
-            style={{
-                ...categoryButton,
-                ...(categoria === opcao ? categoryButtonSelected : {}),
-            }}
-            >
-            {opcao}
-            </button>
-        ))}
+    <Modal title={itemToEdit ? "Editar item do cardápio" : "Novo item do cardápio"} subtitle="Preencha as informações e selecione a foto do item." onClose={() => { if (!saving) onClose(); }} closeDisabled={saving}>
+      <form className={styles.form} onSubmit={submit} noValidate>
+        <fieldset disabled={saving} style={{ border: 0, padding: 0, margin: 0, minWidth: 0 }}>
+          <div className={styles.columns}>
+            <div className={styles.column}>
+              <h3 className={styles.sectionTitle}>Informações do item</h3>
+              <Field label="Nome" error={errors.nome}>{id => <input id={id} className={styles.input} maxLength={100} value={form.nome} aria-invalid={!!errors.nome} onChange={event => change("nome", event.target.value)} />}</Field>
+              <Field label="Preço (R$)" error={errors.preco}>{id => <input id={id} className={styles.input} type="number" inputMode="decimal" min="0" max="999999999.99" step="0.01" value={form.preco} aria-invalid={!!errors.preco} onChange={event => { if (/^\d{0,9}(\.\d{0,2})?$/.test(event.target.value)) change("preco", event.target.value); }} />}</Field>
+              <Options label="Categoria" value={form.categoria} options={categories.map(value => [value, value])} onChange={value => change("categoria", value)} error={errors.categoria} />
+            </div>
+            <div className={styles.column}>
+              <Field label="Descrição" error={errors.descricao}>{id => <><textarea id={id} className={styles.textarea} maxLength={1000} value={form.descricao} aria-invalid={!!errors.descricao} onChange={event => change("descricao", event.target.value)} /><span className={styles.counter}>{form.descricao.length}/1000</span></>}</Field>
+              <PhotoPicker value={photos} max={1} disabled={saving} error={errors.imagem} />
+            </div>
           </div>
-          
-          <label style={label}>Imagem</label>
-
-          <input
-            style={input}
-            type="file"
-            accept="image/*"
-            onChange={(e) =>
-              setImagem(e.target.files?.[0] || null)
-            }
-          />
-
-          {submitError && <p role="alert">{submitError}</p>}
-          <div style={buttons}>
-            <button
-              type="button"
-              onClick={onClose}
-              disabled={saving}
-              style={cancelButton}
-            >
-              Cancelar
-            </button>
-
-            <button
-              type="submit"
-              disabled={saving}
-              style={saveButton}
-            >
-              {itemToEdit ? "Salvar" : "Adicionar"}
-            </button>
-          </div>
-        </form>
+        </fieldset>
+        {submitError && <p className={styles.error} role="alert">{submitError}</p>}
+        <FormActions saving={saving} onClose={onClose} />
+      </form>
     </Modal>
   );
 }
-
-
-const modal = {
-  background: "white",
-  width: "450px",
-  maxWidth: "90%",
-  borderRadius: "20px",
-  padding: "30px",
-};
-
-const title = {
-  color: "#7c75a3",
-  marginTop: 0,
-};
-
-const label = {
-  display: "block",
-  marginTop: "12px",
-  marginBottom: "5px",
-  color: "#666",
-};
-
-const input = {
-  width: "100%",
-  padding: "10px",
-  borderRadius: "10px",
-  border: "1px solid #ccc",
-  boxSizing: "border-box" as const,
-};
-
-const textarea = {
-  ...input,
-  minHeight: "80px",
-  resize: "vertical" as const,
-};
-
-const buttons = {
-  display: "flex",
-  justifyContent: "flex-end",
-  gap: "10px",
-  marginTop: "25px",
-};
-
-const cancelButton = {
-  border: "none",
-  borderRadius: "20px",
-  padding: "10px 20px",
-  cursor: "pointer",
-};
-
-const saveButton = {
-  background: "#7c75a3",
-  color: "white",
-  border: "none",
-  borderRadius: "20px",
-  padding: "10px 20px",
-  cursor: "pointer",
-};
-
-const categoryContainer = {
-  display: "flex",
-  flexWrap: "wrap" as const,
-  gap: "8px",
-};
-
-const categoryButton = {
-  background: "#fff",
-  color: "#7c75a3",
-  border: "1px solid #7c75a3",
-  borderRadius: "20px",
-  padding: "8px 14px",
-  cursor: "pointer",
-  transition: "0.2s",
-};
-
-const categoryButtonSelected = {
-  background: "#7c75a3",
-  color: "#fff",
-};
