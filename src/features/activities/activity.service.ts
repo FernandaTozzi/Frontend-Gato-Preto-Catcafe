@@ -16,7 +16,11 @@ export const createActivity = async (atividade: ActivityForm) => {
   formData.append("horarioInicio", atividade.horarioInicio);
   formData.append("horarioFim", atividade.horarioFim);
 
-  if (atividade.imagem instanceof File) {
+  if (atividade.imagens) {
+    formData.append("atualizarFotos", "true");
+    atividade.imagens.forEach(file => formData.append("imagens", file));
+    (atividade.imagensMantidas || []).forEach(path => formData.append("imagensMantidas", path));
+  } else if (atividade.imagem instanceof File) {
     formData.append("imagem", atividade.imagem);
   }
 
@@ -37,7 +41,11 @@ export const updateActivity = async (id: number, atividade: ActivityForm) => {
   formData.append("horarioInicio", atividade.horarioInicio);
   formData.append("horarioFim", atividade.horarioFim);
 
-  if (atividade.imagem instanceof File) {
+  if (atividade.imagens) {
+    formData.append("atualizarFotos", "true");
+    atividade.imagens.forEach(file => formData.append("imagens", file));
+    (atividade.imagensMantidas || []).forEach(path => formData.append("imagensMantidas", path));
+  } else if (atividade.imagem instanceof File) {
     formData.append("imagem", atividade.imagem);
   }
 

@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { ApiError } from "../../../services/api";
 import type { FormEvent } from "react";
 import { Modal } from "../../../components/ui/Modal/Modal";
 import { Field, FormActions } from "../../../components/ui/ManagementForm/FormControls";
@@ -25,7 +26,7 @@ export function ActivityFormModal({ onClose, onCreate, onUpdate, atividadeToEdit
     horarioInicio: atividadeToEdit?.horarioInicio?.slice(0, 5) || "10:00",
     horarioFim: atividadeToEdit?.horarioFim?.slice(0, 5) || "19:00",
   }));
-  const photos = usePhotos(atividadeToEdit?.imagem);
+  const photos = usePhotos(atividadeToEdit?.imagens?.length ? atividadeToEdit.imagens : atividadeToEdit?.imagem);
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [saving, setSaving] = useState(false);
   const [submitError, setSubmitError] = useState("");
@@ -51,12 +52,19 @@ export function ActivityFormModal({ onClose, onCreate, onUpdate, atividadeToEdit
     if (Object.keys(next).length) return;
     setSaving(true);
     setSubmitError("");
-    const payload: ActivityForm = { ...form, id: atividadeToEdit?.id, imagem: photos.photos[0]?.file || null };
+    const payload: ActivityForm = { ...form, id: atividadeToEdit?.id, imagem: null, imagens: photos.photos.flatMap(photo => photo.file ? [photo.file] : []), imagensMantidas: photos.photos.flatMap(photo => photo.existing ? [photo.existing] : []) };
     try {
       if (atividadeToEdit && onUpdate) await onUpdate(payload);
       else await onCreate(payload);
       await onClose();
-    } catch { setSubmitError("Não foi possível salvar. Tente novamente."); }
+    } catch (error) {
+      if (error instanceof ApiError) {
+        setErrors(error.fields);
+        setSubmitError(error.message);
+      } else {
+        setSubmitError("Não foi possível salvar. Tente novamente.");
+      }
+    }
     finally { setSaving(false); }
   }
 

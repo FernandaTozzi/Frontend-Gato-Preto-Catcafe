@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { ApiError } from "../../../services/api";
 import type { FormEvent } from "react";
 import { Modal } from "../../../components/ui/Modal/Modal";
 import { Field, Options, FormActions } from "../../../components/ui/ManagementForm/FormControls";
@@ -26,7 +27,7 @@ export function CatFormModal({ onClose, onCreate, onUpdate, catToEdit }: Props) 
     status: catToEdit?.status || "",
     descricao: catToEdit?.descricao || "",
   }));
-  const photos = usePhotos(catToEdit?.foto);
+  const photos = usePhotos(catToEdit?.fotos?.length ? catToEdit.fotos : catToEdit?.foto);
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [saving, setSaving] = useState(false);
   const [submitError, setSubmitError] = useState("");
@@ -53,12 +54,19 @@ export function CatFormModal({ onClose, onCreate, onUpdate, catToEdit }: Props) 
     if (Object.keys(next).length) return;
     setSaving(true);
     setSubmitError("");
-    const payload: CatForm = { ...form, id: catToEdit?.id, foto: photos.photos[0]?.file || null };
+    const payload: CatForm = { ...form, id: catToEdit?.id, foto: null, fotos: photos.photos.flatMap(photo => photo.file ? [photo.file] : []), fotosMantidas: photos.photos.flatMap(photo => photo.existing ? [photo.existing] : []) };
     try {
       if (catToEdit && onUpdate) await onUpdate(payload);
       else await onCreate(payload);
       await onClose();
-    } catch { setSubmitError("Não foi possível salvar. Tente novamente."); }
+    } catch (error) {
+      if (error instanceof ApiError) {
+        setErrors(error.fields);
+        setSubmitError(error.message);
+      } else {
+        setSubmitError("Não foi possível salvar. Tente novamente.");
+      }
+    }
     finally { setSaving(false); }
   }
 

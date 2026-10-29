@@ -5,8 +5,13 @@ export interface Activity {
   data: string;
   horarioInicio: string;
   horarioFim: string;
+  imagens?: string[];
   imagem?: string | null;
 }
 
-export type ActivityForm = Omit<Activity, "id" | "imagem"> & { id?: number;
-  imagem: File | null };
+export type ActivityForm = Omit<Activity, "id" | "imagem" | "imagens"> & {
+  id?: number;
+  imagem: File | null;
+  imagens?: File[];
+  imagensMantidas?: string[];
+};

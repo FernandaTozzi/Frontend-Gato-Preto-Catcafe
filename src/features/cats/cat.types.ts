@@ -6,8 +6,13 @@ export interface Cat {
   tipoAdocao: string;
   descricao: string;
   status: string;
+  fotos?: string[];
   foto?: string | null;
 }
 
-export type CatForm = Omit<Cat, "id" | "foto"> & { id?: number;
-  foto: File | null };
+export type CatForm = Omit<Cat, "id" | "foto" | "fotos"> & {
+  id?: number;
+  foto: File | null;
+  fotos?: File[];
+  fotosMantidas?: string[];
+};

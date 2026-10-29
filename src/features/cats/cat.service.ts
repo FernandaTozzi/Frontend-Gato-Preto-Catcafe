@@ -17,7 +17,11 @@ export const createCat = async (cat: CatForm) => {
   formData.append("descricao", cat.descricao);
   formData.append("status", cat.status);
 
-  if (cat.foto instanceof File) {
+  if (cat.fotos) {
+    formData.append("atualizarFotos", "true");
+    cat.fotos.forEach(file => formData.append("fotos", file));
+    (cat.fotosMantidas || []).forEach(path => formData.append("fotosMantidas", path));
+  } else if (cat.foto instanceof File) {
     formData.append("foto", cat.foto);
   }
 
@@ -39,7 +43,11 @@ export const updateCat = async (id: number, cat: CatForm) => {
   formData.append("descricao", cat.descricao);
   formData.append("status", cat.status);
 
-  if (cat.foto instanceof File) {
+  if (cat.fotos) {
+    formData.append("atualizarFotos", "true");
+    cat.fotos.forEach(file => formData.append("fotos", file));
+    (cat.fotosMantidas || []).forEach(path => formData.append("fotosMantidas", path));
+  } else if (cat.foto instanceof File) {
     formData.append("foto", cat.foto);
   }
 

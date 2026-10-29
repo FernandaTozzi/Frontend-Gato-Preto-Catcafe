@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { ApiError } from "../../../services/api";
 import type { FormEvent } from "react";
 import { Modal } from "../../../components/ui/Modal/Modal";
 import { Field, Options, FormActions } from "../../../components/ui/ManagementForm/FormControls";
@@ -47,7 +48,14 @@ export function MenuItemFormModal({ itemToEdit, onClose, onCreate, onUpdate }: P
       if (itemToEdit) await onUpdate(payload);
       else await onCreate(payload);
       onClose();
-    } catch { setSubmitError("Não foi possível salvar. Tente novamente."); }
+    } catch (error) {
+      if (error instanceof ApiError) {
+        setErrors(error.fields);
+        setSubmitError(error.message);
+      } else {
+        setSubmitError("Não foi possível salvar. Tente novamente.");
+      }
+    }
     finally { setSaving(false); }
   }
 

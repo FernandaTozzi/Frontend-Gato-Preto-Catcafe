@@ -3,8 +3,8 @@ import { API_BASE_URL } from "../../../services/api";
 
 export type Photo = { id: string; url: string; file?: File; existing?: string };
 
-export function usePhotos(existing?: string | null) {
-  const [photos, setPhotos] = useState<Photo[]>(() => existing ? [{ id: existing, existing, url: `${API_BASE_URL}/uploads/${existing}` }] : []);
+export function usePhotos(existing?: string | string[] | null) {
+  const [photos, setPhotos] = useState<Photo[]>(() => (Array.isArray(existing) ? existing : existing ? [existing] : []).map(path => ({ id: path, existing: path, url: `${API_BASE_URL}/uploads/${path}` })));
   const urls = useRef(new Set<string>());
   useEffect(() => {
     const created = urls.current;

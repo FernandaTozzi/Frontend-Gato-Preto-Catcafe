@@ -28,7 +28,6 @@ export function PhotoPicker({ value, max, disabled, error }: {
       </div>
       <p className={styles.hint}>{max === 4 ? "A primeira foto será exibida na listagem. " : ""}JPG, PNG ou WEBP, até 5 MB por foto.</p>
       {(uploadError || error) && <p className={styles.error} role="alert">{uploadError || error}</p>}
-      {max === 4 && value.photos.length > 1 && <p className={styles.notice}>As fotos extras estão em prévia. O salvamento de até 4 fotos será liberado após a atualização do backend.</p>}
     </div>
   );
 }
