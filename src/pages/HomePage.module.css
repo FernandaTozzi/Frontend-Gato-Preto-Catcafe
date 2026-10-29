@@ -1,14 +1,11 @@
 .background {
-  /* Largura mínima de cada faixa lateral no desktop. */
-  --lateral: 20px;
-
-  /* Largura máxima do conteúdo da página. */
-  --largura-maxima: 2400px;
+  --lateral: 48px;
+  --largura-maxima: 1440px;
 
   min-height: 100dvh;
   padding-inline: var(--lateral);
   box-sizing: border-box;
-  background-color: #CCC4FF;
+  background-color: #ccc4ff;
 }
 
 .container {
