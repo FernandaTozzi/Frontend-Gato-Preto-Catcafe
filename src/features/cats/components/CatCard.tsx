@@ -1,4 +1,5 @@
 import type { Cat } from "../cat.types";
+import { readCatGroup } from "../catGroup";
 import { API_BASE_URL } from "../../../services/api";
 import defaultCat from "../../../assets/cat.png";
 import { ManagementCard } from "../../../components/ui/ManagementCard/ManagementCard";
@@ -50,6 +51,8 @@ export function CatCard({
     cat.tipoAdocao.charAt(0) +
     cat.tipoAdocao.slice(1).toLowerCase();
 
+  const members = readCatGroup(cat);
+
   const status =
     cat.status === "DISPONIVEL"
       ? "Disponível"
@@ -61,7 +64,11 @@ export function CatCard({
       imageAlt={cat.nome}
       title={
         <>
-          {cat.nome} {cat.genero === "MACHO" ? "♂" : "♀"}
+          {members.map((member, index) => (
+            <span key={index}>
+              {index > 0 ? ", " : ""}{member.nome} {member.genero === "MACHO" ? "♂" : "♀"}
+            </span>
+          ))}
         </>
       }
       subtitle={

@@ -1,0 +1,82 @@
+/* Gatinhos da adoção conjunta */
+
+.fieldset {
+  border: 0;
+  padding: 0;
+  margin: 0;
+  min-width: 0;
+}
+
+.members {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.memberRow {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.memberLabel {
+  color: #746b80;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.memberControls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.memberControls input {
+  flex: 1;
+}
+
+.genderButton {
+  flex-shrink: 0;
+  width: 46px;
+  height: 46px;
+  border: 0;
+  border-radius: 50%;
+  background: #887db9;
+  color: white;
+  font: inherit;
+  font-size: 29px;
+  cursor: pointer;
+}
+
+.genderButton:hover {
+  background: #7061a4;
+}
+
+.removeButton {
+  flex-shrink: 0;
+  width: 32px;
+  height: 32px;
+  border: 0;
+  border-radius: 50%;
+  background: #fbe7e8;
+  color: #ba434e;
+  font-size: 24px;
+  cursor: pointer;
+}
+
+.addButton {
+  align-self: flex-start;
+  padding: 9px 15px;
+  border: 1px dashed #887db9;
+  border-radius: 12px;
+  background: #f4effb;
+  color: #6b58a3;
+  font: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.addButton:hover {
+  background: #eae2f7;
+}

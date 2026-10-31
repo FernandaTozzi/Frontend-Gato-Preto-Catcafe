@@ -2,17 +2,7 @@ import { apiJson, clearCsrf } from "../../services/api";
 import type { User, Registration } from "./auth.types";
 export const getSession = () => apiJson<User>("/auth/me");
 export async function login(email: string, senha: string) {
-  const user = await apiJson<User>
-  ("/auth/login",
-    {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        email: email.trim(),
-        senha
-      })
-    }
-  );
+  const user = await apiJson<User>("/auth/login", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ email: email.trim(), senha }) });
   clearCsrf();
   return user;
 }

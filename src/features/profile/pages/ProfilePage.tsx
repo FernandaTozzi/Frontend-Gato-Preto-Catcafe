@@ -11,8 +11,7 @@ const states = "AC AL AP AM BA CE DF ES GO MA MT MS MG PA PB PR PE PI RJ RN RS R
 export default function ProfilePage() {
   const { user, reload, signOut } = useAuth();
   const navigate = useNavigate();
-  const [form, setForm] = useState<ProfileForm>(() => user ? 
-  { 
+  const [form, setForm] = useState<ProfileForm>(() => user ? { 
     nome: user.nome, 
     email: user.email, 
     cpf: user.cpf, 
@@ -22,7 +21,6 @@ export default function ProfilePage() {
     rua: user.endereco?.rua || "", 
     numero: user.endereco ? String(user.endereco.numero) : "" 
   } : emptyProfile);
-  
   const [editing, setEditing] = useState(false);
   const [password, setPassword] = useState("");
   const [currentPassword, setCurrentPassword] = useState("");
@@ -32,26 +30,26 @@ export default function ProfilePage() {
   const [busy, setBusy] = useState(false);
   const change = (key: keyof ProfileForm, value: string) => { setForm(f => ({ ...f, [key]: value })); setErrors(e => ({ ...e, [key]: "" })); setMessage(""); setSuccess(""); };
   const field = (key: keyof ProfileForm, label: string, fixed = false, props: InputHTMLAttributes<HTMLInputElement> = {}) => <div className={styles.field}>
-<label htmlFor={`profile-${key}`}>
-{label}
-</label>
-<div className={styles.control}>
-<input
-    {...props}
-    maxLength={PROFILE_LIMITS[key]}
-    id={`profile-${key}`}
-    value={form[key]}
-    readOnly={fixed || !editing}
-    disabled={busy}
-    className={`${styles.input} ${fixed ? styles.fixed : ""}`}
-    onChange={e => change(key, e.target.value)}
-    aria-invalid={!!errors[key]}
-    aria-describedby={errors[key] ? `error-${key}` : undefined} />
-{errors[key] && <p
-      className={styles.error}
-      id={`error-${key}`}
-      role="alert">{errors[key]}</p>}
-</div>
+  <label htmlFor={`profile-${key}`}>
+  {label}
+  </label>
+  <div className={styles.control}>
+  <input
+      {...props}
+      maxLength={PROFILE_LIMITS[key]}
+      id={`profile-${key}`}
+      value={form[key]}
+      readOnly={fixed || !editing}
+      disabled={busy}
+      className={`${styles.input} ${fixed ? styles.fixed : ""}`}
+      onChange={e => change(key, e.target.value)}
+      aria-invalid={!!errors[key]}
+      aria-describedby={errors[key] ? `error-${key}` : undefined} />
+  {errors[key] && <p
+        className={styles.error}
+        id={`error-${key}`}
+        role="alert">{errors[key]}</p>}
+  </div>
 </div>;
   const submit = async (event: React.FormEvent) => {
     event.preventDefault();

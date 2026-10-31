@@ -86,9 +86,7 @@ Eventos de um dia para curtir com café, arte e gatinhos.
     {error && <p
       className={s.status}
       role="alert">{error}</p>}
-    {!loading && !error && items.length === 0 && <p className={s.status}>
-      Ainda não temos atividades cadastradas. Volte em breve!
-      </p>}
+    {!loading && !error && items.length === 0 && <p className={s.status}>Ainda não temos atividades cadastradas. Volte em breve! 🐾</p>}
     {items.length > 0 && <div className={s.showcase}>
       <div className={s.sideCards}>{items.slice(1, 3).map(a => <ActivityPreviewCard
         key={a.id}
@@ -101,7 +99,7 @@ Eventos de um dia para curtir com café, arte e gatinhos.
     </div>}
     <Link
       className={s.allButton}
-      to="/atividades"> &nbsp; Ver todas as atividades &nbsp; ›</Link>
+      to="/atividades">s &nbsp; Ver todas as atividades &nbsp; ›</Link>
     {selected && <ActivityDetailsModal
       key={selected.id}
       activity={selected}
