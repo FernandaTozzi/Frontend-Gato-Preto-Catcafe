@@ -4,6 +4,7 @@ import { useLocation } from "react-router-dom";
 import Header from "../components/layout/Header/Header";
 import { AboutSection } from "../features/home/components/AboutSection";
 import { LocationSection } from "../features/home/components/LocationSection";
+import { SpecialActivitiesSection } from "../features/activities/public/PublicActivities";
 
 import banner from "../assets/banner.png";
 import logo from "../assets/logo.png";
@@ -92,6 +93,7 @@ function HomePage() {
 
           <AboutSection />
           <LocationSection />
+          <SpecialActivitiesSection />
         </main>
       </div>
     </div>

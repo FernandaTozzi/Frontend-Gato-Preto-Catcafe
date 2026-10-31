@@ -10,6 +10,7 @@ import ActivitiesPage from "./features/activities/pages/ActivitiesPage";
 import MenuPage from "./features/menu/pages/MenuPage";
 import PublicMenuPage from "./features/menu/pages/PublicMenuPage";
 import ManagePage from "./pages/ManagePage";
+import PublicActivitiesPage from "./features/activities/public/PublicActivitiesPage";
 import DonationAccountPage from "./features/donations/pages/DonationAccountPage";
 
 function App() {
@@ -18,6 +19,7 @@ function App() {
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/cardapio" element={<PublicMenuPage />} />
+        <Route path="/atividades" element={<PublicActivitiesPage />} />
 
         <Route path="/login" element={<LoginPage />} />
         <Route path="/cadastro" element={<RegisterPage />} />
