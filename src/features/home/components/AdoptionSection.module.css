@@ -1,0 +1,505 @@
+.section {
+  background: #fbf4e8;
+  color: #362e39;
+  --adoption-gutter: clamp(20px, 4vw, 56px);
+  padding: 72px var(--adoption-gutter) 100px;
+  scroll-margin-top: 100px;
+}
+
+.container {
+  width: 100%;
+  max-width: 1240px;
+  margin: 0 auto;
+}
+
+.heading {
+  margin: 0 0 34px;
+  text-align: center;
+  color: #dc7b82;
+  font-size: clamp(24px, 3vw, 38px);
+  line-height: 1.25;
+  font-weight: 800;
+}
+
+.message {
+  text-align: center;
+  padding: 30px 12px;
+  color: #796785;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 28px 20px;
+}
+
+.card {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #ebdbe5;
+  border-radius: 22px;
+  background: #fffdf9;
+  overflow: hidden;
+  box-shadow: 0 8px 24px #947c7914;
+  cursor: pointer;
+  transition: box-shadow 0.2s, transform 0.2s;
+}
+
+.card:hover {
+  box-shadow: 0 12px 28px #947c792b;
+  transform: translateY(-2px);
+}
+
+.card:focus-visible {
+  outline: 3px solid #9587b4;
+  outline-offset: 3px;
+}
+
+.cover {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1 / 1;
+  flex: none;
+  padding: 0;
+  border: 0;
+  overflow: hidden;
+  background: #e7daee;
+}
+
+.cover img {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.cardContent {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  padding: 15px 16px 18px;
+  gap: 9px;
+}
+
+.cardContent h3 {
+  color: #e5a35b;
+  font-size: clamp(17px, 1.5vw, 21px);
+  font-weight: 700;
+  line-height: 1.3;
+  overflow-wrap: anywhere;
+}
+
+.memberTags,
+.badges {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+}
+
+.memberTag {
+  border-radius: 999px;
+  padding: 4px 9px;
+  background: #f3edf4;
+  color: #745e79;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.age {
+  font-size: 13px;
+  color: #625763;
+}
+
+.adoptionBadge,
+.availableBadge {
+  display: inline-flex;
+  align-items: center;
+  padding: 5px 10px;
+  border-radius: 999px;
+  color: white;
+  font-size: 11px;
+  font-weight: 600;
+}
+.adoptionBanner {
+  position: relative;
+  overflow: hidden;
+}
+
+.adoptionBadge { background: #9587b4; }
+.availableBadge { background: #44b982; }
+
+.description {
+  margin-top: 2px;
+  color: #655b65;
+  font-size: 12px;
+  line-height: 1.6;
+  white-space: normal;
+  overflow-wrap: anywhere;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  overflow: hidden;
+}
+
+/* Modal de detalhes do gato */
+
+.modalBackdrop {
+  position: fixed;
+  z-index: 10000;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  background: #22182dba;
+}
+
+.catModal {
+  position: relative;
+  width: min(940px, 100%);
+  max-height: 90vh;
+  overflow-y: auto;
+  padding: 30px;
+  border-radius: 26px;
+  background: #fffaf6;
+  color: #3f344e;
+  box-shadow: 0 22px 65px #0003;
+}
+
+.modalClose {
+  position: absolute;
+  z-index: 4;
+  top: 12px;
+  right: 18px;
+  width: 40px;
+  height: 40px;
+  border: 0;
+  border-radius: 50%;
+  background: #f2e8f7;
+  color: #785da6;
+  font-size: 28px;
+  cursor: pointer;
+}
+
+.modalColumns {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 0.85fr);
+  gap: 30px;
+  margin-top: 16px;
+}
+
+.modalGallery,
+.modalInfo {
+  min-width: 0;
+}
+
+.modalMainPhoto {
+  position: relative;
+  height: clamp(290px, 48vh, 470px);
+  overflow: hidden;
+  border-radius: 17px;
+  background: #e9e0ee;
+}
+
+.modalMainPhoto > img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.modalArrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  display: grid;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  border: 1px solid #9b7ec6;
+  border-radius: 50%;
+  background: #fffdf9;
+  color: #7354a6;
+  font-size: 28px;
+  cursor: pointer;
+}
+
+.modalPrev { left: 12px; }
+.modalNext { right: 12px; }
+
+.modalCounter {
+  position: absolute;
+  bottom: 12px;
+  right: 12px;
+  padding: 4px 10px;
+  border-radius: 99px;
+  background: #35244cba;
+  color: white;
+  font-size: 12px;
+}
+
+.modalThumbnails {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 9px;
+  margin-top: 12px;
+}
+
+.modalThumbnails button {
+  width: 73px;
+  height: 65px;
+  padding: 2px;
+  border: 2px solid transparent;
+  border-radius: 10px;
+  background: transparent;
+  cursor: pointer;
+}
+
+.modalThumbnails button.modalThumbActive {
+  border-color: #8464b2;
+}
+
+.modalThumbnails img {
+  width: 100%;
+  height: 100%;
+  border-radius: 7px;
+  background: #f0e8f5;
+  object-fit: contain;
+}
+
+.modalEyebrow {
+  color: #8a69b5;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.modalInfo h2 {
+  margin: 12px 0 18px;
+  color: #704dab;
+  font-size: clamp(26px, 3vw, 38px);
+}
+
+.modalInfo h3 {
+  margin: 24px 0 8px;
+  font-size: 19px;
+}
+
+.modalAge {
+  margin: 16px 0 12px;
+  color: #625763;
+}
+
+.modalDescription {
+  margin: 0;
+  color: #625769;
+  line-height: 1.7;
+  white-space: pre-line;
+  overflow-wrap: anywhere;
+}
+
+.modalFooter {
+  margin-top: 30px;
+  color: #9985a8;
+  font-size: 13px;
+}
+
+.invitation {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  gap: clamp(35px, 6vw, 90px);
+  width: 100%;
+  min-height: 420px;
+  margin: 96px auto 0;
+  isolation: isolate;
+}
+
+.invitationText {
+  margin-left: max(0px, calc((100% - 1240px) / 2));
+}
+
+.invitationVisual {
+  margin-right: max(0px, calc((100% - 1240px) / 2));
+  min-width: 0;
+}
+
+
+
+.catPose {
+  position: absolute;
+  z-index: 1;
+  width: clamp(110px, 14vw, 180px);
+  height: auto;
+  left: 31%;
+  bottom: 0;
+  pointer-events: none;
+}
+
+.invitationText { max-width: 490px; position: relative; z-index: 2; }
+
+.invitationText h2 {
+  margin: 0 0 22px;
+  color: #8fc7a1;
+  font-size: clamp(27px, 3vw, 39px);
+  font-weight: 800;
+  line-height: 1.25;
+}
+
+.invitationText p {
+  margin: 0 0 16px;
+  font-size: 15px;
+  line-height: 1.65;
+}
+
+.formButton {
+  display: inline-flex;
+  align-items: center;
+  gap: 16px;
+  margin-top: 30px;
+  padding: 12px 26px;
+  border-radius: 999px;
+  background: #8fc7a1;
+  color: white;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 600;
+  transition: background-color 0.2s, transform 0.2s;
+}
+
+.formButton:hover,
+.formButton:focus-visible {
+  background: #72ab85;
+  transform: translateY(-2px);
+}
+
+.invitationVisual {
+  position: relative;
+  display: grid;
+  place-items: center;
+  min-height: 370px;
+}
+
+.greenBlob {
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  pointer-events: none;
+}
+
+.adoptionPhoto {
+  display: block;
+  width: 84%;
+  max-width: 400px;
+  border-radius: 24px;
+  object-fit: cover;
+}
+
+/* Tablets */
+@media (max-width: 980px) {
+  .grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .invitation {
+    gap: 34px;
+  }
+}
+
+/* Celulares */
+@media (max-width: 600px) {
+  .section {
+    --adoption-gutter: 16px;
+    padding: 55px 16px 70px;
+  }
+
+  .grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .cover {
+    aspect-ratio: 1 / 1;
+  }
+
+  .cardContent {
+    padding: 17px;
+  }
+
+  .cardContent h3 {
+    font-size: 21px;
+  }
+
+  .description {
+    font-size: 13px;
+  }
+
+  .invitation {
+    grid-template-columns: 1fr;
+    margin-top: 85px;
+    gap: 36px;
+  }
+
+  .invitationText {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-width: none;
+    width: 100%;
+    margin-left: 0;
+    text-align: center;
+  }
+
+  .invitationText h2,
+  .invitationText p {
+    width: 100%;
+    text-align: center;
+  }
+
+  .formButton {
+    align-self: center;
+    justify-content: center;
+    margin: 30px auto 0;
+    text-align: center;
+  }
+
+  .invitationVisual {
+    min-height: 270px;
+    margin-right: 0;
+  }
+
+  .adoptionPhoto {
+    width: 88%;
+  }
+
+  .catModal {
+    padding: 22px 16px;
+  }
+
+  .modalColumns {
+    grid-template-columns: 1fr;
+    gap: 18px;
+  }
+
+  .modalMainPhoto {
+    height: min(53vh, 400px);
+  }
+
+
+  .catPose {
+    display: none;
+  }
+}
