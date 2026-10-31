@@ -42,7 +42,7 @@
 }
 
 .heading h2 {
-  font-family: Georgia, "Times New Roman", serif;
+  font-family: inherit;
   font-weight: 900;
   font-size: clamp(32px, 4vw, 55px);
   line-height: 1.12;
@@ -219,7 +219,7 @@
 }
 
 .featured .cardBody h3 {
-  font-family: Georgia, "Times New Roman", serif;
+  font-family: inherit;
   font-size: clamp(23px, 2.8vw, 34px);
 }
 
@@ -419,7 +419,7 @@
 
 .modalInfo h2 {
   color: #704dab;
-  font-family: Georgia, serif;
+  font-family: inherit;
   font-size: clamp(26px, 3vw, 38px);
   margin: 12px 0 18px;
 }
@@ -471,7 +471,7 @@
 }
 
 .listHeading h1 {
-  font-family: Georgia, serif;
+  font-family: inherit;
   font-size: clamp(32px, 4vw, 48px);
   color: #7556a8;
   margin: 12px;
@@ -715,7 +715,7 @@
 
   .compact .cardBody h3,
   .featured .cardBody h3 {
-    font-family: Georgia, "Times New Roman", serif;
+    font-family: inherit;
     font-size: 26px;
     line-height: 1.2;
     margin: 0 0 10px;
