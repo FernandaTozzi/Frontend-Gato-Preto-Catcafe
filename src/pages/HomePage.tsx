@@ -6,6 +6,7 @@ import { AboutSection } from "../features/home/components/AboutSection";
 import { LocationSection } from "../features/home/components/LocationSection";
 import { SpecialActivitiesSection } from "../features/activities/public/PublicActivities";
 import { AdoptionSection } from "../features/home/components/AdoptionSection";
+import { DonationSection } from "../features/donations/public/DonationSection";
 
 import banner from "../assets/banner.png";
 import logo from "../assets/logo.png";
@@ -24,7 +25,7 @@ function HomePage() {
         "(prefers-reduced-motion: reduce)"
       ).matches;
 
-      if (hash === "#sobre-nos" || hash === "#local" || hash === "#adocao") {
+      if (hash === "#sobre-nos" || hash === "#local" || hash === "#adocao" || hash === "#doacao") {
         document.getElementById(hash.slice(1))?.scrollIntoView({
           behavior: reducedMotion ? "auto" : "smooth",
           block: "start",
@@ -96,6 +97,7 @@ function HomePage() {
           <LocationSection />
           <SpecialActivitiesSection />
           <AdoptionSection />
+          <DonationSection />
         </main>
       </div>
     </div>

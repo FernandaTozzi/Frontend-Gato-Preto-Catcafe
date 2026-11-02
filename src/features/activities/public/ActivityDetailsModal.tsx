@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { createPortal } from 'react-dom';
 import type { Activity } from '../activity.types';
 import { activityDate, activityHours, activityPhotos } from '../activity.public';
 import fallback from '../../../assets/atividade-especial.png';
@@ -25,7 +26,7 @@ export function ActivityDetailsModal({ activity, onClose }: Props) {
     window.addEventListener('keydown', onKey);
     return () => { document.body.style.overflow = previousOverflow; window.removeEventListener('keydown', onKey); };
   }, [onClose, photos.length]);
-  return (<div
+  return createPortal(<div
     className={s.backdrop}
     onMouseDown={e => {
       if (e.target === e.currentTarget)
@@ -90,5 +91,5 @@ Gato Preto Cat Café • Um dia especial com muitos gatinhos! 🐾
 </div>
       </div>
     </section>
-  </div>);
+  </div>, document.body);
 }

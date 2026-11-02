@@ -1,0 +1,251 @@
+
+/* Seção de doações */
+
+.section {
+  position: relative;
+  isolation: isolate;
+  min-height: 460px;
+  margin-top: 100px;
+  padding: 80px 24px 90px;
+  background: #9b90bb;
+  color: #fff;
+  text-align: center;
+  scroll-margin-top: 90px;
+}
+
+.content {
+  position: relative;
+  z-index: 1;
+  width: min(100%, 470px);
+  margin-inline: auto;
+}
+
+.content h2 {
+  margin: 0 0 16px;
+  font-size: clamp(30px, 3.2vw, 43px);
+  font-weight: 800;
+}
+
+.content p {
+  margin: 0 auto 16px;
+  font-size: 14px;
+  line-height: 1.65;
+}
+
+.content h3 {
+  margin: 22px 0 30px;
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.donateButton {
+  border: 0;
+  border-radius: 999px;
+  background: #fff;
+  color: #8d80ad;
+  padding: 14px 36px;
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform 0.2s, background 0.2s;
+}
+
+.donateButton:hover,
+.donateButton:focus-visible {
+  background: #f9eefa;
+  transform: translateY(-2px);
+}
+
+/* Decorações */
+
+.paws {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: clamp(90px, 19vw, 230px);
+  max-height: 90%;
+  object-fit: contain;
+  pointer-events: none;
+}
+
+.pawsLeft {
+  left: -4px;
+}
+
+.pawsRight {
+  right: -11px;
+}
+
+.catTop,
+.catBottom {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  height: auto;
+  object-fit: contain;
+  pointer-events: none;
+}
+
+/* Gatinho superior */
+
+.catTop {
+  width: clamp(140px, 17vw, 210px);
+  top: -116px;
+}
+
+/* Gatinho inferior */
+
+.catBottom {
+  width: clamp(90px, 11vw, 145px);
+  bottom: -95px;
+}
+
+/* Modal bancário */
+
+.backdrop {
+  position: fixed;
+  z-index: 10000;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding: 18px;
+  background: #24182bbb;
+  text-align: left;
+}
+
+.modal {
+  position: relative;
+  width: min(560px, 100%);
+  max-height: 90dvh;
+  overflow-y: auto;
+  padding: clamp(22px, 4vw, 38px);
+  border-radius: 28px;
+  background: #fffaf6;
+  color: #40334c;
+  box-shadow: 0 24px 75px #140b203d;
+}
+
+.modal h2 {
+  margin: 0 42px 10px 0;
+  color: #7756a6;
+  font-size: clamp(24px, 3vw, 34px);
+}
+
+.modal > p {
+  color: #73677f;
+  line-height: 1.6;
+}
+
+.close {
+  position: absolute;
+  top: 14px;
+  right: 16px;
+  width: 40px;
+  height: 40px;
+  border: 0;
+  border-radius: 50%;
+  background: #f0e5f7;
+  color: #7553a6;
+  font-size: 29px;
+  cursor: pointer;
+}
+
+.bankDetails {
+  min-width: 0;
+  margin-top: 24px;
+  padding: 22px;
+  border: 1px solid #e9d9ee;
+  border-radius: 20px;
+  background: #fff;
+}
+
+.bankDetails h3 {
+  margin: 0 0 18px;
+  color: #7553a6;
+  font-size: 18px;
+}
+
+.bankDetails dl {
+  display: grid;
+  grid-template-columns: 86px minmax(0, 1fr);
+  gap: 12px 8px;
+  margin: 0 0 18px;
+  font-size: 14px;
+}
+
+.bankDetails dt {
+  font-weight: 700;
+  color: #69577a;
+}
+
+.bankDetails dd {
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+
+.key {
+  font-weight: 600;
+}
+
+.copyButton {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  min-height: 44px;
+  border: 0;
+  border-radius: 999px;
+  padding: 10px 15px;
+  background: #efe5f8;
+  color: #694b9b;
+  font: inherit;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.copyButton:hover {
+  background: #e4d6f2;
+}
+
+.message {
+  margin: 18px 0;
+  color: #776780;
+}
+
+.warning {
+  margin-top: 22px;
+  font-size: 12px;
+}
+
+/* Celulares */
+
+@media (max-width: 600px) {
+  .section {
+    min-height: 390px;
+    margin-top: 70px;
+    padding: 72px 20px 80px;
+  }
+
+  .paws {
+    display: none;
+  }
+
+  .catTop {
+    width: 140px;
+    top: -75px;
+  }
+
+  .catBottom {
+    width: 100px;
+    bottom: -65px;
+  }
+
+  .backdrop {
+    padding: 12px;
+  }
+
+  .bankDetails {
+    padding: 17px;
+  }
+}
