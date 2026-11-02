@@ -21,7 +21,7 @@ function Header() {
     { path: "/atividades", label: "Atividades" },
     { path: "/#adocao", label: "Quero Adotar" },
     { path: "/#doacao", label: "Doação" },
-    { path: "/perguntas", label: "Perguntas" },
+    { path: "/#perguntas", label: "Perguntas" },
     { path: "/contato", label: "Contato" },
   ];
 
