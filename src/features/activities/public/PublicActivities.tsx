@@ -66,20 +66,16 @@ export function SpecialActivitiesSection() {
     <div
       className={s.blob}
       aria-hidden="true" />
-    <header className={s.heading}><img
-      src={calendarIcon}
-      alt=""
-      className={s.calendarIcon} /><h2 id="special-activities-title">
-Atividades 
-<span>
-Especiais
-</span>
-</h2><p>
-Eventos de um dia para curtir com café, arte e gatinhos.
-</p><img
-        src={catPose}
-        alt=""
-        className={s.catPose} /></header>
+    <header className={s.heading}>
+      <img src={calendarIcon} alt="" className={s.calendarIcon} />
+      <h2 id="special-activities-title">
+        Atividades  
+        <br></br>
+          <span>Especiais</span>
+        </h2>
+        <p>Eventos de um dia para curtir com café, arte e gatinhos.</p>
+        <img src={catPose} alt="" className={s.catPose} />
+    </header>
     {loading && <p
       className={s.status}
       role="status">Carregando atividades...</p>}
@@ -99,7 +95,7 @@ Eventos de um dia para curtir com café, arte e gatinhos.
     </div>}
     <Link
       className={s.allButton}
-      to="/atividades">s &nbsp; Ver todas as atividades &nbsp; ›</Link>
+      to="/atividades"> &nbsp; Ver todas as atividades &nbsp; ›</Link>
     {selected && <ActivityDetailsModal
       key={selected.id}
       activity={selected}

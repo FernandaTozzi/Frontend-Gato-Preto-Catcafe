@@ -12,6 +12,7 @@ import PublicMenuPage from "./features/menu/pages/PublicMenuPage";
 import ManagePage from "./pages/ManagePage";
 import PublicActivitiesPage from "./features/activities/public/PublicActivitiesPage";
 import DonationAccountPage from "./features/donations/pages/DonationAccountPage";
+import Footer from "./components/layout/Footer/Footer";
 
 function App() {
   return (
@@ -38,6 +39,7 @@ function App() {
         </Route>
        
       </Routes>
+      <Footer />
     </AuthProvider></BrowserRouter>
   );
 }

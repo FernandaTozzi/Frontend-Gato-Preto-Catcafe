@@ -1,0 +1,163 @@
+/* Rodapé compartilhado */
+
+.outer {
+  padding: 0 48px;
+  background: #ccc4ff;
+}
+
+.footer {
+  position: relative;
+  width: 100%;
+  max-width: 1440px;
+  margin: 0 auto;
+  background: #554a83;
+  color: #fff;
+}
+
+.catPose {
+  position: absolute;
+  z-index: 1;
+  width: clamp(100px, 11vw, 160px);
+  height: auto;
+  right: 3%;
+  top: 0;
+  transform: translateY(-64%);
+  pointer-events: none;
+}
+
+.content {
+  display: grid;
+  grid-template-columns: minmax(150px, 1fr) minmax(220px, 1fr) minmax(180px, 1fr);
+  gap: clamp(24px, 4vw, 70px);
+  align-items: center;
+  min-height: 215px;
+  padding: 38px clamp(28px, 5vw, 70px);
+}
+
+.brand {
+  display: inline-flex;
+  justify-self: start;
+  border-radius: 50%;
+}
+
+.brand img {
+  display: block;
+  width: clamp(100px, 10vw, 140px);
+  height: auto;
+}
+
+.infoGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 23px;
+  min-width: 0;
+}
+
+.infoBlock h2 {
+  margin: 0;
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 1.5;
+}
+
+.infoBlock p,
+.infoBlock a {
+  margin: 0;
+  font-size: 12px;
+  line-height: 1.5;
+  color: inherit;
+  overflow-wrap: anywhere;
+}
+
+.infoBlock a {
+  text-decoration: none;
+}
+
+.infoBlock a:hover {
+  text-decoration: underline;
+}
+
+.socials {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.socials a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+}
+
+.socials svg {
+  width: 19px;
+  height: 19px;
+}
+
+.brand:focus-visible,
+.infoBlock a:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 4px;
+}
+
+/* Tablet */
+
+@media (max-width: 900px) {
+  .outer {
+    padding-inline: 24px;
+  }
+
+  .content {
+    grid-template-columns: 1fr 1fr;
+    justify-items: center;
+    text-align: center;
+  }
+
+  .brand {
+    grid-column: 1 / -1;
+    justify-self: center;
+  }
+
+  .socials {
+    justify-content: center;
+  }
+}
+
+/* Celulares */
+
+@media (max-width: 600px) {
+  .outer {
+    padding: 0 12px;
+  }
+
+  .catPose {
+    width: 110px;
+    right: 30%;
+    transform: translateY(-64%);
+  }
+
+  .content {
+    grid-template-columns: 1fr;
+    gap: 24px;
+    padding: 54px 20px 40px;
+  }
+
+  .brand {
+    grid-column: auto;
+  }
+
+  .brand img {
+    width: 92px;
+  }
+
+  .infoGroup {
+    gap: 24px;
+    align-items: center;
+  }
+
+  .infoBlock {
+    text-align: center;
+  }
+}
